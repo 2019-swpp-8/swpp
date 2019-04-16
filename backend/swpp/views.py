@@ -1,6 +1,6 @@
 from django.shortcuts import render
-from swpp.models import User, Profile
-from swpp.serializers import UserSerializer, ProfileSerializer
+from swpp.models import User, Profile, Tutor
+from swpp.serializers import UserSerializer, ProfileSerializer, TutorSerializer
 from rest_framework import generics
 
 class UserList(generics.ListAPIView):
@@ -18,3 +18,11 @@ class ProfileList(generics.ListAPIView):
 class ProfileDetails(generics.RetrieveAPIView):
     queryset = Profile.objects.all()
     serializer_class = ProfileSerializer
+
+class TutorList(generics.ListAPIView):
+    queryset = Tutor.objects.all()
+    serializer_class = TutorSerializer
+
+class TutorDetails(generics.RetrieveAPIView):
+    queryset = Tutor.objects.all()
+    serializer_class = TutorSerializer

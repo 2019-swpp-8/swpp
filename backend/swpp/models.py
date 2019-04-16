@@ -5,5 +5,9 @@ from annoying.fields import AutoOneToOneField
 User = get_user_model()
 
 class Profile(models.Model):
-    user = AutoOneToOneField(User, primary_key=True, on_delete=models.CASCADE);
+    user = AutoOneToOneField(User, primary_key=True, on_delete=models.CASCADE)
     joined = models.DateTimeField(auto_now_add = True)
+
+class Tutor(models.Model):
+    profile = AutoOneToOneField(Profile, primary_key=True, on_delete=models.CASCADE)
+    bio = models.TextField()
