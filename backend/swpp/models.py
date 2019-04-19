@@ -1,13 +1,3 @@
-from django.db import models
-from django.contrib.auth import get_user_model
-from annoying.fields import AutoOneToOneField
-
-User = get_user_model()
-
-class Profile(models.Model):
-    user = AutoOneToOneField(User, primary_key=True, on_delete=models.CASCADE)
-    joined = models.DateTimeField(auto_now_add = True)
-
-class Tutor(models.Model):
-    profile = AutoOneToOneField(Profile, primary_key=True, on_delete=models.CASCADE)
-    bio = models.TextField()
+from swpp.model.user import User
+from swpp.model.profile import Profile
+from swpp.model.tutor import Tutor
