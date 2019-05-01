@@ -3,6 +3,8 @@ from django.contrib.auth import get_user_model
 from rest_framework.test import APITestCase
 from swpp.apps import SwppConfig
 from datetime import datetime, timezone, timedelta
+from rest_framework import serializers
+from swpp.serializers import *
 
 class LowLevelTests(APITestCase):
     def create_user(self, username, password):
@@ -38,3 +40,43 @@ class LowLevelTests(APITestCase):
         self.assertTrue(hasattr(user.profile, 'tutor'))
         self.assertTrue(hasattr(user.profile.tutor, 'profile'))
         self.assertEqual(user.profile, user.profile.tutor.profile)
+
+    # added 05/01, from modelInit branch
+
+    def test_valid_profile(self):
+        user = self.create_user('s', '2')
+        data = {'major': '', 'contact': '010-1111-1111'}
+        serializer = ProfileSerializer(user.profile, data = data, partial = True)
+        self.assertFalse(serializer.is_valid())
+
+        data['major'] = 'bio'
+        serializer = ProfileSerializer(user.profile, data = data, partial = True)
+        self.assertTrue(serializer.is_valid())
+        serializer.save()
+
+        data['contact'] = '010-11111-1111'
+        serializer = ProfileSerializer(user.profile, data = data, partial = True)
+        self.assertFalse(serializer.is_valid())
+
+    def test_valid_times(self):
+        user = self.create_user('q', '3')
+        self.assertEqual(user.profile.tutor.times.mon, 0)
+        
+        data = {'mon': 1 << 48, 'tue': (1 << 48) - 1, 'wed': 1 << 47,
+                'thu': 1, 'fri': 0, 'sat': -1, 'sun': -(1 << 48) + 1}
+        serializer = TimesSerializer(data = data)
+        self.assertFalse(serializer.is_valid())
+
+        data['mon'] = 1
+        serializer = TimesSerializer(data = data)
+        self.assertFalse(serializer.is_valid())
+
+        data['sat'] = 3
+        serializer = TimesSerializer(data = data)
+        self.assertFalse(serializer.is_valid())
+
+        data['sun'] = 72698241236
+        serializer = TimesSerializer(data = data)
+        self.assertTrue(serializer.is_valid())
+        serializer.save()
+        self.assertEqual(serializer.data['sat'], 3)
