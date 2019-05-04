@@ -16,7 +16,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from swpp.forms import SNURegistrationForm
-from registration.views import RegistrationView
+from registration.backends.default.views import RegistrationView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
