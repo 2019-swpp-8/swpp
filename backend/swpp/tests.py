@@ -1,10 +1,13 @@
 from django.test import TestCase
 from django.contrib.auth import get_user_model
-from rest_framework.test import APITestCase
+from rest_framework.test import APITestCase, APITransactionTestCase
 from swpp.apps import SwppConfig
 from datetime import datetime, timezone, timedelta
 from rest_framework import serializers
 from swpp.serializers import *
+from django.core import mail
+from django.utils.encoding import smart_text
+import re
 
 class LowLevelTests(APITestCase):
     def create_user(self, username, password):
@@ -61,7 +64,7 @@ class LowLevelTests(APITestCase):
     def test_valid_times(self):
         user = self.create_user('q', '3')
         self.assertEqual(user.profile.tutor.times.mon, 0)
-        
+
         data = {'mon': 1 << 48, 'tue': (1 << 48) - 1, 'wed': 1 << 47,
                 'thu': 1, 'fri': 0, 'sat': -1, 'sun': -(1 << 48) + 1}
         serializer = TimesSerializer(data = data)
@@ -80,3 +83,60 @@ class LowLevelTests(APITestCase):
         self.assertTrue(serializer.is_valid())
         serializer.save()
         self.assertEqual(serializer.data['sat'], 3)
+
+class HighLevelTests(APITransactionTestCase):
+    def setUp(self):
+        self.User = get_user_model()
+        self.verify_url_matcher = re.compile(r'(\/auth\/activate\/[0-9a-f]+\/)')
+
+    def register(self, username, email, passwd):
+        return self.client.post('/auth/register/', {
+            'username': username,
+            'email': email,
+            'password1': passwd,
+            'password2': passwd
+        })
+
+    def verify_email(self, email):
+        for msg in mail.outbox:
+            if len(msg.to) == 1 and msg.to[0] == email:
+                url = self.verify_url_matcher.search(msg.body)
+                self.assertIsNot(url, None)
+                return self.client.get(url.group())
+        return None
+
+    # Naming scheme: foo_s: expect success, foo_f: expect failure
+    def register_s(self, username, email, passwd):
+        resp = self.register(username, email, passwd)
+        self.assertEqual(resp.status_code, 302)
+        self.assertEqual(resp.url, '/auth/register/complete/')
+        ver = self.verify_email(email)
+        self.assertIsNot(ver, None)
+        self.assertEqual(ver.status_code, 302)
+        self.assertEqual(ver.url, '/auth/activate/complete/')
+
+    def register_f(self, username, email, passwd):
+        resp = self.register(username, email, passwd)
+        if resp.status_code != 302:
+            return
+        ver = self.verify_email(email)
+        if ver is None or ver.status_code != 302:
+            return
+        # 여기까지 왔다면 망한거!
+        self.assertTrue(False)
+
+    def test_registration(self):
+        # 이메일이 snu가 아님
+        self.register_f('testuser0', 'bad.email@gmail.com', '9328h9ih!sdf')
+
+        # OK
+        self.register_s('testuser0', 'f9h8jf9ew@snu.ac.kr', 'A!98uk_48ohD')
+
+        # 이메일 중복
+        self.register_f('dup_email', 'f9h8jf9ew@snu.ac.kr', 'v09#oijsad#S')
+
+        # 유저네임 중복
+        self.register_f('testuser0', 'dupl.name@snu.ac.kr', '0iDSAF2^49oj')
+
+        # OK
+        self.register_s('testuser1', 'od898d09k@snu.ac.kr', '(oir!eLI+Esd')
