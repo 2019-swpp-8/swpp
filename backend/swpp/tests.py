@@ -98,12 +98,13 @@ class HighLevelTests(APITransactionTestCase):
         })
 
     def verify_email(self, email):
+        resp = None
         for msg in mail.outbox:
             if len(msg.to) == 1 and msg.to[0] == email:
                 url = self.verify_url_matcher.search(msg.body)
                 self.assertIsNot(url, None)
-                return self.client.get(url.group())
-        return None
+                resp = self.client.get(url.group())
+        return resp
 
     # Naming scheme: foo_s: expect success, foo_f: expect failure
     def register_s(self, username, email, passwd):
@@ -116,14 +117,15 @@ class HighLevelTests(APITransactionTestCase):
         self.assertEqual(ver.url, '/auth/activate/complete/')
 
     def register_f(self, username, email, passwd):
+        failed = False
         resp = self.register(username, email, passwd)
         if resp.status_code != 302:
-            return
+            failed = True
         ver = self.verify_email(email)
         if ver is None or ver.status_code != 302:
-            return
+            failed = True
         # 여기까지 왔다면 망한거!
-        self.assertTrue(False)
+        self.assertTrue(failed)
 
     def test_registration(self):
         # 이메일이 snu가 아님
