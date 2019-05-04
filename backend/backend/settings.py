@@ -62,7 +62,7 @@ ROOT_URLCONF = 'backend.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': ['swpp/template'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -123,8 +123,18 @@ USE_TZ = True
 
 # registration
 
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_HOST_USER = 'sogaewonsil'
+# 주의! 이 줄을 아래에 복사하고 패스워드를 채워넣은 후, #nogit 코멘트를 붙이세요
+EMAIL_HOST_PASSWORD = 'PUT PASSWORD HERE'
+EMAIL_USE_TLS = True
+EMAIL_USE_SSL = False
+EMAIL_TIMEOUT = 30
+
 ACCOUNT_ACTIVATION_DAYS = 7
-DEFAULT_FROM_EMAIL = 'noreply@ldm2468.com'
+DEFAULT_FROM_EMAIL = '소개원실 8조'
+LOGIN_REDIRECT_URL = '/admin/'
 
 
 # Static files (CSS, JavaScript, Images)
