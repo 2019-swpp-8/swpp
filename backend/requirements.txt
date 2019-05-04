@@ -3,3 +3,5 @@ djangorestframework
 django-annoying
 python-coveralls
 coverage
+django-registration-redux
+django-registration-defaults
