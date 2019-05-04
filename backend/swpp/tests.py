@@ -140,3 +140,6 @@ class HighLevelTests(APITransactionTestCase):
 
         # OK
         self.register_s('testuser1', 'od898d09k@snu.ac.kr', '(oir!eLI+Esd')
+
+        # 패스워드 약함
+        self.register_f('testuser2', 'fsd8j3292@snu.ac.kr', 'password')
