@@ -83,6 +83,27 @@ class LowLevelTests(APITestCase):
         self.assertTrue(serializer.is_valid())
         serializer.save()
         self.assertEqual(serializer.data['sat'], 3)
+    
+    # added 05/05, from tutor_put_request branch
+
+    def test_tutor_put(self):
+        user = self.create_user('iidd', 'ppww')
+        #login = self.client.login(username = 'iidd', password = 'ppww')
+        #self.assertTrue(login)
+        login = self.client.force_login(user)
+
+        data = {'bio': 'hi', 'exp': 'A'}
+        users = self.client.get("/users/").data
+        profiles = self.client.get("/profiles/").data
+
+        tutorid = "/tutor/{0}/".format(user.id)
+        prev = self.client.get(tutorid).data
+        self.client.put(tutorid, data)
+        curr = self.client.get(tutorid).data
+        self.assertEqual(prev['bio'], "")
+        self.assertEqual(curr['bio'], "hi")
+        self.assertEqual(prev['exp'], "")
+        self.assertEqual(curr['exp'], "A")
 
 class HighLevelTests(APITransactionTestCase):
     def setUp(self):
