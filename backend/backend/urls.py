@@ -15,9 +15,14 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from swpp.forms import SNURegistrationForm
+from registration.backends.default.views import RegistrationView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('swpp.urls')),
-    path('auth/', include('rest_framework.urls'))
+    path('auth/', include('rest_framework.urls')),
+    path('auth/register/', RegistrationView.as_view(form_class =
+        SNURegistrationForm), name = 'auth_register'),
+    path('auth/', include('registration.backends.default.urls')),
 ]

@@ -6,3 +6,9 @@
 자세한 정보는 frontend, backend 디렉토리에 있습니다.
 
 API 프로토타이핑: https://next.stoplight.io/swpp8/swpp-8-project
+
+참고: #nogit으로 시작하는 comment가 있는 line은 git에서 제외하는 방법
+```bash
+git config --global filter.nogit.clean "sed '/#nogit$/'d"
+git config --global filter.nogit.smudge cat
+```
