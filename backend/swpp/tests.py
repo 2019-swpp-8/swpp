@@ -80,3 +80,36 @@ class LowLevelTests(APITestCase):
         self.assertTrue(serializer.is_valid())
         serializer.save()
         self.assertEqual(serializer.data['sat'], 3)
+
+
+    def test_prof_put(self):
+        user = self.create_user('profPutTestID', 'profPutTestPW')
+        self.client.login(username = 'profPutTestID', password = 'profPutTestPW')
+        url = '/profile/{0}/'.format(user.id)
+        data = {'major': 'cse', 'contact': '010-1234-5678'}
+
+#        print(url)
+#        print("\n\n\n")
+#        print(self.client.get("/users/").data)
+#        print(self.client.get("/profiles/").data)
+#        print("\n\n\n")
+
+        self.client.get("/users/")
+
+        before = self.client.get(url).data
+
+        self.client.force_authenticate(user=user)
+        self.client.put(url, data)
+
+        after = self.client.get(url).data
+
+        print("\n\n\n")
+        print(before)
+        print(after)
+        print("\n\n\n")
+
+        self.assertEqual(before["major"], "")
+        self.assertEqual(before["contact"], "")
+        self.assertEqual(after["major"], "cse")
+        self.assertEqual(after["contact"], "010-1234-5678")
+
