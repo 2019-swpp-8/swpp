@@ -103,10 +103,10 @@ class LowLevelTests(APITestCase):
 
         after = self.client.get(url).data
 
-        print("\n\n\n")
-        print(before)
-        print(after)
-        print("\n\n\n")
+#        print("\n\n\n")
+#        print(before)
+#        print(after)
+#        print("\n\n\n")
 
         self.assertEqual(before["major"], "")
         self.assertEqual(before["contact"], "")
