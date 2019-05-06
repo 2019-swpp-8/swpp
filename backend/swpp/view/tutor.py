@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from swpp.models import Tutor
 from swpp.serializers import TutorSerializer
-from swpp.permissions import IsOwner
+from swpp.permissions import IsOwnerOrReadOnly
 from rest_framework import generics
 
 class TutorList(generics.ListAPIView):
@@ -9,7 +9,7 @@ class TutorList(generics.ListAPIView):
     serializer_class = TutorSerializer
 
 class TutorDetails(generics.RetrieveUpdateAPIView):
-    permission_classes = (IsOwner,)
+    permission_classes = (IsOwnerOrReadOnly,)
     queryset = Tutor.objects.all()
     serializer_class = TutorSerializer
 
