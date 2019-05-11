@@ -90,12 +90,6 @@ class LowLevelTests(APITestCase):
         url = '/profile/{0}/'.format(user.id)
         data = {'major': 'cse', 'contact': '010-1234-5678'}
 
-#        print(url)
-#        print("\n\n\n")
-#        print(self.client.get("/users/").data)
-#        print(self.client.get("/profiles/").data)
-#        print("\n\n\n")
-
         self.client.get("/users/")
 
         before = self.client.get(url).data
@@ -105,15 +99,13 @@ class LowLevelTests(APITestCase):
 
         after = self.client.get(url).data
 
-#        print("\n\n\n")
-#        print(before)
-#        print(after)
-#        print("\n\n\n")
-
         self.assertEqual(before["major"], "")
         self.assertEqual(before["contact"], "")
         self.assertEqual(after["major"], "cse")
         self.assertEqual(after["contact"], "010-1234-5678")
+
+        response = self.client.put(url, {'contact':'0'})
+        self.assertTrue(response.status_code >= 400)
 
     # added 05/05, from tutor_put_request branch
 
