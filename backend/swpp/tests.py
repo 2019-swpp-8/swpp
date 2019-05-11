@@ -86,7 +86,7 @@ class LowLevelTests(APITestCase):
 
     def test_prof_put(self):
         user = self.create_user('profPutTestID', 'profPutTestPW')
-        self.client.login(username = 'profPutTestID', password = 'profPutTestPW')
+        self.client.force_login(user)
         url = '/profile/{0}/'.format(user.id)
         data = {'major': 'cse', 'contact': '010-1234-5678'}
 
@@ -94,18 +94,19 @@ class LowLevelTests(APITestCase):
 
         before = self.client.get(url).data
 
-        self.client.force_authenticate(user=user)
+#        self.client.force_authenticate(user=user)
         self.client.put(url, data)
 
         after = self.client.get(url).data
 
         self.assertEqual(before["major"], "")
-        self.assertEqual(before["contact"], "")
+        self.assertEqual(before["contact"], "010-0000-0000")
         self.assertEqual(after["major"], "cse")
         self.assertEqual(after["contact"], "010-1234-5678")
 
         response = self.client.put(url, {'contact':'0'})
         self.assertTrue(response.status_code >= 400)
+
 
     # added 05/05, from tutor_put_request branch
 
