@@ -107,14 +107,13 @@ class LowLevelTests(APITestCase):
         response = self.client.put(url, {'contact':'0'})
         self.assertTrue(response.status_code >= 400)
 
-
     # added 05/05, from tutor_put_request branch
 
     def test_tutor_put(self):
         user = self.create_user('iidd', 'ppww')
         #login = self.client.login(username = 'iidd', password = 'ppww')
         #self.assertTrue(login)
-        login = self.client.force_login(user)
+        self.client.force_login(user)
 
         data = {'bio': 'hi', 'exp': 'A'}
         users = self.client.get("/users/").data
@@ -128,6 +127,44 @@ class LowLevelTests(APITestCase):
         self.assertEqual(curr['bio'], "hi")
         self.assertEqual(prev['exp'], "")
         self.assertEqual(curr['exp'], "A")
+        
+    # added 05/17, from tutor_search_filter branch
+
+    def test_tutor_filter(self):
+        user = self.create_user('iidd', 'ppww')
+        data = {'bio': 'my bio', 'exp': 'MY EXP'}
+
+        other_user = self.create_user('idother', 'pwother')
+        self.client.force_login(other_user)
+        other_data = {'bio': 'YOUR BIO', 'exp': 'your exp'}
+
+        korean_user = self.create_user('idkorean', 'pwkorean')
+        self.client.force_login(korean_user)
+        korean_data = {'bio': '자기소개', 'exp': '경력'}
+
+        users = self.client.get("/users/").data
+        profiles = self.client.get("/profiles/").data
+
+        self.client.force_login(user)
+        self.client.put("/tutor/{0}/".format(user.id), data)
+        self.client.force_login(other_user)
+        self.client.put("/tutor/{0}/".format(other_user.id), other_data)
+        self.client.force_login(korean_user)
+        self.client.put("/tutor/{0}/".format(korean_user.id), korean_data)
+
+        tutors = self.client.get("/tutors/").data
+        self.assertEqual(len(tutors), 3)
+
+        tutors = self.client.get("/tutors/?bio=bi&exp=ex").data
+        self.assertEqual(len(tutors), 2)
+
+        tutors = self.client.get("/tutors/", {'bio': '소개', 'exp': '경'}).data
+        self.assertEqual(len(tutors), 1)
+        self.assertEqual(tutors[0]['profile'], korean_user.id)
+
+        tutors = self.client.get("/tutors/", {'bio': 'ur b'}).data
+        self.assertEqual(len(tutors), 1)
+        self.assertEqual(tutors[0]['profile'], other_user.id)
 
 class HighLevelTests(APITransactionTestCase):
     def setUp(self):
