@@ -6,12 +6,12 @@ const config = {
     isDev: process.env.NODE_ENV !== 'production',
     basename: process.env.PUBLIC_PATH,
     isBrowser: typeof window !== 'undefined',
-    apiUrl: 'https://jsonplaceholder.typicode.com',
+    apiUrl: 'https://ldm2468.com/api',
   },
   test: {},
   development: {},
   production: {
-    apiUrl: 'https://jsonplaceholder.typicode.com',
+    apiUrl: 'https://ldm2468.com/api',
   },
 }
 
