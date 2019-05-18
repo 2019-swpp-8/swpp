@@ -14,7 +14,7 @@ import App from 'components/App'
 
 const store = configureStore({}, { api: api.create() });
 store.dispatch(checkUser());
-console.log(store.getState());
+window.debugStore = store; // FOR DEBUGGING ONLY
 
 const renderApp = () => (
   <Provider store={store}>
