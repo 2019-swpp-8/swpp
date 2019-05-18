@@ -6,3 +6,4 @@ coverage
 django-registration-redux
 django-registration-defaults
 django-filter
+django-cors-headers
