@@ -6,7 +6,7 @@ const config = {
     isDev: process.env.NODE_ENV !== 'production',
     basename: process.env.PUBLIC_PATH,
     isBrowser: typeof window !== 'undefined',
-    apiUrl: 'https://ldm2468.com/api',
+    apiUrl: 'http://localhost:8000',
   },
   test: {},
   development: {},
