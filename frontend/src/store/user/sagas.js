@@ -4,7 +4,7 @@ import { put, call, select, takeEvery } from 'redux-saga/effects'
 
 export function* checkUser() {
   try {
-    let me = yield call([api, api.get], '/users/current/');
+    let me = yield call([api, api.get], '/user/current/', {credentials: 'include'});
     yield put(actions.setUser(me.id, me.username));
   } catch (e) {
     yield put(actions.unsetUser());
