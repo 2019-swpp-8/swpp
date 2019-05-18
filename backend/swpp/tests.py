@@ -3,7 +3,7 @@ from django.contrib.auth import get_user_model
 from rest_framework.test import APITestCase, APITransactionTestCase
 from swpp.apps import SwppConfig
 from datetime import datetime, timezone, timedelta
-from rest_framework import serializers
+from rest_framework import serializers, status
 from swpp.serializers import *
 from django.core import mail
 from django.utils.encoding import smart_text
@@ -127,7 +127,7 @@ class LowLevelTests(APITestCase):
         self.assertEqual(curr['bio'], "hi")
         self.assertEqual(prev['exp'], "")
         self.assertEqual(curr['exp'], "A")
-        
+
     # added 05/17, from tutor_search_filter branch
 
     def test_tutor_filter(self):
@@ -227,3 +227,17 @@ class HighLevelTests(APITransactionTestCase):
 
         # 패스워드 약함
         self.register_f('testuser2', 'fsd8j3292@snu.ac.kr', 'password')
+
+    def test_user_current(self):
+        un = 'test'
+        pw = '@Q$8thj0fd9'
+
+        me = self.client.get('/user/current/')
+        self.assertTrue(status.is_client_error(me.status_code))
+
+        self.register_s('test', 'test@snu.ac.kr', pw)
+        self.client.login(username=un, password=pw)
+
+        me = self.client.get('/user/current/')
+        self.assertTrue(status.is_success(me.status_code))
+        self.assertEqual(me.data['username'], un)
