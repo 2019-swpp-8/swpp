@@ -107,6 +107,27 @@ class LowLevelTests(APITestCase):
         response = self.client.put(url, {'contact':'0'})
         self.assertTrue(response.status_code >= 400)
 
+    def test_prof_contact_permission(self):
+        user1 = self.create_user('user1', 'user1')
+        user2 = self.create_user('user2', 'user2')
+        url = '/profiles/'
+        url1 = '/profile/{0}/'.format(user1.id)
+        url2 = '/profile/{0}/'.format(user2.id)
+        self.client.get('/users/')
+
+        self.client.force_login(user1)
+
+        prof_list1 = self.client.get(url).data
+        prof1 = self.client.get(url1).data
+        prof2 = self.client.get(url2).data
+
+
+        self.assertEqual(prof1['contact'], "010-0000-0000")
+        self.assertEqual(prof2['contact'], "")
+        self.assertEqual(prof_list1[0]['contact'], "010-0000-0000")
+        self.assertEqual(prof_list1[1]['contact'], "")
+
+
     # added 05/05, from tutor_put_request branch
 
     def test_tutor_put(self):
