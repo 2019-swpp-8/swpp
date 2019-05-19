@@ -30,6 +30,8 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
+STATIC_URL = '/static/'
+
 
 # Application definition
 
@@ -135,10 +137,4 @@ EMAIL_TIMEOUT = 30
 
 ACCOUNT_ACTIVATION_DAYS = 7
 DEFAULT_FROM_EMAIL = '소개원실 8조'
-LOGIN_REDIRECT_URL = '/admin/'
-
-
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/2.1/howto/static-files/
-
-STATIC_URL = '/static/'
+LOGIN_REDIRECT_URL = '/swpp/'
