@@ -131,7 +131,7 @@ class LowLevelTests(APITestCase):
     # added 05/17, from tutor_search_filter branch
 
     def test_tutor_filter(self):
-        user = self.create_user('iidd', 'ppww')
+        user = self.create_user('iidd', 'ppww')        
         data = {'bio': 'my bio', 'exp': 'MY EXP'}
 
         other_user = self.create_user('idother', 'pwother')
@@ -165,6 +165,74 @@ class LowLevelTests(APITestCase):
         tutors = self.client.get("/tutors/", {'bio': 'ur b'}).data
         self.assertEqual(len(tutors), 1)
         self.assertEqual(tutors[0]['profile'], other_user.id)
+
+        times1 = {'mon': 0x3DC0, #0b0011110111000000
+                  'tue': 0xD4F0, #0b1101010011110000
+                  'wed': 0x0,
+                  'thu': 0x0,
+                  'fri': 0x0,
+                  'sat': 0x0,
+                  'sun': 0x0} # total 7.5hr
+                
+        
+        times2 = {'mon': 0x0,
+                  'tue': 0x99D0, #0b1001100111010000
+                  'wed': 0xFC7C, #0b1111110001111100
+                  'thu': 0x0,
+                  'fri': 0x0,
+                  'sat': 0x0,
+                  'sun': 0x0} # total 9hr
+        
+        times3 = {'mon': 0xFFFF, #0b1111111111111111
+                  'tue': 0xFFFF, #0b1111111111111111
+                  'wed': 0xFFFF, #0b1111111111111111
+                  'thu': 0xFFFF, #0b1111111111111111
+                  'fri': 0x0,
+                  'sat': 0x0,
+                  'sun': 0x0,
+                  'total': 15}
+        
+        self.client.force_login(user)
+        self.client.put("/times/{0}/".format(user.profile.tutor.times.id), times1)
+
+        self.client.force_login(other_user)
+        self.client.put("/times/{0}/".format(other_user.profile.tutor.times.id), times2)
+
+        tutors = self.client.get("/tutors/", times3).data
+        self.assertEqual(len(tutors), 2)
+
+        times3['total'] = 18
+        tutors = self.client.get("/tutors/", times3).data
+        self.assertEqual(len(tutors), 1)
+        self.assertEqual(tutors[0]['profile'], other_user.id)
+
+        times3['total'] = 12
+        times3['minInterval'] = 3
+        tutors = self.client.get("/tutors/", times3).data
+        self.assertEqual(len(tutors), 1)
+        self.assertEqual(tutors[0]['profile'], other_user.id)
+
+        times3['total'] = 15
+        tutors = self.client.get("/tutors/", times3).data
+        self.assertEqual(len(tutors), 0)
+
+        times3['wed'] = 0
+        times3['total'] = 6
+        times3['minInterval'] = 2
+        tutors = self.client.get("/tutors/", times3).data
+        self.assertEqual(len(tutors), 1)
+        self.assertEqual(tutors[0]['profile'], user.id)
+
+        times3['mon'] = 0xF3E0 #0b1111001111100000
+        times3['total'] = 7
+        times3['minInterval'] = 3
+        tutors = self.client.get("/tutors/", times3).data
+        self.assertEqual(len(tutors), 1)
+        self.assertEqual(tutors[0]['profile'], user.id)
+
+        times3['total'] = 8
+        tutors = self.client.get("/tutors/", times3).data
+        self.assertEqual(len(tutors), 0)        
 
 class HighLevelTests(APITransactionTestCase):
     def setUp(self):

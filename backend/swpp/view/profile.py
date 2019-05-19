@@ -1,9 +1,7 @@
 from django.shortcuts import render
 from swpp.models import Profile
 from swpp.serializers import ProfileSerializer
-from rest_framework import generics
-from rest_framework import mixins
-from rest_framework import permissions
+from rest_framework import generics, mixins, permissions
 from swpp.permissions import IsOwnerOrReadOnly
 
 class ProfileList(generics.ListAPIView):
