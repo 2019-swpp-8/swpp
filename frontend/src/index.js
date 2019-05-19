@@ -8,10 +8,13 @@ import { BrowserRouter } from 'react-router-dom'
 
 import { basename } from 'config'
 import configureStore from 'store/configure'
+import { checkUser } from 'store/user/actions'
 import api from 'services/api'
 import App from 'components/App'
 
-const store = configureStore({}, { api: api.create() })
+const store = configureStore({}, { api: api.create() });
+store.dispatch(checkUser());
+window.debugStore = store; // FOR DEBUGGING ONLY
 
 const renderApp = () => (
   <Provider store={store}>
