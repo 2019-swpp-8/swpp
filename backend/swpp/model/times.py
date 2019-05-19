@@ -9,3 +9,27 @@ class Times(models.Model):
     fri = models.BigIntegerField(default = 0)
     sat = models.BigIntegerField(default = 0)
     sun = models.BigIntegerField(default = 0)
+
+    # minInterval, total: 1 per 30 min. ex) 4 = 2 hrs
+    def isAvailable(self, other, minInterval, total):
+        mon = self.mon & other.data['mon']
+        tue = self.tue & other.data['tue']
+        wed = self.wed & other.data['wed']
+        thu = self.thu & other.data['thu']
+        fri = self.fri & other.data['fri']
+        sat = self.sat & other.data['sat']
+        sun = self.sun & other.data['sun']
+
+        available = 0
+
+        for time in [mon, tue, wed, thu, fri, sat, sun]:
+            combo = 0
+            while time:
+                if time & 1: combo += 1
+                else:
+                    if combo >= minInterval: available += combo
+                    combo = 0
+                time >>= 1
+            if combo >= minInterval: available += combo
+
+        return available >= total
