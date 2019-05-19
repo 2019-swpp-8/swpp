@@ -11,6 +11,7 @@ const config = {
   test: {},
   development: {},
   production: {
+    basename: '/swpp',
     apiUrl: 'https://ldm2468.com/api',
   },
 }

@@ -91,6 +91,7 @@ const wpConfig = {
     ],
     output: {
       filename: '[name].[chunkhash].js',
+      publicPath: '/swpp/',
     },
     optimization: {
       minimizer: [
