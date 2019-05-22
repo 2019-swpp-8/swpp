@@ -90,7 +90,7 @@ class LowLevelTests(APITestCase):
         url = '/profile/{0}/'.format(user.id)
         data = {'major': 'cse', 'contact': '010-1234-5678'}
 
-        response = self.client.put(url, {'contact':'0'})
+        response = self.client.put(url, data)
         self.assertTrue(response.status_code >= 400)
 
         self.client.force_login(user)
@@ -139,13 +139,18 @@ class LowLevelTests(APITestCase):
         user = self.create_user('iidd', 'ppww')
         #login = self.client.login(username = 'iidd', password = 'ppww')
         #self.assertTrue(login)
+
+        tutorid = "/tutor/{0}/".format(user.id)
+        data = {'bio': 'hi', 'exp': 'A'}
+        
+        response = self.client.put(tutorid, data)
+        self.assertTrue(status.is_client_error(response.status_code))
+
         self.client.force_login(user)
 
-        data = {'bio': 'hi', 'exp': 'A'}
         users = self.client.get("/users/").data
         profiles = self.client.get("/profiles/").data
 
-        tutorid = "/tutor/{0}/".format(user.id)
         prev = self.client.get(tutorid).data
         self.client.put(tutorid, data)
         curr = self.client.get(tutorid).data
