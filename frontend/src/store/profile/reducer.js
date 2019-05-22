@@ -9,11 +9,12 @@ const initialState = {
 export default (state = initialState, {type, payload}) => {
   switch (type) {
     case UPDATE_PROFILE:
-      return {
+      const res = {
         id: payload.id,
-        name: paylod.name,
+        name: payload.name,
         major: payload.major,
       };
+      return res;
     default:
       return state;
   }

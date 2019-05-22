@@ -9,6 +9,7 @@ class ProfilePage extends React.Component {
   }
 
   componentDidUpdate() {
+    if (this.props.profile.id == this.props.match.params.id) return;
     this.props.getProfile(this.props.match.params.id);
   }
 
@@ -18,7 +19,8 @@ class ProfilePage extends React.Component {
       <div>
         <NavBar user={user} />
         <div className="container">
-        전공: {profile.major}
+        <div> 이름: {profile.name} </div>
+        <div> 전공: {profile.major} </div>
         </div>
       </div>
     );
