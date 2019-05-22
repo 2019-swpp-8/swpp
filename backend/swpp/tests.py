@@ -48,7 +48,7 @@ class LowLevelTests(APITestCase):
 
     def test_valid_profile(self):
         user = self.create_user('s', '2')
-        data = {'major': '', 'contact': '010-1111-1111'}
+        data = {'major': '', 'contact': '010-1111-1111', 'name': 'test'}
         serializer = ProfileSerializer(user.profile, data = data, partial = True)
         self.assertFalse(serializer.is_valid())
 
@@ -86,9 +86,14 @@ class LowLevelTests(APITestCase):
 
     def test_prof_put(self):
         user = self.create_user('profPutTestID', 'profPutTestPW')
-        self.client.force_login(user)
+
         url = '/profile/{0}/'.format(user.id)
         data = {'major': 'cse', 'contact': '010-1234-5678'}
+
+        response = self.client.put(url, data)
+        self.assertTrue(response.status_code >= 400)
+
+        self.client.force_login(user)
 
         self.client.get("/users/")
 
@@ -134,13 +139,18 @@ class LowLevelTests(APITestCase):
         user = self.create_user('iidd', 'ppww')
         #login = self.client.login(username = 'iidd', password = 'ppww')
         #self.assertTrue(login)
+
+        tutorid = "/tutor/{0}/".format(user.id)
+        data = {'bio': 'hi', 'exp': 'A'}
+        
+        response = self.client.put(tutorid, data)
+        self.assertTrue(status.is_client_error(response.status_code))
+
         self.client.force_login(user)
 
-        data = {'bio': 'hi', 'exp': 'A'}
         users = self.client.get("/users/").data
         profiles = self.client.get("/profiles/").data
 
-        tutorid = "/tutor/{0}/".format(user.id)
         prev = self.client.get(tutorid).data
         self.client.put(tutorid, data)
         curr = self.client.get(tutorid).data
@@ -152,7 +162,7 @@ class LowLevelTests(APITestCase):
     # added 05/17, from tutor_search_filter branch
 
     def test_tutor_filter(self):
-        user = self.create_user('iidd', 'ppww')        
+        user = self.create_user('iidd', 'ppww')
         data = {'bio': 'my bio', 'exp': 'MY EXP'}
 
         other_user = self.create_user('idother', 'pwother')
@@ -194,8 +204,8 @@ class LowLevelTests(APITestCase):
                   'fri': 0x0,
                   'sat': 0x0,
                   'sun': 0x0} # total 7.5hr
-                
-        
+
+
         times2 = {'mon': 0x0,
                   'tue': 0x99D0, #0b1001100111010000
                   'wed': 0xFC7C, #0b1111110001111100
@@ -203,7 +213,7 @@ class LowLevelTests(APITestCase):
                   'fri': 0x0,
                   'sat': 0x0,
                   'sun': 0x0} # total 9hr
-        
+
         times3 = {'mon': 0xFFFF, #0b1111111111111111
                   'tue': 0xFFFF, #0b1111111111111111
                   'wed': 0xFFFF, #0b1111111111111111
@@ -212,7 +222,7 @@ class LowLevelTests(APITestCase):
                   'sat': 0x0,
                   'sun': 0x0,
                   'total': 15}
-        
+
         self.client.force_login(user)
         self.client.put("/times/{0}/".format(user.profile.tutor.times.id), times1)
 
@@ -253,7 +263,7 @@ class LowLevelTests(APITestCase):
 
         times3['total'] = 8
         tutors = self.client.get("/tutors/", times3).data
-        self.assertEqual(len(tutors), 0)        
+        self.assertEqual(len(tutors), 0)
 
 class HighLevelTests(APITransactionTestCase):
     def setUp(self):

@@ -25,7 +25,7 @@ class ProfileSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Profile
-        fields = ('user', 'joined', 'major', 'contact', 'tags', 'tutor', 'requests') # requests?
+        fields = ('user', 'name', 'joined', 'major', 'contact', 'tags', 'tutor', 'requests') # requests?
         '''
         class IsOwner(BaseFieldPermission):
         def has_permission(self, request):
