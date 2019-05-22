@@ -6,7 +6,7 @@ export function* getProfile(dat) {
   try {
     const id = dat.payload;
     const profile = yield call([api, api.get], '/profile/' + id + '/', {credentials: 'include'});
-    yield put(actions.updateProfile(id, profile.major));
+    yield put(actions.updateProfile(id, profile.name, profile.major));
   } catch (e) {
 
   }
