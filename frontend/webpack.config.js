@@ -30,6 +30,25 @@ const wpConfig = {
         { test: /\.jsx?$/, exclude: /node_modules/, use: 'happypack/loader' },
         { test: /\.(png|jpe?g|svg|woff2?|ttf|eot)$/, loader: 'url-loader?limit=8000' },
         { test: /\.svg$/i, use: 'raw-loader' },
+        {
+          test: /\.(scss)$/,
+          use: [{
+            loader: 'style-loader', // inject CSS to page
+          }, {
+            loader: 'css-loader', // translates CSS into CommonJS modules
+          }, {
+            loader: 'postcss-loader', // Run postcss actions
+            options: {
+              plugins: function () { // postcss plugins, can be exported to postcss.config.js
+                return [
+                  require('autoprefixer')
+                ];
+              }
+            }
+          }, {
+            loader: 'sass-loader' // compiles Sass to CSS
+          }]
+        },
       ],
     },
     plugins: [

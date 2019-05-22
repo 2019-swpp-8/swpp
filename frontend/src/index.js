@@ -12,6 +12,9 @@ import { checkUser } from 'store/user/actions'
 import api from 'services/api'
 import App from 'components/App'
 
+import 'bootstrap'
+import '../scss/swpp.scss'
+
 const store = configureStore({}, { api: api.create() });
 store.dispatch(checkUser());
 window.debugStore = store; // FOR DEBUGGING ONLY
