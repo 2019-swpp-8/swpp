@@ -19,8 +19,9 @@ class ProfilePage extends React.Component {
       <div>
         <NavBar user={user} />
         <div className="container">
-        <div> 이름: {profile.name} </div>
-        <div> 전공: {profile.major} </div>
+          <h3> 프로파일 정보 </h3>
+          <div> 이름: {profile.name} </div>
+          <div> 전공: {profile.major} </div>
         </div>
       </div>
     );
