@@ -8,6 +8,10 @@ class ProfilePage extends React.Component {
     this.props.getProfile(this.props.match.params.id);
   }
 
+  componentDidUpdate() {
+    this.props.getProfile(this.props.match.params.id);
+  }
+
   render() {
     const {user, profile} = this.props;
     return (
