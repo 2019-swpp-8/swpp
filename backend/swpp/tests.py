@@ -48,7 +48,7 @@ class LowLevelTests(APITestCase):
 
     def test_valid_profile(self):
         user = self.create_user('s', '2')
-        data = {'major': '', 'contact': '010-1111-1111'}
+        data = {'major': '', 'contact': '010-1111-1111', 'name': 'test'}
         serializer = ProfileSerializer(user.profile, data = data, partial = True)
         self.assertFalse(serializer.is_valid())
 
@@ -152,7 +152,7 @@ class LowLevelTests(APITestCase):
     # added 05/17, from tutor_search_filter branch
 
     def test_tutor_filter(self):
-        user = self.create_user('iidd', 'ppww')        
+        user = self.create_user('iidd', 'ppww')
         data = {'bio': 'my bio', 'exp': 'MY EXP'}
 
         other_user = self.create_user('idother', 'pwother')
@@ -194,8 +194,8 @@ class LowLevelTests(APITestCase):
                   'fri': 0x0,
                   'sat': 0x0,
                   'sun': 0x0} # total 7.5hr
-                
-        
+
+
         times2 = {'mon': 0x0,
                   'tue': 0x99D0, #0b1001100111010000
                   'wed': 0xFC7C, #0b1111110001111100
@@ -203,7 +203,7 @@ class LowLevelTests(APITestCase):
                   'fri': 0x0,
                   'sat': 0x0,
                   'sun': 0x0} # total 9hr
-        
+
         times3 = {'mon': 0xFFFF, #0b1111111111111111
                   'tue': 0xFFFF, #0b1111111111111111
                   'wed': 0xFFFF, #0b1111111111111111
@@ -212,7 +212,7 @@ class LowLevelTests(APITestCase):
                   'sat': 0x0,
                   'sun': 0x0,
                   'total': 15}
-        
+
         self.client.force_login(user)
         self.client.put("/times/{0}/".format(user.profile.tutor.times.id), times1)
 
@@ -253,7 +253,7 @@ class LowLevelTests(APITestCase):
 
         times3['total'] = 8
         tutors = self.client.get("/tutors/", times3).data
-        self.assertEqual(len(tutors), 0)        
+        self.assertEqual(len(tutors), 0)
 
 class HighLevelTests(APITransactionTestCase):
     def setUp(self):
