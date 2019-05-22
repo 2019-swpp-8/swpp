@@ -86,9 +86,14 @@ class LowLevelTests(APITestCase):
 
     def test_prof_put(self):
         user = self.create_user('profPutTestID', 'profPutTestPW')
-        self.client.force_login(user)
+
         url = '/profile/{0}/'.format(user.id)
         data = {'major': 'cse', 'contact': '010-1234-5678'}
+
+        response = self.client.put(url, {'contact':'0'})
+        self.assertTrue(response.status_code >= 400)
+
+        self.client.force_login(user)
 
         self.client.get("/users/")
 
