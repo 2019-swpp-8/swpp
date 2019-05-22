@@ -1,18 +1,23 @@
 import React from 'react'
 import {LoginLogout} from 'components'
+import {BrowserRouter as Router, Route, Link} from 'react-router-dom'
+
 
 const NavBar = ({user}) => {
+  const profile = user.loggedIn ? <li className="nav-item">
+    <Link to={'/profile/' + user.id} className="nav-link">프로파일</Link>
+  </li> : "";
+
   return (
     <nav className="navbar navbar-expand-md navbar-light bg-light">
       <div className="container">
-        <a className="navbar-brand" href="#">SNU Peer Tutoring</a>
+        <Link to="/" className="navbar-brand">SNU Peer Tutoring</Link>
         <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
           <span className="navbar-toggler-icon"></span>
         </button>
         <div className="collapse navbar-collapse" id="navbarNav">
           <ul className="navbar-nav mr-auto">
-            <li className="nav-item">
-            </li>
+            {profile}
           </ul>
           <LoginLogout user={user} />
         </div>
