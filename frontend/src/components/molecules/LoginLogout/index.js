@@ -13,7 +13,7 @@ const LoginLogout = ({user}) => {
     return (
       <span className="loginlogout">
         <span className="greeting mr-2"> 로그인해주세요. </span>
-        <div class="btn-group" role="group" aria-label="login-group">
+        <div className="btn-group" role="group" aria-label="login-group">
           <LoginButton />
           <RegisterButton />
         </div>

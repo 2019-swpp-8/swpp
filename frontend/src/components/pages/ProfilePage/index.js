@@ -14,14 +14,18 @@ class ProfilePage extends React.Component {
   }
 
   render() {
-    const {user, profile} = this.props;
+    const {user, profile, tutor} = this.props;
     return (
       <div>
         <NavBar user={user} />
-        <div className="container">
+        <div className="container mt-3">
           <h3> 프로파일 정보 </h3>
           <div> 이름: {profile.name} </div>
           <div> 전공: {profile.major} </div>
+          <br/>
+          <h3> 튜터 정보 </h3>
+          <div> 소개: {tutor.bio} </div>
+          <div> 경력: {tutor.exp} </div>
         </div>
       </div>
     );

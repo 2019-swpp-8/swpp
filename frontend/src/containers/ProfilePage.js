@@ -5,7 +5,7 @@ import { ProfilePage } from 'components'
 import { getProfile } from 'store/actions'
 
 const mapStateToProps = state => {
-  return {user: state.user, profile: state.profile};
+  return {user: state.user, profile: state.profile, tutor: state.tutor};
 };
 
 const mapDispatchToProps = {
