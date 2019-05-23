@@ -1,0 +1,30 @@
+{% extends "registration/registration_base.html" %}
+{% load i18n %}
+{% block title %} SNU Peer Tutoring 회원가입 {% endblock %}
+{% block content %}
+<h3> SNU Peer Tutoring 회원가입 </h3>
+<table>
+    <form method='post' action=''>{% csrf_token %}
+        {{ form }}
+        <tr><td></td><td><input type="submit" value="인증 이메일 보내기" class="btn btn-primary" /></td>
+    </form>
+</table>
+<style>
+  input {
+    background-color: #fff;
+    color: #000;
+    border-color: #ccc;
+    border-style: solid;
+    border-radius: 0.3rem;
+    padding: 0.2rem;
+  }
+  label {
+    margin-bottom: 0!important;
+  }
+  th {
+    vertical-align: top;
+    padding-top: 0.25rem;
+    padding-right: 0.5rem;
+  }
+</style>
+{% endblock %}

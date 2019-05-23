@@ -1,0 +1,9 @@
+{% extends "registration/registration_base.html" %}
+{% load i18n %}
+{% block title %}{% trans "Activation email sent" %}{% endblock %}
+{% block content %}
+{% blocktrans %}
+이메일 주소 인증 링크를 보냈습니다.
+이메일로 받은 링크를 클릭해서 계정을 활성화해주세요.
+{% endblocktrans %}
+{% endblock %}
