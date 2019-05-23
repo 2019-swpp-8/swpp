@@ -1,0 +1,1 @@
+{% load i18n %}{% blocktrans with sitename=site.name %}SNU Peer Tutoring 회원가입 인증 이메일{% endblocktrans %}

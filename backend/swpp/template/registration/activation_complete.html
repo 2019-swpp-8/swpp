@@ -1,0 +1,10 @@
+{% extends "registration/registration_base.html" %}
+{% load i18n %}
+{% block title %}{% trans "Activation complete" %}{% endblock %}
+{% block content %}
+{% url 'auth_login' as auth_login_url %}
+{% blocktrans %}
+감사합니다. 회원가입이 완료되었습니다!
+이제 <a href='{{ auth_login_url }}'>로그인</a>하실 수 있습니다.
+{% endblocktrans %}
+{% endblock %}

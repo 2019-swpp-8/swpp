@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import { ProfilePage } from 'components'
+import { ProfileEditPage } from 'components'
 import { getProfile } from 'store/actions'
 
 const mapStateToProps = state => {
@@ -12,4 +12,4 @@ const mapDispatchToProps = {
   getProfile,
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(ProfilePage);
+export default connect(mapStateToProps, mapDispatchToProps)(ProfileEditPage);

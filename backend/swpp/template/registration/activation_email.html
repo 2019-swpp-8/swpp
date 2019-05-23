@@ -1,0 +1,26 @@
+{% load i18n %}
+{% comment %}
+This template is used for the html alternative of the activation email
+if you use a django-registration backend that looks for it. e.g.
+https://github.com/huseyinyilmaz/django-registration-extended-backend
+{% endcomment %}
+{% url 'registration_activate' activation_key as activation_key_url %}
+{% blocktrans with sitename=site.name sitedomain=site.domain%}<body>
+<h3> SNU Peer Tutoring 회원가입 </h3>
+<p>
+SNU Peer Tutoring 가입 인증용 이메일입니다.
+<br />
+만약 SNU Peer Tutoring에 가입하신게 아니라면, 이 이메일을 무시하십시오.
+</p>
+<p>
+계정을 활성화하기 위해 다음 링크를 <b>{{ expiration_days }}일</b> 이내에 열어야 합니다.
+<br />
+<a href="http://{{ sitedomain }}{{ activation_key_url }}">http://{{ sitedomain }}{{  activation_key_url }}</a>
+</p>
+<p>
+감사합니다.
+<br />
+-소개원실 8조
+</p>
+</body>
+{% endblocktrans %}
