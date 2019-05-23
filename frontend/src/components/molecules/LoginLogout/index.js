@@ -1,5 +1,5 @@
 import React from 'react'
-import {LoginButton, LogoutButton} from 'components'
+import {LoginButton, LogoutButton, RegisterButton} from 'components'
 
 const LoginLogout = ({user}) => {
   if (user.loggedIn) {
@@ -13,7 +13,10 @@ const LoginLogout = ({user}) => {
     return (
       <span className="loginlogout">
         <span className="greeting mr-2"> 로그인해주세요. </span>
-        <LoginButton />
+        <div class="btn-group" role="group" aria-label="login-group">
+          <LoginButton />
+          <RegisterButton />
+        </div>
       </span>
     );
   }
