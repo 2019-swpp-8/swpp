@@ -34,8 +34,11 @@ class TutorListPage extends React.Component {
           </div>
         </form>
         예쁘게 표시하는건 구현 안 했어요 죄송합니다! ㅠㅠ
-        <br />
-        {JSON.stringify(tutorlist, null, 2)}
+        <code>
+          <pre>
+            {JSON.stringify(tutorlist, null, 4)}
+          </pre>
+        </code>
         </div>
       </div>
     );
