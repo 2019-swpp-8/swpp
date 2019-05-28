@@ -27,10 +27,10 @@ def createLectureFixture(df):
     print('[', file = fix)
 
     def jsonItem(index, title, prof):
-        return '\n'.join(['  {', '    "model": "swpp.lecture"',
+        return '\n'.join(['  {', '    "model": "swpp.lecture",',
                          f'    "pk": {index},', '    "fields": {',
                          f'      "title": "{title}",',
-                         f'      "prof": "{prof}",', '    }',
+                         f'      "prof": "{prof}"', '    }',
                          '  }'])
 
     for index, row in df.iterrows():
