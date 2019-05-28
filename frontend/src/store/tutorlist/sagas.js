@@ -4,6 +4,7 @@ import { put, call, select, takeEvery } from 'redux-saga/effects'
 
 export function* getTutorList(dat) {
   try {
+    dat = dat.payload;
     let bio = dat.bio;
     let exp = dat.exp;
     if (typeof bio === 'undefined') {
