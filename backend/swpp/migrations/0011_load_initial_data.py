@@ -10,8 +10,8 @@ def load_fixture(apps, schema_editor):
     call_command('loaddata', fixture, app_label='swpp')
 
 def unload_fixture(apps, schema_editor):
-    Lecture = apps.get_model('swpp', 'lecture')
-    Lecture.objects.all().delete()
+   lecture = apps.get_model('swpp', 'lecture')
+   lecture.objects.all().delete()
 
 class Migration(migrations.Migration):
 
@@ -20,5 +20,5 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
-        migrations.RunPython(load_fixture, reverse_code=unload_fixture),
+        migrations.RunPython(load_fixture, reverse_code = unload_fixture)
     ]

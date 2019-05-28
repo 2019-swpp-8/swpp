@@ -33,10 +33,12 @@ def createLectureFixture(df):
                          f'      "prof": "{prof}"', '    }',
                          '  }'])
 
-    for index, row in df.iterrows():
+    index = 1
+    for _, row in df.iterrows():
         print(jsonItem(index, row['교과목명'], row['주담당교수']), file = fix, end = ',\n')
+        index += 1
 
-    print(jsonItem(index + 1, row['교과목명'], row['주담당교수']), file = fix, end = '\n]')
+    print(jsonItem(index, row['교과목명'], row['주담당교수']), file = fix, end = '\n]')
     fix.close()
               
 createLectureFixture(df)
