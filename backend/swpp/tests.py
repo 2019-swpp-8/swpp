@@ -160,6 +160,7 @@ class LowLevelTests(APITestCase):
         self.assertEqual(curr['exp'], "A")
 
     # added 05/17, from tutor_search_filter branch
+    # added 05/30, from search_tutor_with_lecture branch
 
     def test_tutor_filter(self):
         user = self.create_user('iidd', 'ppww')

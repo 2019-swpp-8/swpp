@@ -7,8 +7,8 @@ from django_filters.rest_framework import DjangoFilterBackend
 
 class TutorFilterBackend(DjangoFilterBackend):
     def filter_queryset(self, request, queryset, view):
-        req_bio = request.GET['bio'] if ('bio' in request.GET) else '';
-        req_exp = request.GET['exp'] if ('exp' in request.GET) else '';
+        req_bio = request.GET['bio'] if ('bio' in request.GET) else ''
+        req_exp = request.GET['exp'] if ('exp' in request.GET) else ''
         if 'total' in request.GET:
             times = TimesSerializer(data = { key:request.GET[key] for key
                                              in ['mon', 'tue', 'wed',
@@ -18,6 +18,10 @@ class TutorFilterBackend(DjangoFilterBackend):
                 minInterval = int(request.GET['minInterval']) if 'minInterval' in request.GET else 1
                 pks = [q.pk for q in queryset if q.times.isAvailable(times, minInterval, total)]
                 queryset = queryset.filter(pk__in=pks)
+        if 'lecture' in request.GET:
+            lecture = request.GET['lecture']
+            pks = [q.pk for q in queryset if q.lectures.filter(id=lecture).exists()]
+            queryset = queryset.filter(pk__in=pks)
         return queryset.filter(bio__icontains=req_bio, exp__icontains=req_exp)
 
 class TutorList(generics.ListAPIView):
