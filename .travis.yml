@@ -3,9 +3,18 @@ matrix:
     include:
         - language: python
           python: 3.7
-          install: pip install -r backend/requirements.txt
+          install:
+              - cd $TRAVIS_BUILD_DIR
+              - pip install -r backend/requirements.txt
           script:
-              - cd backend
+              - cd $TRAVIS_BUILD_DIR/backend
               - coverage run --source=swpp manage.py test
           after_success:
               - coveralls
+        - language: node_js
+          install:
+              - cd $TRAVIS_BUILD_DIR/frontend
+              - npm install
+          script:
+              - cd $TRAVIS_BUILD_DIR/frontend
+              - npm test -- --coverage
