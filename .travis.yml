@@ -19,3 +19,5 @@ matrix:
           script:
               - cd $TRAVIS_BUILD_DIR/frontend
               - npm test -- --coverage
+          after_success:
+              - cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js
