@@ -1,6 +1,6 @@
 // https://github.com/diegohaz/arc/wiki/Atomic-Design
 import React from 'react'
-import {NavBar} from 'components'
+import { NavBar, TutorRow } from 'components'
 import { withRouter } from 'react-router-dom';
 
 class TutorListPage extends React.Component {
@@ -36,6 +36,7 @@ class TutorListPage extends React.Component {
 
   render() {
     const {user, tutorlist} = this.props;
+    const test = <TutorRow tutor={tutorlist['dat'][0]} />;
     return (
       <div>
         <NavBar user={user} />
@@ -51,12 +52,17 @@ class TutorListPage extends React.Component {
               <input name="exp" type="text" className="form-control" id="tutorlist-exp" onChange={this.handleInputChange} />
             </div>
             <div className="form-group col-md-5" style={{ verticalAlign:'middle' }}>
-              <label htmlFor="tutorlist-submit">사실 뻥이고 frontend 검색 구현 아직 안 했어요</label><br />
+              <label htmlFor="tutorlist-submit"></label><br />
               <button id="tutorlist-submit" type="submit" className="btn btn-primary mb-2">검색</button>
             </div>
           </div>
         </form>
         {this.state['bio'] + ", " + this.state['exp']}
+        <table className="table">
+          <tbody>
+            {test}
+          </tbody>
+        </table>
         <code>
           <pre>
             {JSON.stringify(tutorlist, null, 4)}
