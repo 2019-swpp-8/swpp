@@ -8,3 +8,9 @@ pip install -r requirements.txt
 ./manage.py migrate
 ./manage.py runserver
 ```
+
+## Testing
+```bash
+coverage run --source=swpp manage.py test
+coverage report -m
+```
