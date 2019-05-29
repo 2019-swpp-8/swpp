@@ -265,6 +265,22 @@ class LowLevelTests(APITestCase):
         tutors = self.client.get("/tutors/", times3).data
         self.assertEqual(len(tutors), 0)
 
+    def test_lectures_database(self):
+        lectures = self.client.get("/lectures/").data
+        self.assertEqual(len(lectures), 30214)
+
+        lecture = {'title': '대학 글쓰기 1'}
+        lectures = self.client.get("/lectures/", lecture).data
+        self.assertEqual(len(lectures), 34)
+
+        lecture['prof'] = '나민애'
+        lectures = self.client.get("/lectures/", lecture).data
+        self.assertEqual(len(lectures), 1)
+
+        lecture['prof'] = '있겠냐?'
+        lectures = self.client.get("/lectures/", lecture).data
+        self.assertEqual(len(lectures), 0)        
+
 class HighLevelTests(APITransactionTestCase):
     def setUp(self):
         self.User = get_user_model()
