@@ -36,7 +36,9 @@ class TutorListPage extends React.Component {
 
   render() {
     const {user, tutorlist} = this.props;
-    const test = <TutorRow tutor={tutorlist['dat'][0]} />;
+    const tutorList = Array.isArray(tutorlist.dat) ? tutorlist.dat.map(i => (
+      <TutorRow key={i['profile']['user']} tutor={i} />
+    )) : <tr></tr>;
     return (
       <div>
         <NavBar user={user} />
@@ -57,17 +59,19 @@ class TutorListPage extends React.Component {
             </div>
           </div>
         </form>
-        {this.state['bio'] + ", " + this.state['exp']}
-        <table className="table">
+        <table className="table table-hover">
+          <thead>
+            <tr>
+              <th> 이름 </th>
+              <th> 전공 </th>
+              <th> 소개 </th>
+              <th> 경력 </th>
+            </tr>
+          </thead>
           <tbody>
-            {test}
+            {tutorList}
           </tbody>
         </table>
-        <code>
-          <pre>
-            {JSON.stringify(tutorlist, null, 4)}
-          </pre>
-        </code>
         </div>
       </div>
     );
