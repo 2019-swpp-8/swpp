@@ -12,6 +12,7 @@ matrix:
           after_success:
               - coveralls
         - language: node_js
+          node_js: "6.9"
           install:
               - cd $TRAVIS_BUILD_DIR/frontend
               - npm install
