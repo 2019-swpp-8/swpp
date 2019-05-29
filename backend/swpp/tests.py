@@ -142,7 +142,7 @@ class LowLevelTests(APITestCase):
 
         tutorid = "/tutor/{0}/".format(user.id)
         data = {'bio': 'hi', 'exp': 'A'}
-        
+
         response = self.client.put(tutorid, data)
         self.assertTrue(status.is_client_error(response.status_code))
 
@@ -191,11 +191,11 @@ class LowLevelTests(APITestCase):
 
         tutors = self.client.get("/tutors/", {'bio': '소개', 'exp': '경'}).data
         self.assertEqual(len(tutors), 1)
-        self.assertEqual(tutors[0]['profile'], korean_user.id)
+        self.assertEqual(tutors[0]['profile']['user'], korean_user.id)
 
         tutors = self.client.get("/tutors/", {'bio': 'ur b'}).data
         self.assertEqual(len(tutors), 1)
-        self.assertEqual(tutors[0]['profile'], other_user.id)
+        self.assertEqual(tutors[0]['profile']['user'], other_user.id)
 
         times1 = {'mon': 0x3DC0, #0b0011110111000000
                   'tue': 0xD4F0, #0b1101010011110000
@@ -235,13 +235,13 @@ class LowLevelTests(APITestCase):
         times3['total'] = 18
         tutors = self.client.get("/tutors/", times3).data
         self.assertEqual(len(tutors), 1)
-        self.assertEqual(tutors[0]['profile'], other_user.id)
+        self.assertEqual(tutors[0]['profile']['user'], other_user.id)
 
         times3['total'] = 12
         times3['minInterval'] = 3
         tutors = self.client.get("/tutors/", times3).data
         self.assertEqual(len(tutors), 1)
-        self.assertEqual(tutors[0]['profile'], other_user.id)
+        self.assertEqual(tutors[0]['profile']['user'], other_user.id)
 
         times3['total'] = 15
         tutors = self.client.get("/tutors/", times3).data
@@ -252,14 +252,14 @@ class LowLevelTests(APITestCase):
         times3['minInterval'] = 2
         tutors = self.client.get("/tutors/", times3).data
         self.assertEqual(len(tutors), 1)
-        self.assertEqual(tutors[0]['profile'], user.id)
+        self.assertEqual(tutors[0]['profile']['user'], user.id)
 
         times3['mon'] = 0xF3E0 #0b1111001111100000
         times3['total'] = 7
         times3['minInterval'] = 3
         tutors = self.client.get("/tutors/", times3).data
         self.assertEqual(len(tutors), 1)
-        self.assertEqual(tutors[0]['profile'], user.id)
+        self.assertEqual(tutors[0]['profile']['user'], user.id)
 
         times3['total'] = 8
         tutors = self.client.get("/tutors/", times3).data
