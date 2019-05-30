@@ -160,17 +160,16 @@ class LowLevelTests(APITestCase):
         self.assertEqual(curr['exp'], "A")
 
     # added 05/17, from tutor_search_filter branch
+    # added 05/30, from search_tutor_with_lecture branch
 
     def test_tutor_filter(self):
         user = self.create_user('iidd', 'ppww')
         data = {'bio': 'my bio', 'exp': 'MY EXP'}
 
         other_user = self.create_user('idother', 'pwother')
-        self.client.force_login(other_user)
         other_data = {'bio': 'YOUR BIO', 'exp': 'your exp'}
 
         korean_user = self.create_user('idkorean', 'pwkorean')
-        self.client.force_login(korean_user)
         korean_data = {'bio': '자기소개', 'exp': '경력'}
 
         users = self.client.get("/users/").data
@@ -197,6 +196,7 @@ class LowLevelTests(APITestCase):
         self.assertEqual(len(tutors), 1)
         self.assertEqual(tutors[0]['profile']['user'], other_user.id)
 
+        # check for times
         times1 = {'mon': 0x3DC0, #0b0011110111000000
                   'tue': 0xD4F0, #0b1101010011110000
                   'wed': 0x0,
@@ -263,6 +263,22 @@ class LowLevelTests(APITestCase):
 
         times3['total'] = 8
         tutors = self.client.get("/tutors/", times3).data
+        self.assertEqual(len(tutors), 0)
+
+        # check for lectures
+        self.client.force_login(user)
+        self.client.put("/tutor/{0}/".format(user.id), {'lectures': [2, 4, 6]})
+        self.client.force_login(other_user)
+        self.client.put("/tutor/{0}/".format(other_user.id), {'lectures': [1, 2, 3, 4]})
+        self.client.force_login(korean_user)
+        self.client.put("/tutor/{0}/".format(korean_user.id), {'lectures': [4, 5]})
+        tutors = self.client.get("/tutors/?lecture=4").data
+        self.assertEqual(len(tutors), 3)
+        tutors = self.client.get("/tutors/?lecture=2").data
+        self.assertEqual(len(tutors), 2)
+        tutors = self.client.get("/tutors/?lecture=1").data
+        self.assertEqual(len(tutors), 1)
+        tutors = self.client.get("/tutors/?lecture=7").data
         self.assertEqual(len(tutors), 0)
 
     def test_lectures_database(self):
