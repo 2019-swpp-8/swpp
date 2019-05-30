@@ -29,7 +29,7 @@ class TutorListPage extends React.Component {
   componentDidUpdate() {
   }
 
-  handleSubmit() {
+  handleSubmit(event) {
     this.props.getTutorList(this.state['bio'], this.state['exp']);
     event.preventDefault();
   }
