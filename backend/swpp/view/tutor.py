@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from swpp.models import Tutor
-from swpp.serializers import TutorSerializer, TimesSerializer
+from swpp.serializers import TutorSerializer, TutorRecursiveSerializer, TimesSerializer
 from swpp.permissions import IsOwnerOrReadOnly
 from rest_framework import generics
 from django_filters.rest_framework import DjangoFilterBackend
@@ -26,7 +26,7 @@ class TutorFilterBackend(DjangoFilterBackend):
 
 class TutorList(generics.ListAPIView):
     queryset = Tutor.objects.all()
-    serializer_class = TutorSerializer
+    serializer_class = TutorRecursiveSerializer
     filter_backends = (TutorFilterBackend,)
     filterset_fields = ('bio', 'exp')
 

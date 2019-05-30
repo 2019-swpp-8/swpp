@@ -11,4 +11,12 @@ class TutorSerializer(serializers.ModelSerializer):
     class Meta:
         model = Tutor
         fields = ('profile', 'bio', 'exp', 'lectures', 'times', 'requests') # requests
+
+class TutorRecursiveSerializer(serializers.ModelSerializer):
+    requests = RequestSerializer(many = True, read_only = True)
+    profile = ProfileSerializer(read_only = True)
+
+    class Meta:
+        model = Tutor
+        fields = ('profile', 'bio', 'exp', 'lectures', 'times', 'requests') # requests
         depth = 1
