@@ -6,6 +6,8 @@ import { put, call, select, takeEvery } from 'redux-saga/effects'
 export function* getProfile(dat) {
   try {
     const id = dat.payload;
+    yield put(actions.updateProfile(id, '로딩중...', '로딩중...'));
+    yield put(tutorActions.updateTutor(id, '로딩중...', '로딩중...'));
     const profile = yield call([api, api.get], '/profile/' + id + '/', {credentials: 'include'});
     yield put(actions.updateProfile(id, profile.name, profile.major));
     yield put(tutorActions.getTutor(id));
