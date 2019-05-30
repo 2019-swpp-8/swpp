@@ -142,7 +142,7 @@ class LowLevelTests(APITestCase):
 
         tutorid = "/tutor/{0}/".format(user.id)
         data = {'bio': 'hi', 'exp': 'A'}
-        
+
         response = self.client.put(tutorid, data)
         self.assertTrue(status.is_client_error(response.status_code))
 
@@ -160,17 +160,16 @@ class LowLevelTests(APITestCase):
         self.assertEqual(curr['exp'], "A")
 
     # added 05/17, from tutor_search_filter branch
+    # added 05/30, from search_tutor_with_lecture branch
 
     def test_tutor_filter(self):
         user = self.create_user('iidd', 'ppww')
         data = {'bio': 'my bio', 'exp': 'MY EXP'}
 
         other_user = self.create_user('idother', 'pwother')
-        self.client.force_login(other_user)
         other_data = {'bio': 'YOUR BIO', 'exp': 'your exp'}
 
         korean_user = self.create_user('idkorean', 'pwkorean')
-        self.client.force_login(korean_user)
         korean_data = {'bio': '자기소개', 'exp': '경력'}
 
         users = self.client.get("/users/").data
@@ -191,12 +190,13 @@ class LowLevelTests(APITestCase):
 
         tutors = self.client.get("/tutors/", {'bio': '소개', 'exp': '경'}).data
         self.assertEqual(len(tutors), 1)
-        self.assertEqual(tutors[0]['profile'], korean_user.id)
+        self.assertEqual(tutors[0]['profile']['user'], korean_user.id)
 
         tutors = self.client.get("/tutors/", {'bio': 'ur b'}).data
         self.assertEqual(len(tutors), 1)
-        self.assertEqual(tutors[0]['profile'], other_user.id)
+        self.assertEqual(tutors[0]['profile']['user'], other_user.id)
 
+        # check for times
         times1 = {'mon': 0x3DC0, #0b0011110111000000
                   'tue': 0xD4F0, #0b1101010011110000
                   'wed': 0x0,
@@ -235,13 +235,13 @@ class LowLevelTests(APITestCase):
         times3['total'] = 18
         tutors = self.client.get("/tutors/", times3).data
         self.assertEqual(len(tutors), 1)
-        self.assertEqual(tutors[0]['profile'], other_user.id)
+        self.assertEqual(tutors[0]['profile']['user'], other_user.id)
 
         times3['total'] = 12
         times3['minInterval'] = 3
         tutors = self.client.get("/tutors/", times3).data
         self.assertEqual(len(tutors), 1)
-        self.assertEqual(tutors[0]['profile'], other_user.id)
+        self.assertEqual(tutors[0]['profile']['user'], other_user.id)
 
         times3['total'] = 15
         tutors = self.client.get("/tutors/", times3).data
@@ -252,17 +252,33 @@ class LowLevelTests(APITestCase):
         times3['minInterval'] = 2
         tutors = self.client.get("/tutors/", times3).data
         self.assertEqual(len(tutors), 1)
-        self.assertEqual(tutors[0]['profile'], user.id)
+        self.assertEqual(tutors[0]['profile']['user'], user.id)
 
         times3['mon'] = 0xF3E0 #0b1111001111100000
         times3['total'] = 7
         times3['minInterval'] = 3
         tutors = self.client.get("/tutors/", times3).data
         self.assertEqual(len(tutors), 1)
-        self.assertEqual(tutors[0]['profile'], user.id)
+        self.assertEqual(tutors[0]['profile']['user'], user.id)
 
         times3['total'] = 8
         tutors = self.client.get("/tutors/", times3).data
+        self.assertEqual(len(tutors), 0)
+
+        # check for lectures
+        self.client.force_login(user)
+        self.client.put("/tutor/{0}/".format(user.id), {'lectures': [2, 4, 6]})
+        self.client.force_login(other_user)
+        self.client.put("/tutor/{0}/".format(other_user.id), {'lectures': [1, 2, 3, 4]})
+        self.client.force_login(korean_user)
+        self.client.put("/tutor/{0}/".format(korean_user.id), {'lectures': [4, 5]})
+        tutors = self.client.get("/tutors/?lecture=4").data
+        self.assertEqual(len(tutors), 3)
+        tutors = self.client.get("/tutors/?lecture=2").data
+        self.assertEqual(len(tutors), 2)
+        tutors = self.client.get("/tutors/?lecture=1").data
+        self.assertEqual(len(tutors), 1)
+        tutors = self.client.get("/tutors/?lecture=7").data
         self.assertEqual(len(tutors), 0)
 
     def test_lectures_database(self):
