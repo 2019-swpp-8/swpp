@@ -7,8 +7,8 @@ const TutorRow = ({tutor}) => {
   <tr className="position-relative">
     <td> <Link className="stretched-link" to={'/profile/' + tutor['profile']['user']}>{tutor['profile']['name']}</Link> </td>
     <td> {tutor['profile']['major']} </td>
-    <td> {_(tutor['bio']).truncate(({length: 50}))} </td>
-    <td> {_(tutor['exp']).truncate(({length: 50}))} </td>
+    <td> {_(tutor['bio']).truncate(({length: 30}))} </td>
+    <td> {_(tutor['exp']).truncate(({length: 30}))} </td>
   </tr>
 };
 
