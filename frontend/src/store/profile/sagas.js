@@ -16,6 +16,25 @@ export function* getProfile(dat) {
   }
 }
 
+export function* putProfile(dat) {
+  try {
+    const payload = dat.payload;
+    const id = payload.id;
+    const name = payload.name;
+    const major = payload.major;
+    yield call([api, api.put], '/profile/' + id + '/', {
+        name: payload.name, major: payload.major
+    }, {
+      headers: { "X-CSRFToken": ('; '+document.cookie).split('; csrftoken=').pop().split(';').shift() },
+      credentials: "include"
+    });
+    yield put(actions.updateProfile(id, profile.name, profile.major));
+  } catch (e) {
+
+  }
+}
+
 export default function* () {
   yield takeEvery(actions.GET_PROFILE, getProfile);
+  yield takeEvery(actions.PUT_PROFILE, putProfile);
 }

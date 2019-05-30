@@ -54,7 +54,7 @@ class TutorListPage extends React.Component {
               <input name="exp" type="text" className="form-control" id="tutorlist-exp" onChange={this.handleInputChange} />
             </div>
             <div className="form-group col-md-5" style={{ verticalAlign:'middle' }}>
-              <label htmlFor="tutorlist-submit"></label><br />
+              <label htmlFor="tutorlist-submit"> &nbsp; </label><br />
               <button id="tutorlist-submit" type="submit" className="btn btn-primary mb-2">검색</button>
             </div>
           </div>
