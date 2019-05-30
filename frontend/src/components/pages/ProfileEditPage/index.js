@@ -14,7 +14,6 @@ class ProfileEditPage extends React.Component {
   }
 
   componentDidMount() {
-    console.log(this.props);
     this.props.getProfile(this.props.user.id);
   }
 
