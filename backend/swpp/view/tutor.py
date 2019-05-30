@@ -20,8 +20,7 @@ class TutorFilterBackend(DjangoFilterBackend):
                 queryset = queryset.filter(pk__in=pks)
         if 'lecture' in request.GET:
             lecture = request.GET['lecture']
-            pks = [q.pk for q in queryset if q.lectures.filter(id=lecture).exists()]
-            queryset = queryset.filter(pk__in=pks)
+            queryset = queryset.filter(lectures__id=lecture)
         return queryset.filter(bio__icontains=req_bio, exp__icontains=req_exp)
 
 class TutorList(generics.ListAPIView):
