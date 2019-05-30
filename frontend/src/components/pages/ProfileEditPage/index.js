@@ -56,8 +56,8 @@ class ProfileEditPage extends React.Component {
             <input type="text" name="major" className="form-control" id="profileedit-major" placeholder={profile.major} onChange={this.handleInputChange} />
           </div>
           <div className="form-group col-md-5" style={{ verticalAlign:'middle' }}>
-            <label htmlFor="profileedit-submit">사실 뻥이고 수정 안 돼요</label><br />
-            <button id="profileedit-submit" type="submit" className="btn btn-primary mb-2">수정?</button>
+            <label htmlFor="profileedit-submit"></label><br />
+            <button id="profileedit-submit" type="submit" className="btn btn-primary mb-2">수정</button>
           </div>
         </form>
         </div>
