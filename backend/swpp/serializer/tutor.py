@@ -11,7 +11,7 @@ class TutorSerializer(serializers.ModelSerializer):
     class Meta:
         model = Tutor
         fields = ('profile', 'bio', 'exp', 'lectures', 'times', 'tutoringTimes', 'requests')
-        read_only_fields = ('tutoringTimes')
+        read_only_fields = ('times', 'tutoringTimes',)
 
     def validate(self, data):
         times = data.get(times)
@@ -29,5 +29,5 @@ class TutorRecursiveSerializer(serializers.ModelSerializer):
     class Meta:
         model = Tutor
         fields = ('profile', 'bio', 'exp', 'lectures', 'times', 'tutoringTimes', 'requests')
-        read_only_fields = ('tutoringTimes')
+        read_only_fields = ('tutoringTimes',)
         depth = 1
