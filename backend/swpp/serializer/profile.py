@@ -25,7 +25,7 @@ class ProfileSerializer(serializers.ModelSerializer):
 
     def validate(self, data):
         phone = re.compile('01\d-\d{3,4}-\d{4}')
-        if re.fullmatch(phone, data.get('contact')) == None:
+        if data.get('contact') and re.fullmatch(phone, data.get('contact')) == None:
             raise serializers.ValidationError("연락처가 010-1234-5678 형태로 입력되지 않았습니다.")
 
         return data
