@@ -14,4 +14,8 @@ class Tutor(models.Model):
     bio = models.TextField(default = '')
     exp = models.TextField(default = '')
     lectures = models.ManyToManyField(Lecture)
-    times = AutoOneToOneField(Times, on_delete=models.CASCADE, null = False, default = default_times)
+    times = AutoOneToOneField(Times, on_delete=models.CASCADE, null = False,
+                              related_name='times', default = default_times)
+    tutoringTimes = AutoOneToOneField(Times, on_delete=models.CASCADE, null = False,
+                                      related_name='tutoringTimes', default = default_times)
+    # 1 when tutoring at that time, 0 otherwise
