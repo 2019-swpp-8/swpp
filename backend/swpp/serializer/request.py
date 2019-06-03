@@ -4,4 +4,4 @@ from swpp.models import Request
 class RequestSerializer(serializers.ModelSerializer):
     class Meta:
         model = Request
-        fields = ('id', 'tutor', 'tutee', 'lecture', 'detail', 'payment', 'times')
+        fields = ('id', 'tutor', 'tutee', 'lecture', 'detail', 'payment', 'times', 'status')

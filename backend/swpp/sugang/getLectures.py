@@ -23,7 +23,7 @@ df.to_csv(path_or_buf = './lectures.csv', index = False)
 
 def createLectureFixture(df):
     fix = open('../fixtures/initial_data.json', 'w', encoding = 'utf8')
-    first, df = df.iloc[0], df.iloc[1:]
+    df, last = df.iloc[:-1], df.iloc[-1]
     print('[', file = fix)
 
     def jsonItem(index, title, prof):
@@ -38,7 +38,7 @@ def createLectureFixture(df):
         print(jsonItem(index, row['교과목명'], row['주담당교수']), file = fix, end = ',\n')
         index += 1
 
-    print(jsonItem(index, row['교과목명'], row['주담당교수']), file = fix, end = '\n]')
+    print(jsonItem(index, last['교과목명'], last['주담당교수']), file = fix, end = '\n]')
     fix.close()
               
 createLectureFixture(df)
