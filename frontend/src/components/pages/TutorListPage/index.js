@@ -1,9 +1,27 @@
 // https://github.com/diegohaz/arc/wiki/Atomic-Design
 import React from 'react'
-import {NavBar} from 'components'
+import { NavBar, TutorRow } from 'components'
 import { withRouter } from 'react-router-dom';
 
 class TutorListPage extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {bio: '', exp: ''};
+
+    this.handleInputChange = this.handleInputChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
+  }
+
+  handleInputChange(event) {
+    const target = event.target;
+    const value = target.value;
+    const name = target.name;
+
+    this.setState({
+      [name]: value
+    });
+  }
+
   componentDidMount() {
     this.props.getTutorList("", "");
   }
@@ -11,34 +29,49 @@ class TutorListPage extends React.Component {
   componentDidUpdate() {
   }
 
+  handleSubmit(event) {
+    this.props.getTutorList(this.state['bio'], this.state['exp']);
+    event.preventDefault();
+  }
+
   render() {
     const {user, tutorlist} = this.props;
+    const tutorList = Array.isArray(tutorlist.dat) ? tutorlist.dat.map(i => (
+      <TutorRow key={i['profile']['user']} tutor={i} />
+    )) : <tr></tr>;
     return (
       <div>
         <NavBar user={user} />
         <div className="container mt-3">
-        <form className="form">
+        <form className="form" onSubmit={this.handleSubmit}>
           <div className="form-row">
             <div className="form-group col-md-3">
               <label htmlFor="tutorlist-bio">소개</label>
-              <input type="text" className="form-control" id="tutorlist-bio" />
+              <input name="bio" type="text" className="form-control" id="tutorlist-bio" onChange={this.handleInputChange} />
             </div>
             <div className="form-group col-md-3">
               <label htmlFor="tutorlist-exp">경력</label>
-              <input type="text" className="form-control" id="tutorlist-exp" />
+              <input name="exp" type="text" className="form-control" id="tutorlist-exp" onChange={this.handleInputChange} />
             </div>
             <div className="form-group col-md-5" style={{ verticalAlign:'middle' }}>
-              <label htmlFor="tutorlist-submit">사실 뻥이고 frontend 검색 구현 아직 안 했어요</label><br />
+              <label htmlFor="tutorlist-submit"> &nbsp; </label><br />
               <button id="tutorlist-submit" type="submit" className="btn btn-primary mb-2">검색</button>
             </div>
           </div>
         </form>
-        예쁘게 표시하는건 구현 안 했어요 죄송합니다! ㅠㅠ
-        <code>
-          <pre>
-            {JSON.stringify(tutorlist, null, 4)}
-          </pre>
-        </code>
+        <table className="table table-hover">
+          <thead>
+            <tr>
+              <th> 이름 </th>
+              <th> 전공 </th>
+              <th> 소개 </th>
+              <th> 경력 </th>
+            </tr>
+          </thead>
+          <tbody>
+            {tutorList}
+          </tbody>
+        </table>
         </div>
       </div>
     );

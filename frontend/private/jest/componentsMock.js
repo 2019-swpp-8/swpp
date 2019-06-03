@@ -14,6 +14,8 @@ module.exports = new Proxy({}, {
       children: PropTypes.any,
     }
 
+    Mock(0);
+
     return Mock
   },
 })

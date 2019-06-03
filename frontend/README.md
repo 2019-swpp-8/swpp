@@ -7,3 +7,8 @@ npm install
 npm run dev
 ```
 브라우저로 localhost:3000에 가셔서 테스트하시면 됩니다.
+
+## Testing
+```bash
+npm test -- --coverage
+```
