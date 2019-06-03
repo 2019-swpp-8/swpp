@@ -3,12 +3,6 @@ from swpp.models import Profile
 from swpp.serializer.request import RequestSerializer
 import re
 
-'''
-from rest_framework_serializer_field_permissions import fields
-from rest_framework_serializer_field_permissions.serializers import FieldPermissionSerializerMixin
-from rest_framework_serializer_field_permissions.permissions import BaseFieldPermission
-'''
-
 class PrivateField(serializers.Field):
     def get_attribute(self, obj):
         return obj
@@ -25,18 +19,9 @@ class ProfileSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Profile
-        fields = ('user', 'name', 'joined', 'major', 'contact', 'tags', 'tutor', 'requests') # requests?
-        '''
-        class IsOwner(BaseFieldPermission):
-        def has_permission(self, request):
-        return request.user == data.get('user')
-
-
-contact = fields.CharField(permission_classes=(IsOwner(), ))
-    '''
+        fields = ('user', 'name', 'joined', 'major', 'contact', 'tags', 'tutor', 'requests')
 
     contact = PrivateField()
-
 
     def validate(self, data):
         phone = re.compile('01\d-\d{3,4}-\d{4}')

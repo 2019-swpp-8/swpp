@@ -16,4 +16,3 @@ class LectureList(generics.ListAPIView):
     serializer_class = LectureSerializer
     filter_backends = (LectureFilterBackend,)
     filterset_fields = ('title', 'prof')
-
