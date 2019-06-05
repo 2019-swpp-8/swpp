@@ -165,22 +165,28 @@ class LowLevelTests(APITestCase):
     def test_tutor_filter(self):
         user = self.create_user('iidd', 'ppww')
         data = {'bio': 'my bio', 'exp': 'MY EXP'}
+        prof = {'major': 'my major'}
 
         other_user = self.create_user('idother', 'pwother')
         other_data = {'bio': 'YOUR BIO', 'exp': 'your exp'}
+        other_prof = {'major': 'your major'}
 
         korean_user = self.create_user('idkorean', 'pwkorean')
         korean_data = {'bio': '자기소개', 'exp': '경력'}
+        korean_prof = {'major': '전공'}
 
         users = self.client.get("/users/").data
         profiles = self.client.get("/profiles/").data
 
         self.client.force_login(user)
         self.client.put("/tutor/{0}/".format(user.id), data)
+        self.client.put("/profile/{0}/".format(user.id), prof)
         self.client.force_login(other_user)
         self.client.put("/tutor/{0}/".format(other_user.id), other_data)
+        self.client.put("/profile/{0}/".format(other_user.id), other_prof)
         self.client.force_login(korean_user)
         self.client.put("/tutor/{0}/".format(korean_user.id), korean_data)
+        self.client.put("/profile/{0}/".format(korean_user.id), korean_prof)
 
         tutors = self.client.get("/tutors/").data
         self.assertEqual(len(tutors), 3)
@@ -195,6 +201,13 @@ class LowLevelTests(APITestCase):
         tutors = self.client.get("/tutors/", {'bio': 'ur b'}).data
         self.assertEqual(len(tutors), 1)
         self.assertEqual(tutors[0]['profile']['user'], other_user.id)
+
+        tutors = self.client.get("/tutors/?major=major").data
+        self.assertEqual(len(tutors), 2)
+
+        tutors = self.client.get("/tutors/", {'major': '전'}).data
+        self.assertEqual(len(tutors), 1)
+        self.assertEqual(tutors[0]['profile']['user'], korean_user.id)
 
         # check for times
         times1 = {'mon': 0x3DC0, #0b0011110111000000

@@ -9,6 +9,7 @@ class TutorFilterBackend(DjangoFilterBackend):
     def filter_queryset(self, request, queryset, view):
         req_bio = request.GET['bio'] if ('bio' in request.GET) else ''
         req_exp = request.GET['exp'] if ('exp' in request.GET) else ''
+        req_major = request.GET['major'] if ('major' in request.GET) else ''
         if 'total' in request.GET:
             times = TimesSerializer(data = { key:request.GET[key] for key
                                              in ['mon', 'tue', 'wed',
@@ -21,13 +22,15 @@ class TutorFilterBackend(DjangoFilterBackend):
         if 'lecture' in request.GET:
             lecture = request.GET['lecture']
             queryset = queryset.filter(lectures__id=lecture)
-        return queryset.filter(bio__icontains=req_bio, exp__icontains=req_exp)
+
+
+        return queryset.filter(bio__icontains=req_bio, exp__icontains=req_exp, profile__major__icontains=req_major)
 
 class TutorList(generics.ListAPIView):
     queryset = Tutor.objects.all()
     serializer_class = TutorRecursiveSerializer
     filter_backends = (TutorFilterBackend,)
-    filterset_fields = ('bio', 'exp')
+    filterset_fields = ('bio', 'exp', 'major')
 
 class TutorDetails(generics.RetrieveUpdateAPIView):
     permission_classes = (IsOwnerOrReadOnly,)
