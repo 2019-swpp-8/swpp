@@ -18,7 +18,9 @@ class RequestList(generics.ListCreateAPIView):
         t.sat = request.data['sat']
         t.sun = request.data['sun']
         t.save()
-        request.data['times'] = t.pk
+        request.data._mutable = True
+        request.data.update({'times': t.pk})
+        request.data._mutable = False
         return self.create(request, *args, **kwargs)
 
 class RequestDetails(generics.RetrieveDestroyAPIView):

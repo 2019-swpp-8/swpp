@@ -323,6 +323,19 @@ class LowLevelTests(APITestCase):
         lectures = self.client.get("/lectures/", lecture).data
         self.assertEqual(len(lectures), 0)
 
+    def test_request(self):
+        user1 = self.create_user('id1', 'pw2')
+        user2 = self.create_user('id3', 'pw4')
+        self.client.get("/users/").data
+        self.client.get("/profiles/").data
+        self.client.get("/tutors/").data
+        request = {'tutor': user1.id, 'tutee': user2.id, 'lecture': 1, 'detail': "a", 'payment': "b",
+            'mon': 1, 'tue': 2, 'wed': 1, 'thu': 2, 'fri': 1, 'sat': 2, 'sun': 1}
+        self.client.post("/requests/", request)
+        requests = self.client.get("/requests/").data
+        self.assertEqual(len(requests), 1)
+        #self.assertEqual(requests[0]['times']['mon'], 2)
+
 class HighLevelTests(APITransactionTestCase):
     def setUp(self):
         self.User = get_user_model()
