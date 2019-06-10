@@ -9,6 +9,7 @@ const TutorRow = ({tutor}) => {
     <td> {tutor['profile']['major']} </td>
     <td> {_(tutor['bio']).truncate(({length: 30}))} </td>
     <td> {_(tutor['exp']).truncate(({length: 30}))} </td>
+    <td> <Link to={'/request/' + tutor['profile']['user']} className="btn btn-outline-primary">신청</Link> </td>
   </tr>
 };
 

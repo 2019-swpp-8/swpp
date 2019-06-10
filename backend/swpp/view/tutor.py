@@ -30,7 +30,7 @@ class TutorList(generics.ListAPIView):
     queryset = Tutor.objects.all()
     serializer_class = TutorRecursiveSerializer
     filter_backends = (TutorFilterBackend,)
-    filterset_fields = ('bio', 'exp', 'major')
+    filterset_fields = ('bio', 'exp')
 
 class TutorDetails(generics.RetrieveUpdateAPIView):
     permission_classes = (IsOwnerOrReadOnly,)
