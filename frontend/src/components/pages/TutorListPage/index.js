@@ -66,6 +66,7 @@ class TutorListPage extends React.Component {
               <th> 전공 </th>
               <th> 소개 </th>
               <th> 경력 </th>
+              <th> 신청 </th>
             </tr>
           </thead>
           <tbody>
