@@ -7,8 +7,7 @@ class TimesList(generics.ListAPIView):
     queryset = Times.objects.all()
     serializer_class = TimesSerializer
 
-class TimesDetails(generics.RetrieveAPIView,
-                   mixins.UpdateModelMixin):
+class TimesDetails(generics.RetrieveUpdateAPIView):
     queryset = Times.objects.all()
     serializer_class = TimesSerializer
 

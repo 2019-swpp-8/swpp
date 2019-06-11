@@ -11,16 +11,19 @@ class TutorSerializer(serializers.ModelSerializer):
     class Meta:
         model = Tutor
         fields = ('profile', 'bio', 'exp', 'lectures', 'times', 'tutoringTimes', 'requests')
-        read_only_fields = ('times', 'tutoringTimes',)
+        read_only_fields = ('tutoringTimes',)
 
+'''
     def validate(self, data):
-        times = data.get(times)
-        tutoringTimes = data.get(tutoringTimes)
-        for day in ['mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun']:
-            if times[day] & tutoringTimes[day]:
-                raise serializers.ValidationError("튜터링 중인 시간을 가능하다고 표시했습니다.")
+        print(data)
+        if 'times' in data:
+            times = data.get('times')
+            for day in ['mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun']:
+                if times[day] & self.tutoringTimes[day]:
+                    raise serializers.ValidationError("튜터링 중인 시간을 가능하다고 표시했습니다.")
 
         return data
+'''
         
 class TutorRecursiveSerializer(serializers.ModelSerializer):
     requests = RequestSerializer(many = True, read_only = True)
@@ -29,5 +32,4 @@ class TutorRecursiveSerializer(serializers.ModelSerializer):
     class Meta:
         model = Tutor
         fields = ('profile', 'bio', 'exp', 'lectures', 'times', 'tutoringTimes', 'requests')
-        read_only_fields = ('tutoringTimes',)
         depth = 1
