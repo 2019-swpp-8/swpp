@@ -10,9 +10,9 @@ export const getProfile = (id) => ({
   payload: id,
 });
 
-export const updateProfile = (id, name, major) => ({
+export const updateProfile = (id, name, major, tutor) => ({
   type: UPDATE_PROFILE,
-  payload: { id, name, major },
+  payload: { id, name, major, tutor },
 });
 
 export const putProfile = (id, name, major) => ({
