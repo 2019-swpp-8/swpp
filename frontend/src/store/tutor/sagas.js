@@ -12,6 +12,25 @@ export function* getTutor(dat) {
   }
 }
 
+export function* putTutor(dat) {
+  try {
+    const payload = dat.payload;
+    const id = payload.id;
+    const bio = payload.bio;
+    const exp = payload.exp;
+    yield call([api, api.put], '/tutor/' + id + '/', {
+        bio: payload.bio, exp: payload.exp
+    }, {
+      headers: { "X-CSRFToken": ('; '+document.cookie).split('; csrftoken=').pop().split(';').shift() },
+      credentials: "include"
+    });
+    yield put(actions.updateTutor(id, payload.bio, payload.exp));
+  } catch (e) {
+
+  }
+}
+
 export default function* () {
   yield takeEvery(actions.GET_TUTOR, getTutor);
+  yield takeEvery(actions.PUT_TUTOR, putTutor);
 }

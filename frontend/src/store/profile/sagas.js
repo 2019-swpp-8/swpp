@@ -9,8 +9,8 @@ export function* getProfile(dat) {
     yield put(actions.updateProfile(id, '로딩중...', '로딩중...'));
     yield put(tutorActions.updateTutor(id, '로딩중...', '로딩중...'));
     const profile = yield call([api, api.get], '/profile/' + id + '/', {credentials: 'include'});
-    yield put(actions.updateProfile(id, profile.name, profile.major));
-    yield put(tutorActions.getTutor(id));
+    yield put(actions.updateProfile(id, profile.name, profile.major, profile.tutor));
+    yield put(tutorActions.getTutor(profile.tutor));
   } catch (e) {
 
   }
@@ -28,7 +28,7 @@ export function* putProfile(dat) {
       headers: { "X-CSRFToken": ('; '+document.cookie).split('; csrftoken=').pop().split(';').shift() },
       credentials: "include"
     });
-    yield put(actions.updateProfile(id, profile.name, profile.major));
+    yield put(actions.updateProfile(id, payload.name, payload.major));
   } catch (e) {
 
   }
