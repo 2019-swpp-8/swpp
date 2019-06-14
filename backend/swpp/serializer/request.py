@@ -4,6 +4,8 @@ from swpp.models import Request, Times, Tutor
 class RequestWriteSerializer(serializers.ModelSerializer):
     def validate(self, data):
         if 'tutor' in data:
+            if data['tutor'] == data['tutee'].tutor:
+                raise serializers.ValidationError('자신에게 튜터링을 신청할 수 없습니다.')
             tutor_times = data['tutor'].times
             request_times = data['times']
             for day in ('mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun'):

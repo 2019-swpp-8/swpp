@@ -350,6 +350,12 @@ class LowLevelTests(APITestCase):
         requests = self.client.get("/requests/").data
         self.assertEqual(len(requests), 1)
 
+        request['sun'] = 8
+        self.assertTrue(self.client.post("/requests/", request).status_code >= 400)
+        request['sun'] = 0
+        request['tutee'] = 1
+        self.assertTrue(self.client.post("/requests/", request).status_code >= 400)
+
         self.assertEqual(requests[0]['times']['mon'], 1)
         self.assertEqual(requests[0]['times']['sat'], 2)
 
