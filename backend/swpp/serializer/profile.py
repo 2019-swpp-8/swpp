@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from swpp.models import Profile
-from swpp.serializer.request import RequestSerializer
+from swpp.serializer.request import RequestRecursiveSerializer
 import re
 
 class PrivateField(serializers.Field):
@@ -15,7 +15,7 @@ class PrivateField(serializers.Field):
         return data
 
 class ProfileSerializer(serializers.ModelSerializer):
-    requests = RequestSerializer(many = True, read_only = True)
+    requests = RequestRecursiveSerializer(many = True, read_only = True)
 
     class Meta:
         model = Profile

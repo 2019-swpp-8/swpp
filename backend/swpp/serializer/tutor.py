@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from swpp.models import Tutor
-from swpp.serializer.request import RequestSerializer
+from swpp.serializer.request import RequestSerializer, RequestRecursiveSerializer
 from swpp.serializer.times import TimesSerializer
 from swpp.serializer.profile import ProfileSerializer
 
@@ -26,7 +26,7 @@ class TutorSerializer(serializers.ModelSerializer):
 '''
         
 class TutorRecursiveSerializer(serializers.ModelSerializer):
-    requests = RequestSerializer(many = True, read_only = True)
+    requests = RequestRecursiveSerializer(many = True, read_only = True)
     profile = ProfileSerializer(read_only = True)
 
     class Meta:

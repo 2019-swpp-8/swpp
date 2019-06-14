@@ -12,8 +12,8 @@ class TutorFilterBackend(DjangoFilterBackend):
         req_major = request.GET['major'] if ('major' in request.GET) else ''
         if 'total' in request.GET:
             times = TimesSerializer(data = { key:request.GET[key] for key
-                                             in ['mon', 'tue', 'wed',
-                                             'thu', 'fri', 'sat', 'sun'] })
+                                             in ('mon', 'tue', 'wed',
+                                             'thu', 'fri', 'sat', 'sun') })
             total = int(request.GET['total'])
             if times.is_valid() and total > 0:
                 minInterval = int(request.GET['minInterval']) if 'minInterval' in request.GET else 1
@@ -22,7 +22,6 @@ class TutorFilterBackend(DjangoFilterBackend):
         if 'lecture' in request.GET:
             lecture = request.GET['lecture']
             queryset = queryset.filter(lectures__id=lecture)
-
 
         return queryset.filter(bio__icontains=req_bio, exp__icontains=req_exp, profile__major__icontains=req_major)
 

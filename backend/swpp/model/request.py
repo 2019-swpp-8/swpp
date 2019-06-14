@@ -12,4 +12,9 @@ class Request(models.Model):
     detail = models.TextField(null = True)
     payment = models.TextField(default = '')
     times = AutoOneToOneField(Times, on_delete=models.CASCADE, null = False)
-    status = models.PositiveSmallIntegerField(default = 0) # 0 - queued, 1 - accepted, 2 - completed
+    STATUS = (
+            (0, '수락 대기중'),
+            (1, '수락함'),
+            (2, '완료함')
+        )
+    status = models.PositiveSmallIntegerField(choices = STATUS, default = 0) # 0 - queued, 1 - accepted, 2 - completed

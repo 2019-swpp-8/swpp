@@ -9,3 +9,9 @@ class RequestSerializer(serializers.ModelSerializer):
     def validate(self, data):
         # FIXME
         return data
+
+class RequestRecursiveSerializer(serializers.ModelSerializer):
+    class Meta:
+        depth = 1
+        model = Request
+        fields = ('id', 'tutor', 'tutee', 'lecture', 'detail', 'payment', 'times', 'status')
