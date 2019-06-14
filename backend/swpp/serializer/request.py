@@ -1,17 +1,16 @@
 from rest_framework import serializers
-from swpp.models import Request, Times
+from swpp.models import Request
+#from swpp.serializer.tutor import TutorReadSerializer
 
-class RequestSerializer(serializers.ModelSerializer):
+class RequestWriteSerializer(serializers.ModelSerializer):
     class Meta:
         model = Request
         fields = ('id', 'tutor', 'tutee', 'lecture', 'detail', 'payment', 'times', 'status')
 
-    def validate(self, data):
-        # FIXME
-        return data
+class RequestReadSerializer(serializers.ModelSerializer):
+    #tutor = TutorReadSerializer(read_only = True)
 
-class RequestRecursiveSerializer(serializers.ModelSerializer):
     class Meta:
-        depth = 1
         model = Request
         fields = ('id', 'tutor', 'tutee', 'lecture', 'detail', 'payment', 'times', 'status')
+        depth = 2
