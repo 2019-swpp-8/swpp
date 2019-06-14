@@ -332,9 +332,33 @@ class LowLevelTests(APITestCase):
         request = {'tutor': user1.id, 'tutee': user2.id, 'lecture': 1, 'detail': "a", 'payment': "b",
             'mon': 1, 'tue': 2, 'wed': 1, 'thu': 2, 'fri': 1, 'sat': 2, 'sun': 1}
         self.client.post("/requests/", request)
+
         requests = self.client.get("/requests/").data
         self.assertEqual(len(requests), 1)
-        #self.assertEqual(requests[0]['times']['mon'], 2)
+        self.assertEqual(requests[0]['times']['mon'], 1)
+        self.assertEqual(requests[0]['times']['sat'], 2)
+
+        requests = self.client.get("/requests/?tutor=&tutee=").data
+        self.assertEqual(len(requests), 1)
+        requests = self.client.get("/requests/", {'tutor': user1.id}).data
+        self.assertEqual(len(requests), 1)
+        requests = self.client.get("/requests/", {'tutee': user2.id}).data
+        self.assertEqual(len(requests), 1)
+        requests = self.client.get("/requests/", {'tutor': user2.id}).data
+        self.assertEqual(len(requests), 0)
+        requests = self.client.get("/requests/", {'tutee': user1.id}).data
+        self.assertEqual(len(requests), 0)
+        requests = self.client.get("/requests/", {'tutor': user1.id, 'tutee': user2.id}).data
+        self.assertEqual(len(requests), 1)
+        requests = self.client.get("/requests/", {'tutor': user2.id, 'tutee': user1.id}).data
+        self.assertEqual(len(requests), 0)
+
+        request = self.client.get("/request/1/").data
+        self.assertEqual(request['status'], 0)
+        request = self.client.put("/request/1/", {'status': 1}).data
+        self.assertEqual(request['status'], 1)
+        request = self.client.put("/request/1/", {'status': 2}).data
+        self.assertEqual(request['status'], 2)
 
 class HighLevelTests(APITransactionTestCase):
     def setUp(self):

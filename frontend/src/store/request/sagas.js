@@ -1,4 +1,5 @@
 import * as actions from './actions'
+import * as requestListActions from '../requestlist/actions'
 import api from 'services/api'
 import { put, call, select, takeEvery } from 'redux-saga/effects'
 
@@ -29,6 +30,42 @@ export function* postRequest(dat) {
   }
 }
 
+export function* deleteRequest(dat) {
+  try {
+    const payload = dat.payload;
+    const request_id = payload.request_id;
+    const user_id = payload.user_id;
+    yield call([api, api.delete], '/request/' + request_id + '/', {
+      headers: { "X-CSRFToken": ('; '+document.cookie).split('; csrftoken=').pop().split(';').shift() },
+      credentials: "include"
+    });
+  } catch (e) {
+
+  }
+  yield put(requestListActions.getRequestList(dat.payload.user_id));
+}
+
+export function* changeRequestStatus(dat) {
+  try {
+    const payload = dat.payload;
+    const request_id = payload.request_id;
+    const status = payload.status;
+    const user_id = payload.user_id;
+
+    yield call([api, api.put], '/request/' + request_id + '/', {
+        status
+    }, {
+      headers: { "X-CSRFToken": ('; '+document.cookie).split('; csrftoken=').pop().split(';').shift() },
+      credentials: "include"
+    });
+    yield put(requestListActions.getRequestList(user_id));
+  } catch (e) {
+
+  }
+}
+
 export default function* () {
   yield takeEvery(actions.POST_REQUEST, postRequest);
+  yield takeEvery(actions.DELETE_REQUEST, deleteRequest);
+  yield takeEvery(actions.CHANGE_REQUEST_STATUS, changeRequestStatus);
 }

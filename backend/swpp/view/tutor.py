@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from swpp.models import Tutor
-from swpp.serializers import TutorSerializer, TutorRecursiveSerializer, TimesSerializer
+from swpp.serializers import TutorWriteSerializer, TutorReadSerializer, TimesSerializer
 from swpp.permissions import IsOwnerOrReadOnly
 from rest_framework import generics
 from django_filters.rest_framework import DjangoFilterBackend
@@ -22,20 +22,18 @@ class TutorFilterBackend(DjangoFilterBackend):
         if 'lecture' in request.GET:
             lecture = request.GET['lecture']
             queryset = queryset.filter(lectures__id=lecture)
-
-
         return queryset.filter(bio__icontains=req_bio, exp__icontains=req_exp, profile__major__icontains=req_major)
 
 class TutorList(generics.ListAPIView):
     queryset = Tutor.objects.all()
-    serializer_class = TutorRecursiveSerializer
+    serializer_class = TutorReadSerializer
     filter_backends = (TutorFilterBackend,)
     filterset_fields = ('bio', 'exp')
 
 class TutorDetails(generics.RetrieveUpdateAPIView):
     permission_classes = (IsOwnerOrReadOnly,)
     queryset = Tutor.objects.all()
-    serializer_class = TutorSerializer
+    serializer_class = TutorWriteSerializer
 
     def put(self, request, *args, **kwargs):
         return self.partial_update(request, *args, **kwargs)
