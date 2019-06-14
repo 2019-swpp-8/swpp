@@ -7,7 +7,7 @@ it('renders and all callbacks work', () => {
     loggedIn: true,
     username: 'a',
     id: 1,
-  }} profile={{id: 2, name: 'b', major: 'c'}} tutor={{}} getProfile={()=>{}} putProfile={()=>{}}/>);
+  }} profile={{id: 2, name: 'b', major: 'c'}} tutor={{}} putTutor={()=>{}} getProfile={()=>{}} putProfile={()=>{}}/>);
   wrapper.setProps({profile: {id: 2, name: 'b', major: 'd'}});
   wrapper.setProps({profile: {id: 1, name: 'b', major: 'd'}});
   wrapper.find('#profileedit-name').simulate('change', {
@@ -28,6 +28,18 @@ it('renders and all callbacks work', () => {
   wrapper.find('#profileedit-major').simulate('change', {
     target: {
       name: 'major',
+      value: '',
+    },
+  });
+  wrapper.find('#profileedit-exp').simulate('change', {
+    target: {
+      name: 'exp',
+      value: '',
+    },
+  });
+  wrapper.find('#profileedit-bio').simulate('change', {
+    target: {
+      name: 'bio',
       value: '',
     },
   });
