@@ -4,5 +4,4 @@ from swpp.serializer.tutor import TutorWriteSerializer, TutorReadSerializer
 
 from swpp.serializer.lecture import LectureSerializer
 from swpp.serializer.request import RequestWriteSerializer, RequestReadSerializer
-from swpp.serializer.tag import TagSerializer
 from swpp.serializer.times import TimesSerializer

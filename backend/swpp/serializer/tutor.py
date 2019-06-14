@@ -12,7 +12,7 @@ class TutorWriteSerializer(serializers.ModelSerializer):
         model = Tutor
         fields = ('profile', 'bio', 'exp', 'lectures', 'times', 'tutoringTimes', 'requests')
 
-class TutorRecursiveSerializer(serializers.ModelSerializer):
+class TutorReadSerializer(serializers.ModelSerializer):
     requests = RequestWriteSerializer(many = True, read_only = True)
     profile = ProfileSerializer(read_only = True)
 

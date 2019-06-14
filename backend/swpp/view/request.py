@@ -1,7 +1,8 @@
 from django.shortcuts import render
 from swpp.models import Request, Times, Tutor
-from swpp.serializers import RequestWriteSerializer, RequestReadSerializer
+from swpp.serializers import RequestWriteSerializer, RequestReadSerializer, TimesSerializer
 from rest_framework import generics
+from rest_framework.response import Response
 from django_filters.rest_framework import DjangoFilterBackend
 
 days = ('mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun')
@@ -31,7 +32,8 @@ class RequestList(generics.ListCreateAPIView):
     def post(self, request, *args, **kwargs):
         serializer = TimesSerializer(data = { key:request.POST.get(key) for key in days })
         if serializer.is_valid(): times = serializer.save()
-        else: return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        else: return Response(serializer.errors, status=404)
+        if hasattr(request.data, '_mutable'): request.data._mutable = True
         request.data.update({'times': times.id})
         return self.create(request, *args, **kwargs)
 
@@ -41,8 +43,12 @@ class RequestDetails(generics.RetrieveUpdateDestroyAPIView):
 
     def put(self, request, *args, **kwargs):
         response = self.partial_update(request, *args, **kwargs)
-        if response.status_code < 300 and request.PUT.get('status', 0): # upon status update
-            request_ = Request.objects.get(pk = request.PUT.get('pk'))
-            request_.tutor.times.flip(request_.times)
-            request_.tutor.tutoringTimes.flip(request_.times)
+        if response.status_code < 300 and request.POST.get('status', 0): # upon status update
+            request_ = Request.objects.get(pk = kwargs['pk'])
+            times = request_.tutor.times
+            times.flip(request_.times)
+            times.save()
+            tutoringTimes = request_.tutor.tutoringTimes
+            tutoringTimes.flip(request_.times)
+            tutoringTimes.save()
         return response

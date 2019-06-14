@@ -10,7 +10,7 @@ class Times(models.Model):
     sat = models.BigIntegerField(default = 0)
     sun = models.BigIntegerField(default = 0)
 
-    # other is requst.PUT
+    # other is Times
     def flip(self, other):
         self.mon ^= other.mon
         self.tue ^= other.tue
