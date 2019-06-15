@@ -19,7 +19,7 @@ class ProfileSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Profile
-        fields = ('user', 'name', 'joined', 'major', 'contact', 'tags', 'tutor', 'requests')
+        fields = ('user', 'name', 'joined', 'major', 'contact', 'tutor', 'requests')
 
     contact = PrivateField()
 

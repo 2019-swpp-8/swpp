@@ -10,7 +10,7 @@ class TutorWriteSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Tutor
-        fields = ('profile', 'bio', 'exp', 'lectures', 'times', 'requests')
+        fields = ('profile', 'bio', 'exp', 'lectures', 'times', 'tutoringTimes', 'requests')
 
 class TutorReadSerializer(serializers.ModelSerializer):
     requests = RequestWriteSerializer(many = True, read_only = True)
@@ -18,5 +18,5 @@ class TutorReadSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Tutor
-        fields = ('profile', 'bio', 'exp', 'lectures', 'times', 'requests')
+        fields = ('profile', 'bio', 'exp', 'lectures', 'times', 'tutoringTimes', 'requests')
         depth = 1

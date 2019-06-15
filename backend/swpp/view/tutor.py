@@ -12,8 +12,8 @@ class TutorFilterBackend(DjangoFilterBackend):
         req_major = request.GET['major'] if ('major' in request.GET) else ''
         if 'total' in request.GET:
             times = TimesSerializer(data = { key:request.GET[key] for key
-                                             in ['mon', 'tue', 'wed',
-                                             'thu', 'fri', 'sat', 'sun'] })
+                                             in ('mon', 'tue', 'wed',
+                                             'thu', 'fri', 'sat', 'sun') })
             total = int(request.GET['total'])
             if times.is_valid() and total > 0:
                 minInterval = int(request.GET['minInterval']) if 'minInterval' in request.GET else 1
@@ -28,7 +28,6 @@ class TutorList(generics.ListAPIView):
     queryset = Tutor.objects.all()
     serializer_class = TutorReadSerializer
     filter_backends = (TutorFilterBackend,)
-    filterset_fields = ('bio', 'exp')
 
 class TutorDetails(generics.RetrieveUpdateAPIView):
     permission_classes = (IsOwnerOrReadOnly,)

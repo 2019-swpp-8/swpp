@@ -8,13 +8,10 @@ class ProfileList(generics.ListAPIView):
     queryset = Profile.objects.all()
     serializer_class = ProfileSerializer
 
-class ProfileDetails(generics.RetrieveAPIView,
-        mixins.UpdateModelMixin):
-    
+class ProfileDetails(generics.RetrieveUpdateAPIView):
     queryset = Profile.objects.all()
     serializer_class = ProfileSerializer
     permission_classes = (IsOwnerOrReadOnly, )
 
     def put(self, request, *args, **kwargs):
-        ProfileSerializer.validate(self, request.data)
         return self.partial_update(request, *args, **kwargs)
