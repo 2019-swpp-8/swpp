@@ -387,6 +387,9 @@ class LowLevelTests(APITestCase):
         request = self.client.get(f'/times/{tutoringTimes_id}/').data
         self.assertEqual(request['sat'], 2)
         self.assertEqual(request['sun'], 0)
+        times['mon'] = 15
+        times['tutor'] = user1.id
+        self.assertTrue(self.client.put(f'/times/{times_id}/', times).status_code >= 400)
 
         request = self.client.put("/request/1/", {'status': 2}).data
         self.assertEqual(request['status'], 2)
@@ -395,6 +398,9 @@ class LowLevelTests(APITestCase):
         request = self.client.get(f'/times/{tutoringTimes_id}/').data
         self.assertEqual(request['wed'], 0)
         self.assertEqual(request['sun'], 0)
+        self.client.put(f'/times/{times_id}/', times)
+        request = self.client.get(f'/times/{times_id}/').data
+        self.assertEqual(request['mon'], 15)
 
 class HighLevelTests(APITransactionTestCase):
     def setUp(self):

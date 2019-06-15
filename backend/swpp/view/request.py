@@ -2,7 +2,6 @@ from django.shortcuts import render
 from swpp.models import Request, Times, Tutor
 from swpp.serializers import RequestWriteSerializer, RequestReadSerializer, TimesSerializer
 from rest_framework import generics
-from rest_framework.response import Response
 from django_filters.rest_framework import DjangoFilterBackend
 
 days = ('mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun')
@@ -32,7 +31,6 @@ class RequestList(generics.ListCreateAPIView):
     def post(self, request, *args, **kwargs):
         serializer = TimesSerializer(data = { key:request.POST.get(key) for key in days })
         if serializer.is_valid(): times = serializer.save()
-        else: return Response(serializer.errors, status=404)
         if hasattr(request.data, '_mutable'): request.data._mutable = True
         request.data.update({'times': times.id})
         return self.create(request, *args, **kwargs)
