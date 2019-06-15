@@ -1,16 +1,24 @@
 from rest_framework import serializers
-from swpp.models import Profile
+from swpp.models import Profile, Request
 from swpp.serializer.request import RequestWriteSerializer
 import re
+
+def hasTutoring(user, req_user):
+    if hasattr(req_user, 'profile'):
+        profile = user.profile
+        req_profile = req_user.profile
+        queryset = Request.objects.filter(status = 1)
+        return (queryset.filter(tutor = profile.tutor, tutee = req_profile) or
+               queryset.filter(tutor = req_profile.tutor, tutee = profile))
+    return False
 
 class PrivateField(serializers.Field):
     def get_attribute(self, obj):
         return obj
     def to_representation(self, obj):
-        if obj.user != self.context['request'].user:
-            return ""
-        else:
-            return obj.contact
+        req_user = self.context['request'].user
+        if obj.user == req_user: return obj.contact
+        return obj.contact if hasTutoring(obj.user, req_user) else ""
     def to_internal_value(self, data):
         return data
 
