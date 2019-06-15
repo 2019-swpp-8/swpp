@@ -29,10 +29,12 @@ class RequestList(generics.ListCreateAPIView):
         return RequestWriteSerializer
 
     def post(self, request, *args, **kwargs):
-        serializer = TimesSerializer(data = { key:request.POST.get(key) for key in days })
-        if serializer.is_valid(): times = serializer.save()
-        if hasattr(request.data, '_mutable'): request.data._mutable = True
-        request.data.update({'times': times.id})
+        serializer = TimesSerializer(data = { key:request.data.get(key) for key in days })
+        if serializer.is_valid():
+            times = serializer.save()
+            if hasattr(request.data, '_mutable'):
+                request.data._mutable = True
+            request.data.update({'times': times.id})
         return self.create(request, *args, **kwargs)
 
 class RequestDetails(generics.RetrieveUpdateDestroyAPIView):
