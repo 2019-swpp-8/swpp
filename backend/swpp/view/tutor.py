@@ -32,6 +32,7 @@ class TutorFilterBackend(DjangoFilterBackend):
             lecture = request.GET['lecture']
             queryset = queryset.filter(lectures__id=lecture)
         queryset =  queryset.filter(bio__icontains=req_bio, exp__icontains=req_exp, profile__major__icontains=req_major)
+        queryset = queryset.order_by('profile__name')
         return queryset
 
 class TutorList(generics.ListAPIView):
