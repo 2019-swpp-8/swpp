@@ -6,9 +6,7 @@ export function* getTutor(dat) {
   try {
     const id = dat.payload;
     const tutor = yield call([api, api.get], '/tutor/' + id + '/', {credentials: 'include'});
-    const times = yield call([api, api.get], '/times/' + profile.times + '/', {credentials: 'include'});
-    const tutoringTimes = yield call([api, api.get], '/times/' + profile.tutoringTimes + '/', {credentials: 'include'});
-    yield put(actions.updateTutor(id, tutor.bio, tutor.exp, tutor.lectures, times, tutoringTimes));
+    yield put(actions.updateTutor(id, tutor.bio, tutor.exp, tutor.lectures, tutor.times, tutor.tutoringTimes));
   } catch (e) {
 
   }
