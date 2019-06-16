@@ -30,7 +30,16 @@ it('renders and all callbacks work', () => {
       value: '',
     },
   });
-  wrapper.find('.form').simulate('submit', {
+  wrapper.find('Form').simulate('submit', {
+    target: {
+      checkValidity: () => (false),
+    },
+    preventDefault: () => {},
+  });
+  wrapper.find('Form').simulate('submit', {
+    target: {
+      checkValidity: () => (true),
+    },
     preventDefault: () => {},
   });
 });
