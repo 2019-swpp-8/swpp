@@ -2,6 +2,7 @@
 import React from 'react'
 import { NavBar, TutorRow, WeeklyScheduler } from 'components'
 import { withRouter } from 'react-router-dom';
+import FlipMove from 'react-flip-move';
 
 class TutorListPage extends React.Component {
   constructor(props) {
@@ -65,9 +66,11 @@ class TutorListPage extends React.Component {
 
   render() {
     const {user, tutorlist} = this.props;
-    const tutorList = Array.isArray(tutorlist.dat) ? tutorlist.dat.map(i => (
+    const tutorList = Array.isArray(tutorlist.dat) ? <FlipMove>{
+      tutorlist.dat.map(i => (
       <TutorRow key={i['profile']['user']} tutor={i} loggedIn={user.loggedIn} />
-    )) : <tr></tr>;
+    ))}
+    </FlipMove> : null;
     return (
       <div>
         <NavBar user={user} />
@@ -130,20 +133,7 @@ class TutorListPage extends React.Component {
             </div>
           </div>
         </form>
-        <table className="table table-hover">
-          <thead>
-            <tr>
-              <th> 이름 </th>
-              <th> 전공 </th>
-              <th> 소개 </th>
-              <th> 경력 </th>
-              <th> 신청 </th>
-            </tr>
-          </thead>
-          <tbody>
-            {tutorList}
-          </tbody>
-        </table>
+        {tutorList}
         </div>
       </div>
     );
