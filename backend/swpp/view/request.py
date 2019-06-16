@@ -22,6 +22,10 @@ def deleteMessage(tutor, lecture_id):
     lecture = Lecture.objects.get(pk = lecture_id)
     return f'{tutor} 님에게 신청한 {lecture.prof} 교수의 {lecture.title} 과목 튜터링이 거절되었습니다.'
 
+def cancelMessage(tutee, lecture_id):
+    lecture = Lecture.objects.get(pk = lecture_id)
+    return f'{tutee} 님이 {lecture.prof} 교수의 {lecture.title} 과목 튜터링 신청을 취소하였습니다.'
+
 def flipTime(tutor, request_times):
     times = tutor.times
     times.flip(request_times)
@@ -67,9 +71,8 @@ class RequestDetails(generics.RetrieveUpdateDestroyAPIView):
             if status == '1':
                 message = acceptMessage(Profile.objects.get(pk = request.user).name, request_.lecture.id)
             else:
-                profile = Profile.objects.get(tutor = request_.tutor)
                 message = completeMessage(request_.lecture.id)
-                serializer = NotificationSerializer(data = {'profile': profile,
+                serializer = NotificationSerializer(data = {'profile': request_.tutor.profile,
                                                              'message': message})
                 if serializer.is_valid(): serializer.save()
                 flipTime(request_.tutor, request_.times)
@@ -80,8 +83,14 @@ class RequestDetails(generics.RetrieveUpdateDestroyAPIView):
 
     def delete(self, request, *args, **kwargs):
         request_ = Request.objects.get(pk = kwargs['pk'])
-        message = deleteMessage(Profile.objects.get(pk = request.user).name, request_.lecture.id)
-        serializer = NotificationSerializer(data = {'profile': request_.tutee,
+        info = (Profile.objects.get(pk = request.user).name, request_.lecture.id)
+        if request_.tutor.profile.id == request.user:
+            message = deleteMessage(*info)
+            profile = request_.tutee
+        else:
+            message = cancelMessage(*info)
+            profile = request_.tutor.profile
+        serializer = NotificationSerializer(data = {'profile': profile,
                                                     'message': message})
         if serializer.is_valid(): serializer.save()
         flipTime(request_.tutor, request_.times)
