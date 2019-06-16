@@ -358,6 +358,11 @@ class LowLevelTests(APITestCase):
         self.client.post("/requests/", request)
         self.client.delete("/request/2/")
 
+        self.client.post("/requests/", request)
+        self.client.force_login(user1)
+        self.client.delete("/request/3/")
+        self.client.force_login(user2)
+
         requests = self.client.get("/requests/").data
         self.assertEqual(len(requests), 1)
 
@@ -394,7 +399,7 @@ class LowLevelTests(APITestCase):
         self.client.force_login(user1)
         prof = self.client.get('/profile/{0}/'.format(user2.id)).data
         self.assertEqual(prof['contact'], "010-0000-0000")
-        self.assertEqual(len(prof['notifications']), 1)
+        self.assertEqual(len(prof['notifications']), 2)
         self.assertFalse(prof['notifications'][0]['read'])
         notification = self.client.get('/notification/{0}/'.format(prof['notifications'][0]['id'])).data
         self.assertTrue(notification['read'])
