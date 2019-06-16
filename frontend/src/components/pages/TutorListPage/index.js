@@ -14,7 +14,7 @@ class TutorListPage extends React.Component {
       fri: 0,
       sat: 0,
       sun: 0,
-    }, total: 0};
+    }, total: 0, minInterval: 0.5};
 
     this.handleInputChange = this.handleInputChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -32,11 +32,13 @@ class TutorListPage extends React.Component {
   }
 
   handleOutOfFocus(event) {
-    let value = (Math.round(Number(this.state.total) * 2) / 2).toString();
+    let value = (Math.round(Number(this.state[event.target.name]) * 2) / 2).toString();
     if (value < 0) value = 0;
     if (value > 168) value = 168;
+    if (event.target.name == 'minInterval' && value < 0.5) value = 0.5;
+    if (event.target.name == 'minInterval' && value > 48) value = 48;
     this.setState({
-      total: value,
+      [event.target.name]: value,
     });
   }
 
@@ -57,7 +59,7 @@ class TutorListPage extends React.Component {
   handleSubmit(event) {
     this.props.getTutorList(this.state['bio'], this.state['exp'],
      this.state['major'], this.state['lecTitle'], this.state['lecProf'],
-     this.state['times'], this.state['total'] * 2);
+     this.state['times'], this.state['total'] * 2, this.state['minInterval'] * 2);
     event.preventDefault();
   }
 
@@ -95,6 +97,10 @@ class TutorListPage extends React.Component {
             <div className="form-group col-md-3">
               <label htmlFor="tutorlist-total">최소 시간 (0.5시간 단위)</label>
               <input value={this.state.total} name="total" type="number" min="0" max="168" step="0.5" className="form-control" id="tutorlist-total" onChange={this.handleInputChange} onBlur={this.handleOutOfFocus} />
+            </div>
+            <div className="form-group col-md-3">
+              <label htmlFor="tutorlist-minInterval">최소 모임 시간 (0.5시간 단위)</label>
+              <input value={this.state.minInterval} name="minInterval" type="number" min="0" max="168" step="0.5" className="form-control" id="tutorlist-minInterval" onChange={this.handleInputChange} onBlur={this.handleOutOfFocus} />
             </div>
             <div className="form-group" style={{ verticalAlign:'middle' }}>
               <label htmlFor="tutorlist-open-modal"> &nbsp; </label><br />
