@@ -64,8 +64,10 @@ class ProfileEditPage extends React.Component {
 
   addLecture(lecture) {
     const lectures = this.state['lectures'] == undefined ? this.props.tutor.lectures : this.state['lectures'];
-    lectures.push(lecture);
-    this.setState({lectures: lectures});
+    if (!lectures.find((i) => (i.id == lecture.id))) {
+      lectures.push(lecture);
+      this.setState({lectures: lectures});
+    }
   }
 
   deleteLecture(id) {
