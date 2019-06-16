@@ -21,7 +21,7 @@ class RequestWriteSerializer(serializers.ModelSerializer):
 class ProfileSerializer(serializers.ModelSerializer):
     class Meta:
         model = Profile
-        fields = ('name',)
+        fields = ('user', 'name')
 
 class TutorSerializer(serializers.ModelSerializer):
     profile = ProfileSerializer(read_only=True)
