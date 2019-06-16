@@ -22,7 +22,8 @@ class TutorFilterBackend(DjangoFilterBackend):
         if 'lecture' in request.GET:
             lecture = request.GET['lecture']
             queryset = queryset.filter(lectures__id=lecture)
-        return queryset.filter(bio__icontains=req_bio, exp__icontains=req_exp, profile__major__icontains=req_major)
+        queryset =  queryset.filter(bio__icontains=req_bio, exp__icontains=req_exp, profile__major__icontains=req_major)
+        return queryset
 
 class TutorList(generics.ListAPIView):
     queryset = Tutor.objects.all()

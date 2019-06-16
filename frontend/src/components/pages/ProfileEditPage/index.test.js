@@ -8,10 +8,10 @@ it('renders and all callbacks work', () => {
     loggedIn: true,
     username: 'a',
     id: 1,
-  }} profile={{id: 2, name: 'b', major: 'c'}} tutor={{bio: 'x', exp: 'y', lectures: [{id: 1, prof: 'p', title: 't'}]}} putTutor={()=>{}} getProfile={()=>{}} putProfile={()=>{}}/>);
-
+  }} profile={{id: 2, name: 'b', major: 'c'}} tutor={{times: {id: 0}, bio: 'x', exp: 'y', lectures: [{id: 1, prof: 'p', title: 't'}]}} putTutor={()=>{}} getProfile={()=>{}} putProfile={()=>{}}/>);
   wrapper.setProps({profile: {id: 2, name: 'b', major: 'd'}});
   wrapper.setProps({profile: {id: 1, name: 'b', major: 'd'}});
+  wrapper.instance().handleTimesChange(0);
   wrapper.find('#profileedit-name').simulate('change', {
     target: {
       name: 'name',

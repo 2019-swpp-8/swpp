@@ -43,7 +43,7 @@ class RequestDetails(generics.RetrieveUpdateDestroyAPIView):
 
     def put(self, request, *args, **kwargs):
         response = self.partial_update(request, *args, **kwargs)
-        if response.status_code < 300 and request.POST.get('status', 0): # upon status update
+        if response.status_code < 300 and request.data.get('status', 0): # upon status update
             request_ = Request.objects.get(pk = kwargs['pk'])
             times = request_.tutor.times
             times.flip(request_.times)
