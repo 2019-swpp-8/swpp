@@ -10,12 +10,12 @@ export const getTutor = (id) => ({
   payload: id,
 });
 
-export const updateTutor = (id, bio, exp, lectures) => ({
+export const updateTutor = (id, bio, exp, lectures, times, tutoringTimes) => ({
   type: UPDATE_TUTOR,
   payload: { id, bio, exp, lectures, times, tutoringTimes },
 });
 
-export const putTutor = (id, bio, exp, lectures) => ({
+export const putTutor = (id, bio, exp, lectures, times) => ({
   type: PUT_TUTOR,
   payload: { id, bio, exp, lectures, times },
 });
