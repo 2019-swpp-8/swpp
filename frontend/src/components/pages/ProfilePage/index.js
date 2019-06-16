@@ -29,7 +29,6 @@ class ProfilePage extends React.Component {
     const tuteeRequestList = Array.isArray(requestlist.tutee_request) ? requestlist.tutee_request.map(i => (
       <RequestRow key={i.id} user={user.id} request={i} deleteRequest={()=>deleteRequest(i.id, user.id)} changeStatus={(status)=>changeRequestStatus(i.id, status, user.id)} />
     )) : <tr></tr>;
-    console.log(tutor);
     return (
       <div>
         <NavBar user={user} />
@@ -57,7 +56,7 @@ class ProfilePage extends React.Component {
           </table>
           <div className="row">
             <div className="col-5">
-              <WeeklyScheduler times={tutor.times} tutoringTimes={tutor.tutoringTimes} readonly={true} />
+              <WeeklyScheduler times={tutor.times} tutoringTimes={tutor.tutoringTimes} readonly={true} inv={false}/>
             </div>
           </div>
           {editButton}
@@ -72,6 +71,7 @@ class ProfilePage extends React.Component {
                     <th> 강의 </th>
                     <th> 요구사항 </th>
                     <th> 보수 </th>
+                    <th> 시간 </th>
                     <th> 상태 </th>
                   </tr>
                 </thead>
@@ -88,6 +88,7 @@ class ProfilePage extends React.Component {
                     <th> 강의 </th>
                     <th> 요구사항 </th>
                     <th> 보수 </th>
+                    <th> 시간 </th>
                     <th> 상태 </th>
                   </tr>
                 </thead>
