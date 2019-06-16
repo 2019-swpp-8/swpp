@@ -57,7 +57,7 @@ class ProfilePage extends React.Component {
           </table>
           <div className="row">
             <div className="col-5">
-              <WeeklyScheduler times={tutor.times} tutoringTimes={tutor.tutoringTimes} readonly={true} />
+              <WeeklyScheduler times={tutor.times} tutoringTimes={tutor.tutoringTimes} readonly={true} inv={false}/>
             </div>
           </div>
           {editButton}
