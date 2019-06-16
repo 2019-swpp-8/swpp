@@ -5,7 +5,7 @@ const LoginLogout = ({user}) => {
   if (user.loggedIn) {
     return (
       <span className="loginlogout">
-        <span className="greeting mr-2"> {user.username}님, 안녕하세요! </span>
+        <span className="greeting mr-2"> {user.name}님, 안녕하세요! </span>
         <LogoutButton />
       </span>
     );
