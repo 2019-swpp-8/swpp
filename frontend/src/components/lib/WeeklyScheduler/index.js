@@ -18,6 +18,17 @@ const timesToSched = (times, tutoringTimes, a, b, c) => {
   return day;
 }
 
+const schedToTimes = (sched, filled) => {
+  let a = 0;
+  for (let i = 47; i >= 0; i--) {
+    if (sched[i] == filled) {
+      a++;
+    }
+    a *= 2;
+  }
+  return a / 2;
+}
+
 class WeeklyScheduler extends React.Component {
   constructor(props) {
     super(props);
@@ -102,6 +113,15 @@ class WeeklyScheduler extends React.Component {
     this.weekTable.removeEventListener('mouseover', this.onMouseOver);
     window.removeEventListener('mouseup', this.onMouseUp);
     this.setState({ oldDays: days });
+    this.props.onChange({
+      mon: schedToTimes(days[0], this.availEv),
+      tue: schedToTimes(days[1], this.availEv),
+      wed: schedToTimes(days[2], this.availEv),
+      thu: schedToTimes(days[3], this.availEv),
+      fri: schedToTimes(days[4], this.availEv),
+      sat: schedToTimes(days[5], this.availEv),
+      sun: schedToTimes(days[6], this.availEv),
+    });
   }
   onMouseOver(e) {
     if (this.props.readonly) return;
