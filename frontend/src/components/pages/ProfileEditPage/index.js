@@ -77,7 +77,7 @@ class ProfileEditPage extends React.Component {
     const {user, profile, tutor, searchlecture, getLectureList, updateLectureList, selectSearched, changeShow} = this.props;
     const lectures = this.state['lectures'] == undefined ? tutor.lectures : this.state['lectures'];
     const lectureList = Array.isArray(lectures) ? lectures.map(i => (
-      <button class="btn btn-outline-dark mr-1 mt-1" type="button" key={i.id} onClick={()=>this.deleteLecture(i.id)}>{i.prof} / {i.title} X</button>
+      <button className="btn btn-outline-dark mr-1 mt-1" type="button" key={i.id} onClick={()=>this.deleteLecture(i.id)}>{i.prof} / {i.title} X</button>
     )) : null;
     return (
       <div>

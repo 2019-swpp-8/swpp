@@ -10,6 +10,10 @@ export function* getTutorList(dat) {
     let major = dat.major;
     let lecTitle = dat.lecTitle;
     let lecProf = dat.lecProf;
+    let times = dat.times;
+    let total = dat.total;
+    let minInterval = dat.minInterval;
+    let timesStr = '';
     if (typeof bio === 'undefined') {
       bio = '';
     }
@@ -25,9 +29,18 @@ export function* getTutorList(dat) {
     if (typeof lecProf === 'undefined') {
       lecProf = '';
     }
+    if (typeof minInterval === 'undefined') {
+      minInterval = 1;
+    }
+    if (typeof times !== 'undefined' && total > 0) {
+      timesStr = '&mon=' + times.mon + '&tue=' + times.tue +
+        '&wed=' + times.wed + '&thu=' + times.thu + '&fri=' + times.fri +
+        '&sat=' + times.sat + '&sun=' + times.sun + '&total=' + total +
+        '&minInterval=' + minInterval;
+    }
     const profile = yield call([api, api.get], '/tutors/?bio=' + bio +
       '&exp=' + exp + '&major=' + major + '&lecTitle=' + lecTitle
-      + '&lecProf=' + lecProf, {credentials: 'include'});
+      + '&lecProf=' + lecProf + timesStr, {credentials: 'include'});
     yield put(actions.updateTutorList(profile));
   } catch (e) {
 
