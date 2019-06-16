@@ -293,6 +293,12 @@ class LowLevelTests(APITestCase):
         tutors = self.client.get("/tutors/?lecture=7").data
         self.assertEqual(len(tutors), 0)
 
+        tutors = self.client.get("/tutors/?lecTitle=글쓰기").data
+        self.assertEqual(len(tutors), 3)
+        tutors = self.client.get("/tutors/?lecProf=허윤").data
+        self.assertEqual(len(tutors), 2)
+
+
     def test_lectures_database(self):
         lectures = self.client.get("/lectures/").data
         self.assertEqual(len(lectures), 30214)
@@ -379,39 +385,39 @@ class LowLevelTests(APITestCase):
         self.assertEqual(request['status'], 0)
 
         self.client.force_login(user2)
-        prof = self.client.get(f'/profile/{user1.id}/').data
+        prof = self.client.get('/profile/{0}/'.format(user1.id)).data
         self.assertEqual(prof['contact'], "")
 
         request = self.client.put("/request/1/", {'status': 1}).data
         self.assertEqual(request['status'], 1)
-        request = self.client.get(f'/times/{times_id}/').data
+        request = self.client.get('/times/{0}/'.format(times_id)).data
         self.assertEqual(request['mon'], 6)
         self.assertEqual(request['sun'], 7)
-        request = self.client.get(f'/times/{tutoringTimes_id}/').data
+        request = self.client.get('/times/{0}/'.format(tutoringTimes_id)).data
         self.assertEqual(request['sat'], 2)
         self.assertEqual(request['sun'], 0)
         times['mon'] = 15
         times['tutor'] = user1.id
-        self.assertTrue(self.client.put(f'/times/{times_id}/', times).status_code >= 400)
+        self.assertTrue(self.client.put('/times/{0}/'.format(times_id), times).status_code >= 400)
 
-        prof = self.client.get(f'/profile/{user1.id}/').data
+        prof = self.client.get('/profile/{0}/'.format(user1.id)).data
         self.assertEqual(prof['contact'], "010-0000-0000")
         self.client.force_login(user1)
-        prof = self.client.get(f'/profile/{user2.id}/').data
+        prof = self.client.get('/profile/{0}/'.format(user2.id)).data
         self.assertEqual(prof['contact'], "010-0000-0000")
 
         request = self.client.put("/request/1/", {'status': 2}).data
         self.assertEqual(request['status'], 2)
-        request = self.client.get(f'/times/{times_id}/').data
+        request = self.client.get('/times/{0}/'.format(times_id)).data
         self.assertEqual(request['tue'], 7)
-        request = self.client.get(f'/times/{tutoringTimes_id}/').data
+        request = self.client.get('/times/{0}/'.format(tutoringTimes_id)).data
         self.assertEqual(request['wed'], 0)
         self.assertEqual(request['sun'], 0)
-        self.client.put(f'/times/{times_id}/', times)
-        request = self.client.get(f'/times/{times_id}/').data
+        self.client.put('/times/{0}/'.format(times_id), times)
+        request = self.client.get('/times/{0}/'.format(times_id)).data
         self.assertEqual(request['mon'], 15)
 
-        prof = self.client.get(f'/profile/{user2.id}/').data
+        prof = self.client.get('/profile/{0}/'.format(user2.id)).data
         self.assertEqual(prof['contact'], "")
 
 class HighLevelTests(APITransactionTestCase):

@@ -11,7 +11,7 @@ it("renders user's own profile", () => {
     id: 1,
   }}
   match={{params: {id: 1}}}
-  profile={{id: 1, name: 'b', major: 'c'}}
+  profile={{id: 1, name: 'b', major: 'c', contact: '010-1234-5678'}}
   tutor={{bio:'d', exp:'e'}} requestlist={{
     tutor_request: [{
       id: 1,
@@ -58,7 +58,7 @@ it("renders others' profiles", () => {
     id: 1,
   }}
   match={{params: {id: 1}}}
-  profile={{id: 2, name: 'b', major: 'c'}}
+  profile={{id: 2, name: 'b', major: 'c', contact: '010-1234-5678'}}
   tutor={{bio:'d', exp:'e', lectures: [{id: 1, prof: "p", title: "t"}]}} requestlist={{}}
   getProfile={()=>{}} getRequestList={()=>{}}
   deleteRequest={()=>{}} changeRequestStatus={()=>{}}/>);

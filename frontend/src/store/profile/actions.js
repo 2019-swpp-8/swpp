@@ -10,12 +10,12 @@ export const getProfile = (id) => ({
   payload: id,
 });
 
-export const updateProfile = (id, name, major, tutor) => ({
+export const updateProfile = (id, name, major, contact, tutor) => ({
   type: UPDATE_PROFILE,
-  payload: { id, name, major, tutor },
+  payload: { id, name, major, contact, tutor },
 });
 
-export const putProfile = (id, name, major) => ({
+export const putProfile = (id, name, major, contact) => ({
   type: PUT_PROFILE,
-  payload: { id, name, major },
+  payload: { id, name, major, contact },
 });

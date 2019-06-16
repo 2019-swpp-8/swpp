@@ -30,7 +30,8 @@ class TutorListPage extends React.Component {
   }
 
   handleSubmit(event) {
-    this.props.getTutorList(this.state['bio'], this.state['exp'], this.state['major']);
+    this.props.getTutorList(this.state['bio'], this.state['exp'],
+     this.state['major'], this.state['lecTitle'], this.state['lecProf']);
     event.preventDefault();
   }
 
@@ -56,6 +57,14 @@ class TutorListPage extends React.Component {
             <div className="form-group col-md-3">
               <label htmlFor="tutorlist-major">전공</label>
               <input name="major" type="text" className="form-control" id="tutorlist-major" onChange={this.handleInputChange} />
+            </div>
+            <div className="form-group col-md-3">
+              <label htmlFor="tutorlist-lecTitle">수강 강의명</label>
+              <input name="lecTitle" type="text" className="form-control" id="tutorlist-lecTitle" onChange={this.handleInputChange} />
+            </div>
+            <div className="form-group col-md-3">
+              <label htmlFor="tutorlist-lecProf">강의 교수</label>
+              <input name="lecProf" type="text" className="form-control" id="tutorlist-lecProf" onChange={this.handleInputChange} />
             </div>
             <div className="form-group col-md-5" style={{ verticalAlign:'middle' }}>
               <label htmlFor="tutorlist-submit"> &nbsp; </label><br />

@@ -10,6 +10,15 @@ class TutorFilterBackend(DjangoFilterBackend):
         req_bio = request.GET['bio'] if ('bio' in request.GET) else ''
         req_exp = request.GET['exp'] if ('exp' in request.GET) else ''
         req_major = request.GET['major'] if ('major' in request.GET) else ''
+
+        if('lecTitle' in request.GET):
+            if(request.GET['lecTitle'] != ''):
+                queryset = queryset.filter(lectures__title__icontains=request.GET['lecTitle'])
+        if('lecProf' in request.GET):
+            if(request.GET['lecProf'] != ''):
+                queryset = queryset.filter(lectures__prof__icontains=request.GET['lecProf'])
+        queryset = queryset.distinct()
+
         if 'total' in request.GET:
             times = TimesSerializer(data = { key:request.GET[key] for key
                                              in ('mon', 'tue', 'wed',
