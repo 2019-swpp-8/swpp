@@ -40,7 +40,7 @@ class ProfilePage extends React.Component {
           <div className="mb-1"> 경력: {tutor.exp} </div>
           <div className="row">
             <div className="col-5">
-              <WeeklyScheduler times={tutor.times} tutoringTimes={tutor.tutoringTimes} readonly={profile.id != user.id} />
+              <WeeklyScheduler times={tutor.times} tutoringTimes={tutor.tutoringTimes} readonly={true} />
             </div>
           </div>
           {editButton}
