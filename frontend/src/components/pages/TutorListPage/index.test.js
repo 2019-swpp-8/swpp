@@ -15,6 +15,31 @@ it("renders empty tutorlist", () => {
       value: 'hi',
     },
   });
+  wrapper.find('#tutorlist-minInterval').simulate('change', {
+    target: {
+      name: 'minInterval',
+      value: '-1',
+    },
+  });
+  wrapper.find('#tutorlist-minInterval').simulate('blur', {
+    target: {
+      name: 'minInterval',
+      value: '-1',
+    },
+  });
+  wrapper.find('#tutorlist-minInterval').simulate('change', {
+    target: {
+      name: 'minInterval',
+      value: '900',
+    },
+  });
+  wrapper.find('#tutorlist-minInterval').simulate('blur', {
+    target: {
+      name: 'minInterval',
+      value: '900',
+    },
+  });
+  wrapper.instance().handleTimesChange(0);
   wrapper.find('.form').simulate('submit', {
     preventDefault: () => {},
   });
