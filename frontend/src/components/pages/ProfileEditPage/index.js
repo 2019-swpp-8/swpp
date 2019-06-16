@@ -36,8 +36,10 @@ class ProfileEditPage extends React.Component {
   }
 
   handleTimesChange(val) {
+    console.log(val);
     this.setState({
-      times: val
+      times: val,
+      edited: true,
     });
   }
 
@@ -48,7 +50,8 @@ class ProfileEditPage extends React.Component {
     const bio = this.state['bio'] == '' ? this.props.tutor.bio : this.state['bio'];
     const exp = this.state['exp'] == '' ? this.props.tutor.exp : this.state['exp'];
     this.props.putProfile(this.props.profile.id, name, major);
-    this.props.putTutor(this.props.profile.tutor, bio, exp, {id: this.props.tutor.times.id, mon:0,tue:0,wed:0,thu:0,fri:0,sat:0,sun:0});
+    console.log({id: this.props.tutor.times, ...this.state.times});
+    this.props.putTutor(this.props.profile.tutor, bio, exp, {id: this.props.tutor.times.id, ...this.state.times});
     this.setState({redirect: true});
     event.preventDefault();
   }
@@ -90,7 +93,7 @@ class ProfileEditPage extends React.Component {
               </div>
               <div className="form-group col-md-6">
                 <h3> 튜터링 가능 시간대 </h3>
-                <WeeklyScheduler name="times" id="profileedit-times" times={tutor.times} tutoringTimes={tutor.tutoringTimes} readonly={false} onChange={this.handleTimesChange} />
+                <WeeklyScheduler name="times" id="profileedit-times" times={this.state.edited ? undefined : tutor.times} tutoringTimes={tutor.tutoringTimes} readonly={false} onChange={this.handleTimesChange} />
               </div>
             </div>
             <div className="form-group col-md-5" style={{ verticalAlign:'middle' }}>
