@@ -5,7 +5,7 @@ import {BrowserRouter as Router, Route, Link} from 'react-router-dom'
 const RequestRow = ({user, request, deleteRequest, changeStatus}) => {
   if (typeof request === 'undefined')
     return null;
-  const tutor_name = "??"; // request['tutor']['profile']['name'];
+  const tutor_name = request['tutor']['profile']['name'];
   const tutee_name = request['tutee']['name'];
   const status = request['status']
   const lecture_info = request['lecture']['prof'] + ' / ' + request['lecture']['title'];

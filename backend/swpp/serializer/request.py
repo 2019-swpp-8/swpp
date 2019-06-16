@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from swpp.models import Request, Times, Tutor
+from swpp.models import Request, Times, Tutor, Profile
 
 class RequestWriteSerializer(serializers.ModelSerializer):
     def validate(self, data):
@@ -18,7 +18,21 @@ class RequestWriteSerializer(serializers.ModelSerializer):
         model = Request
         fields = ('id', 'tutor', 'tutee', 'lecture', 'detail', 'payment', 'times', 'status')
 
+class ProfileSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Profile
+        fields = ('name',)
+
+class TutorSerializer(serializers.ModelSerializer):
+    profile = ProfileSerializer(read_only=True)
+    class Meta:
+        model = Tutor
+        fields = ('profile',)
+        depth = 1
+
 class RequestReadSerializer(serializers.ModelSerializer):
+    tutor = TutorSerializer(read_only=True)
+    tutee = ProfileSerializer(read_only=True)
     class Meta:
         model = Request
         fields = ('id', 'tutor', 'tutee', 'lecture', 'detail', 'payment', 'times', 'status')
