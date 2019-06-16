@@ -6,6 +6,7 @@ it('renders with selected is null', () => {
   const wrapper = shallow(<SearchLecture searchlecture={{
     selected: null,
     lectures: [{id: 1, prof: "prof", title: "title"}],
+    show: true,
   }}
   acceptLecture={()=>{}} getLectureList={()=>{}}
   updateLectureList={()=>{}} selectSearched={()=>{}}/>);
@@ -16,6 +17,7 @@ it('renders with selected is null', () => {
     target: {value: 'title'},
   });
   wrapper.find('div').forEach((node, index)=>node.simulate('click'));
+  wrapper.find('div').forEach((node, index)=>node.simulate('mousedown'));
 });
 
 it('renders with selected is not null', () => {

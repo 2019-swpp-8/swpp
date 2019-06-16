@@ -4,6 +4,7 @@ export const GET_LECTURE_LIST = 'GET_LECTURE_LIST';
 // reducers
 export const UPDATE_LECTURE_LIST = 'UPDATE_LECTURE_LIST';
 export const SELECT_SEARCHED = 'SELECT_SEARCHED';
+export const CHANGE_SHOW = 'CHANGE_SHOW';
 
 export const getLectureList = (keyword) => ({
   type: GET_LECTURE_LIST,
@@ -18,4 +19,9 @@ export const updateLectureList = (lectures) => ({
 export const selectSearched = (selected) => ({
   type: SELECT_SEARCHED,
   payload: { selected },
+});
+
+export const changeShow = (show) => ({
+  type: CHANGE_SHOW,
+  payload: { show },
 });

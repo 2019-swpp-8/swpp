@@ -1,6 +1,6 @@
 import * as actions from './actions'
 import api from 'services/api'
-import { put, call, select, takeEvery } from 'redux-saga/effects'
+import { put, call, select, takeEvery, debounce } from 'redux-saga/effects'
 
 export function* getLectureList(dat) {
   try {
@@ -15,5 +15,5 @@ export function* getLectureList(dat) {
 }
 
 export default function* () {
-  yield takeEvery(actions.GET_LECTURE_LIST, getLectureList);
+  yield debounce(50, actions.GET_LECTURE_LIST, getLectureList);
 }
