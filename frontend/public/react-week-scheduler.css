@@ -55,6 +55,8 @@
   position: relative;
   height: 20px;
   cursor: pointer;
+  border-top: 0px;
+  padding: 0px;
 }
 #WeeklySchedulerTable table tbody tr td:last-child {
   border-right: 1px solid #323e4e;

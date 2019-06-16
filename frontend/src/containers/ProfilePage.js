@@ -5,11 +5,11 @@ import { ProfilePage } from 'components'
 import { getProfile, getRequestList, deleteRequest, changeRequestStatus } from 'store/actions'
 
 const mapStateToProps = state => {
-  return {user: state.user, profile: state.profile, tutor: state.tutor, requestlist: state.requestlist};
+  return {user: state.user, profile: state.profile, tutor: state.tutor};
 };
 
 const mapDispatchToProps = {
-  getProfile, getRequestList, deleteRequest, changeRequestStatus,
+  getProfile,
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(ProfilePage);

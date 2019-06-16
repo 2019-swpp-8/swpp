@@ -6,7 +6,7 @@ import { withRouter } from 'react-router-dom';
 class TutorListPage extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {bio: '', exp: '', major: ''};
+    this.state = {bio: '', exp: '', major: '', lecTitle:'', lecProf:''};
 
     this.handleInputChange = this.handleInputChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);

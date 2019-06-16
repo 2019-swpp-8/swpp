@@ -10,5 +10,6 @@ it('renders with logged in user', () => {
   shallow(<LoginLogout user={{
     loggedIn: true,
     username: 'a',
+    name: 'b',
   }}/>);
 });
