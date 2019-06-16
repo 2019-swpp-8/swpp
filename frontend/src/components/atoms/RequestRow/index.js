@@ -37,8 +37,7 @@ const RequestRow = ({user, request, deleteRequest, changeStatus}) => {
           <WeeklyScheduler times={request['times']} readonly={true} />
         </div>
         <div className="modal-footer">
-          <button type="button" className="btn btn-secondary" data-dismiss="modal">Close</button>
-          <button type="button" className="btn btn-primary">Save changes</button>
+          <button type="button" className="btn btn-secondary" data-dismiss="modal">확인</button>
         </div>
       </div>
     </div>
