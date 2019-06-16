@@ -29,7 +29,6 @@ class ProfilePage extends React.Component {
     const tuteeRequestList = Array.isArray(requestlist.tutee_request) ? requestlist.tutee_request.map(i => (
       <RequestRow key={i.id} user={user.id} request={i} deleteRequest={()=>deleteRequest(i.id, user.id)} changeStatus={(status)=>changeRequestStatus(i.id, status, user.id)} />
     )) : <tr></tr>;
-    console.log(tutor);
     return (
       <div>
         <NavBar user={user} />
