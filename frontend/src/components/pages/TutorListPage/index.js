@@ -38,7 +38,7 @@ class TutorListPage extends React.Component {
   render() {
     const {user, tutorlist} = this.props;
     const tutorList = Array.isArray(tutorlist.dat) ? tutorlist.dat.map(i => (
-      <TutorRow key={i['profile']['user']} tutor={i} />
+      <TutorRow key={i['profile']['user']} tutor={i} loggedIn={user.loggedIn} />
     )) : <tr></tr>;
     return (
       <div>
