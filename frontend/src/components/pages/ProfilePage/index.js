@@ -27,7 +27,7 @@ class ProfilePage extends React.Component {
         <NavBar user={user} />
         <div className="container mt-3">
           <div className="row">
-            <div className="col-md-5">
+            <div className="col-md-6">
               <h3> 프로파일 정보 </h3>
               <div> 이름: {profile.name} </div>
               <div> 전공: {profile.major} </div>
@@ -52,7 +52,7 @@ class ProfilePage extends React.Component {
 
               {editButton}
             </div>
-            <div className="col-md-5">
+            <div className="col-md-6">
               <h3> 튜터링 가능 시간대 </h3>
               <WeeklyScheduler times={tutor.times} tutoringTimes={tutor.tutoringTimes} readonly={true} inv={false}/>
             </div>

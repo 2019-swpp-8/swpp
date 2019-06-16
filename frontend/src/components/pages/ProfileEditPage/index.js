@@ -77,7 +77,7 @@ class ProfileEditPage extends React.Component {
     const {user, profile, tutor, searchlecture, getLectureList, updateLectureList, selectSearched} = this.props;
     const lectures = this.state['lectures'] == undefined ? tutor.lectures : this.state['lectures'];
     const lectureList = Array.isArray(lectures) ? lectures.map(i => (
-      <button type="button" key={i.id} onClick={()=>this.deleteLecture(i.id)}>{i.prof} / {i.title} X</button>
+      <button class="btn btn-outline-dark mr-1 mt-1" type="button" key={i.id} onClick={()=>this.deleteLecture(i.id)}>{i.prof} / {i.title} X</button>
     )) : null;
     return (
       <div>
@@ -86,7 +86,7 @@ class ProfileEditPage extends React.Component {
         <div className="container mt-3">
           <form className="form mt-3" onSubmit={this.handleSubmit}>
             <div className="row">
-              <div className="col-md-5">
+              <div className="col-md-6">
                 <h3> 프로파일 정보 </h3>
                 <div className="form-group">
                   <label htmlFor="profileedit-name">이름</label>
@@ -117,7 +117,7 @@ class ProfileEditPage extends React.Component {
                   <button id="profileedit-submit" type="submit" className="btn btn-primary mb-2">수정</button>
                 </div>
               </div>
-              <div className="form-group col-md-5">
+              <div className="form-group col-md-6">
                 <h3> 튜터링 가능 시간대 </h3><br/>
                 <h4>가능한 시간에 색칠하세요</h4>
                 <WeeklyScheduler name="times" id="profileedit-times" times={this.state.edited ? undefined : tutor.times} tutoringTimes={tutor.tutoringTimes} readonly={false} onChange={this.handleTimesChange} inv={false}/>
