@@ -1,7 +1,7 @@
 from rest_framework import serializers
 from swpp.models import Profile, Request
 from swpp.serializer.request import RequestReadSerializer
-from swpp.serializer.notifications import NotificationSerializer
+from swpp.serializer.notification import NotificationSerializer
 
 import re
 

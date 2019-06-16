@@ -40,7 +40,7 @@ class RequestList(generics.ListCreateAPIView):
             message = postMessage(request.user.profile.name, request.data.get('lecture'))
             serializer = NotificationSerializer(data = {'profile': request.data.get('tutor'),
                                                         'message': message})
-            serializer.save()
+            if serializer.is_valid(): serializer.save()
         return self.create(request, *args, **kwargs)
 
 class RequestDetails(generics.RetrieveUpdateDestroyAPIView):
@@ -59,22 +59,22 @@ class RequestDetails(generics.RetrieveUpdateDestroyAPIView):
             tutoringTimes.flip(request_.times)
             tutoringTimes.save()
             if status == 1:
-                message = acceptMessage(request.user.name, request_.lecture)
+                message = acceptMessage(Profile.objects.get(pk = request.user).name, request_.lecture.id)
             else:
                 profile = Profile.objects.get(tutor = request_.tutor)
-                message = completeMessage(request_.lecture)
+                message = completeMessage(request_.lecture.id)
                 serializer = NotificationSerializer(data = {'profile': profile,
                                                              'message': message})
-                serializer.save()
+                if serializer.is_valid(): serializer.save()
             serializer = NotificationSerializer(data = {'profile': request_.tutee,
                                                         'message': message})
-            serializer.save()
+            if serializer.is_valid(): serializer.save()
         return response
 
     def delete(self, request, *args, **kwargs):
         request_ = Request.objects.get(pk = kwargs['pk'])
-        message = deleteMessage(request.user.name, request_.lecture)
+        message = deleteMessage(Profile.objects.get(pk = request.user).name, request_.lecture.id)
         serializer = NotificationSerializer(data = {'profile': request_.tutee,
                                                     'message': message})
-        serializer.save()
+        if serializer.is_valid(): serializer.save()
         return self.destroy(request, *args, **kwargs)
