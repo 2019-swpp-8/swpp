@@ -358,6 +358,11 @@ class LowLevelTests(APITestCase):
         self.client.post("/requests/", request)
         self.client.delete("/request/2/")
 
+        self.client.post("/requests/", request)
+        self.client.force_login(user1)
+        self.client.delete("/request/3/")
+        self.client.force_login(user2)
+
         requests = self.client.get("/requests/").data
         self.assertEqual(len(requests), 1)
 
