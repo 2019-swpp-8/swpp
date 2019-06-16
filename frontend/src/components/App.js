@@ -2,7 +2,7 @@ import React from 'react'
 import { Switch, Route } from 'react-router-dom'
 import { createGlobalStyle, ThemeProvider } from 'styled-components'
 
-import { HomePage, ProfilePage, ProfileEditPage, TutorListPage, RequestPage } from 'containers'
+import { HomePage, ProfilePage, ProfileEditPage, TutorListPage, RequestPage, NoteListPage } from 'containers'
 
 // https://github.com/diegohaz/arc/wiki/Styling
 import theme from './themes/default'
@@ -24,6 +24,7 @@ const App = () => {
           <Route path="/profile/:id" component={ProfilePage} />
           <Route path="/tutors" component={TutorListPage} />
           <Route path="/request/:id" component={RequestPage} />
+          <Route path="/notes" component={NoteListPage} />
         </Switch>
       </ThemeProvider>
     </div>

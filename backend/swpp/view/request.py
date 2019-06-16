@@ -8,19 +8,19 @@ days = ('mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun')
 
 def postMessage(tutee, lecture_id):
     lecture = Lecture.objects.get(pk = lecture_id)
-    return f'{tutee} 님이 {lecture.prof} 교수의 {lecture.title} 과목 튜터링을 신청했습니다.'
+    return '{0} 님이 {1} 교수의 {2} 과목 튜터링을 신청했습니다.'.format(tutee, lecture.prof, lecture.title)
 
 def acceptMessage(tutor, lecture_id):
     lecture = Lecture.objects.get(pk = lecture_id)
-    return f'{tutor} 님에게 신청한 {lecture.prof} 교수의 {lecture.title} 과목 튜터링이 수락되었습니다.'
+    return '{0} 님에게 신청한 {1} 교수의 {2} 과목 튜터링이 수락되었습니다.'.format(tutor, lecture.prof, lecture.title)
 
 def completeMessage(lecture_id):
     lecture = Lecture.objects.get(pk = lecture_id)
-    return f'{lecture.prof} 교수의 {lecture.title} 과목 튜터링이 종료되었습니다.'
+    return '{0} 교수의 {1} 과목 튜터링이 종료되었습니다.'.format(lecture.prof, lecture.title)
 
 def deleteMessage(tutor, lecture_id):
     lecture = Lecture.objects.get(pk = lecture_id)
-    return f'{tutor} 님에게 신청한 {lecture.prof} 교수의 {lecture.title} 과목 튜터링이 거절되었습니다.'
+    return '{0} 님에게 신청한 {1} 교수의 {2} 과목 튜터링이 거절되었습니다.'.format(tutor, lecture.prof, lecture.title)
 
 def cancelMessage(tutee, lecture_id):
     lecture = Lecture.objects.get(pk = lecture_id)
