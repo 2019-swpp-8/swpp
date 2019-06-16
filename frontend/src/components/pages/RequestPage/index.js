@@ -15,13 +15,12 @@ class RequestPage extends React.Component {
   }
 
   componentDidMount() {
-    this.props.getProfile(this.props.user.id);
-    this.props.getTutor(this.props.match.params.id);
+    this.props.getProfile(this.props.match.params.id);
   }
 
   componentDidUpdate() {
-    if (this.props.profile.id == this.props.user.id) return;
-    this.props.getProfile(this.props.user.id);
+    if (this.props.profile.id == this.props.match.params.id) return;
+    this.props.getProfile(this.props.match.params.id);
   }
 
   handleInputChange(event) {
@@ -53,7 +52,18 @@ class RequestPage extends React.Component {
   }
 
   render() {
-    const {user} = this.props;
+    const {user, tutor} = this.props;
+    const times = this.state.edited ? undefined : {
+      mon: 0,
+      tue: 0,
+      wed: 0,
+      thu: 0,
+      fri: 0,
+      sat: 0,
+      sun: 0,
+    };
+    const noTimes = tutor.times;
+
     return (
       <div>
         <NavBar user={user} />
@@ -74,7 +84,7 @@ class RequestPage extends React.Component {
           </div>
           <div className="form-group col-md-5">
             <label htmlFor="request-times">시간</label>
-            <WeeklyScheduler name="times" id="profileedit-times" readonly={false} onChange={this.handleTimesChange} />
+            <WeeklyScheduler name="times" id="profileedit-times" times={times} tutoringTimes={noTimes} readonly={false} onChange={this.handleTimesChange} inv={true}/>
           </div>
           <div className="form-group col-md-5" style={{ verticalAlign:'middle' }}>
             <label htmlFor="request-submit"></label><br />
