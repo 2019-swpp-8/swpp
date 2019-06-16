@@ -2,13 +2,15 @@
 import React from 'react'
 import { NavBar, WeeklyScheduler, SearchLecture } from 'components'
 import { withRouter } from 'react-router-dom';
+import {BrowserRouter as Router, Route, Link, Redirect} from 'react-router-dom'
 
 class RequestPage extends React.Component {
   constructor(props) {
     super(props);
     const request = this.props.request;
     this.state = {detail: "", payment: "",
-        mon: 0, tue: 0, wed: 0, thu: 0, fri: 0, sat: 0, sun: 0};
+        mon: 0, tue: 0, wed: 0, thu: 0, fri: 0, sat: 0, sun: 0,
+        redirect: false};
     this.handleInputChange = this.handleInputChange.bind(this);
     this.handleTimesChange = this.handleTimesChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -22,6 +24,12 @@ class RequestPage extends React.Component {
   componentDidUpdate() {
     if (this.props.profile.id == this.props.user.id) return;
     this.props.getProfile(this.props.user.id);
+  }
+
+  getRedirect() {
+    if (this.state.redirect) {
+      return <Redirect to={'/'} />;
+    }
   }
 
   handleInputChange(event) {
@@ -49,6 +57,7 @@ class RequestPage extends React.Component {
     const payment = this.state['payment'];
     const times = this.state['times'];
     this.props.postRequest(tutor, tutee, lecture, detail, payment, times);
+    this.setState({redirect: true});
     event.preventDefault();
   }
 
@@ -56,6 +65,7 @@ class RequestPage extends React.Component {
     const {user, searchlecture, getLectureList, updateLectureList, selectSearched} = this.props;
     return (
       <div>
+        {this.getRedirect()}
         <NavBar user={user} />
         <div className="container mt-3">
         <h3> 튜터링 신청 양식 </h3>
