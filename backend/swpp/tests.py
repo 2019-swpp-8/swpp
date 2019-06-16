@@ -335,6 +335,7 @@ class LowLevelTests(APITestCase):
         self.client.get("/profiles/").data
         self.client.get("/tutors/").data
 
+        self.client.force_login(user2)
         request = {'tutor': user1.id, 'tutee': user2.id, 'lecture': 1, 'detail': "a", 'payment': "b",
             'mon': 1, 'tue': 2, 'wed': 1, 'thu': 2, 'fri': 1, 'sat': 2, 'sun': 0}
         self.assertTrue(self.client.post("/requests/", request).status_code >= 400)
@@ -352,6 +353,11 @@ class LowLevelTests(APITestCase):
         self.client.put("/times/{0}/".format(times_id), times)
         self.client.post("/requests/", request)
 
+        request = {'tutor': user1.id, 'tutee': user2.id, 'lecture': 1, 'detail': "a", 'payment': "b",
+            'mon': 4, 'tue': 0, 'wed': 2, 'thu': 1, 'fri': 0, 'sat': 0, 'sun': 7}
+        self.client.post("/requests/", request)
+        self.client.delete("/request/2/")
+
         requests = self.client.get("/requests/").data
         self.assertEqual(len(requests), 1)
 
@@ -364,30 +370,13 @@ class LowLevelTests(APITestCase):
         self.assertEqual(requests[0]['times']['mon'], 1)
         self.assertEqual(requests[0]['times']['sat'], 2)
 
-        '''
-        requests = self.client.get("/requests/?tutor=&tutee=").data
-        self.assertEqual(len(requests), 1)
-        requests = self.client.get("/requests/", {'tutor': user1.id}).data
-        self.assertEqual(len(requests), 1)
-        requests = self.client.get("/requests/", {'tutee': user2.id}).data
-        self.assertEqual(len(requests), 1)
-        requests = self.client.get("/requests/", {'tutor': user2.id}).data
-        self.assertEqual(len(requests), 0)
-        requests = self.client.get("/requests/", {'tutee': user1.id}).data
-        self.assertEqual(len(requests), 0)
-        requests = self.client.get("/requests/", {'tutor': user1.id, 'tutee': user2.id}).data
-        self.assertEqual(len(requests), 1)
-        requests = self.client.get("/requests/", {'tutor': user2.id, 'tutee': user1.id}).data
-        self.assertEqual(len(requests), 0)
-        '''
-
         request = self.client.get("/request/1/").data
         self.assertEqual(request['status'], 0)
 
-        self.client.force_login(user2)
         prof = self.client.get('/profile/{0}/'.format(user1.id)).data
         self.assertEqual(prof['contact'], "")
 
+        self.client.force_login(user1)
         request = self.client.put("/request/1/", {'status': 1}).data
         self.assertEqual(request['status'], 1)
         request = self.client.get('/times/{0}/'.format(times_id)).data
@@ -405,6 +394,11 @@ class LowLevelTests(APITestCase):
         self.client.force_login(user1)
         prof = self.client.get('/profile/{0}/'.format(user2.id)).data
         self.assertEqual(prof['contact'], "010-0000-0000")
+        self.assertEqual(len(prof['notifications']), 2)
+        self.assertFalse(prof['notifications'][0]['read'])
+        notification = self.client.get('/notification/{0}/'.format(prof['notifications'][0]['id'])).data
+        self.assertTrue(notification['read'])
+        self.assertTrue(self.client.get('/notification/9999/').status_code == 404)
 
         request = self.client.put("/request/1/", {'status': 2}).data
         self.assertEqual(request['status'], 2)
