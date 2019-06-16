@@ -1,12 +1,18 @@
 import React from 'react';
 import debounce from 'lodash/debounce';
-import {DayHeader, TimeRow, EventSelector} from 'components';
+import {DayHeader, TimeRow} from 'components';
 
 
 class WeeklyScheduler extends React.Component {
   constructor(props) {
     super(props);
-    const { defaultEvent, selectedEvent, currentSchedule } = this.props;
+    this.unavailEv = { event: 'unavailable', color: '#d4d8dd' };
+    this.availEv = { event: 'available', color: '#b66363' };
+    this.tutoringEv = { event: 'tutoring', color: '#d6bd43' };
+    this.events = [this.unavailEv, this.availEv, this.tutoringEv];
+    const { currentSchedule } = this.props;
+    const defaultEvent = this.unavailEv;
+    const selectedEvent = this.availEv;
     let days = [];
     if (currentSchedule) {
       days = currentSchedule;
@@ -28,7 +34,6 @@ class WeeklyScheduler extends React.Component {
     this.onMouseDown = this.onMouseDown.bind(this);
     this.onMouseUp = this.onMouseUp.bind(this);
     this.onMouseOver = this.onMouseOver.bind(this);
-    this.handleSelectEvent = debounce(this.handleSelectEvent.bind(this), 20);
   }
 
   componentWillReceiveProps(newProps) {
@@ -48,8 +53,29 @@ class WeeklyScheduler extends React.Component {
         time: parseInt(rowNum, 10)
       }
     });
+    var currentEvent;
+    if (this.state.oldDays[parseInt(dayNum, 10)][parseInt(rowNum, 10)] == this.unavailEv) {
+      currentEvent = this.availEv;
+    } else if (this.state.oldDays[parseInt(dayNum, 10)][parseInt(rowNum, 10)] == this.availEv) {
+      currentEvent = this.unavailEv;
+    } else {
+      currentEvent = this.availEv;
+    }
+    this.setState({
+      currentEvent: currentEvent
+    });
+
     this.weekTable.addEventListener('mouseover', this.onMouseOver);
     window.addEventListener('mouseup', this.onMouseUp);
+
+    const newDays = [];
+
+    for (let j = 0; j < 7; j += 1) {
+      newDays.push(this.state.oldDays[j].slice());
+    }
+    newDays[parseInt(dayNum, 10)][parseInt(rowNum, 10)] = currentEvent;
+
+    this.setState({ days: newDays });
   }
   onMouseUp() {
     const { days } = this.state;
@@ -78,12 +104,6 @@ class WeeklyScheduler extends React.Component {
       />
     ));
   }
-  handleSelectEvent(eventSelected) {
-    const { currentEvent } = this.state;
-    if (eventSelected.event !== currentEvent.event) {
-      this.setState({ currentEvent: eventSelected });
-    }
-  }
   handleDragOver(dayNum, rowNum) {
     const { startingCell, currentEvent, oldDays } = this.state;
 
@@ -102,29 +122,30 @@ class WeeklyScheduler extends React.Component {
       for (let j = dayStart; j <= dayEnd; j += 1) {
         if (timeDiff !== 0) {
           for (let i = timeStart; i <= timeEnd; i += 1) {
-            newDays[j][i] = currentEvent;
+            if (newDays[j][i] != this.tutoringEv)
+              newDays[j][i] = currentEvent;
           }
         } else {
-          newDays[j][startingCell.time] = currentEvent;
+          if (newDays[j][startingCell.time] != this.tutoringEv)
+            newDays[j][startingCell.time] = currentEvent;
         }
       }
     } else {
       const timeStart = (startingCell.time < rowNum) ? startingCell.time : rowNum;
       const timeEnd = (startingCell.time < rowNum) ? rowNum : startingCell.time;
       for (let j = timeStart; j <= timeEnd; j += 1) {
-        newDays[startingCell.day][j] = currentEvent;
+        if (newDays[startingCell.day][j] != this.tutoringEv)
+          newDays[startingCell.day][j] = currentEvent;
       }
     }
     this.setState({ days: newDays });
   }
   render() {
-    const { events, defaultEvent } = this.props;
+    const events = this.events;
+    const defaultEvent = this.unavailEv;
     const { currentEvent } = this.state;
     return (
       <div id="WeeklySchedulerTable">
-        <EventSelector
-          events={events} selectedEvent={currentEvent} selectEvent={this.handleSelectEvent}
-        />
         <table>
           <DayHeader />
           <tbody
