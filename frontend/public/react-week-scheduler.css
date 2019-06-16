@@ -1,0 +1,142 @@
+#WeeklySchedulerTable table {
+  font-family: sans-serif;
+  width: 100%;
+  border-spacing: 0;
+  border-collapse: separate;
+  table-layout: fixed;
+  margin: auto;
+}
+#WeeklySchedulerTable table thead tr th {
+  background: #626e7e;
+  color: #d1d5db;
+  padding: 0.5em;
+  overflow: hidden;
+}
+#WeeklySchedulerTable table thead tr th:first-child {
+  border-radius: 3px 0 0 0;
+}
+#WeeklySchedulerTable table thead tr th:last-child {
+  border-radius: 0 3px  0 0;
+}
+#WeeklySchedulerTable table thead tr th .day {
+  display: block;
+  font-size: 1.2em;
+  border-radius: 50%;
+  width: 30px;
+  height: 30px;
+  margin: 0 auto 5px;
+  padding: 5px;
+  line-height: 1.8;
+}
+#WeeklySchedulerTable table thead tr th .day.active {
+  background: #d1d5db;
+  color: #626e7e;
+}
+#WeeklySchedulerTable table thead tr th .short {
+  display: none;
+}
+#WeeklySchedulerTable table thead tr th i {
+  vertical-align: middle;
+  font-size: 2em;
+}
+/*#WeeklySchedulerTable table tbody tr {
+  background: #d1d5db;
+}
+#WeeklySchedulerTable table tbody tr:nth-child(odd) {
+  background: #c8cdd4;
+}*/
+#WeeklySchedulerTable table tbody tr:nth-child(2n+0) td {
+  border-bottom: 1px solid #626e7e;
+}
+#WeeklySchedulerTable table tbody tr td {
+  text-align: center;
+  vertical-align: middle;
+  border-left: 1px solid #626e7e;
+  position: relative;
+  height: 24px;
+  cursor: pointer;
+}
+#WeeklySchedulerTable table tbody tr td:last-child {
+  border-right: 1px solid #626e7e;
+}
+#WeeklySchedulerTable table tbody tr td.hour {
+  font-size: 1em;
+  padding: 0;
+  color: #626e7e;
+  background: #fff;
+  border-bottom: 1px solid #626e7e;
+  border-collapse: separate;
+  min-width: 50px;
+  cursor: default;
+}
+#WeeklySchedulerTable table tbody tr td.hour span {
+  display: block;
+}
+@media (max-width: 60em) {
+  #WeeklySchedulerTable table thead tr th .long {
+    display: none;
+  }
+  #WeeklySchedulerTable table thead tr th .short {
+    display: block;
+  }
+}
+@media (max-width: 27em) {
+  #WeeklySchedulerTable table thead tr th {
+    font-size: 65%;
+  }
+  #WeeklySchedulerTable table thead tr th .day {
+    display: block;
+    font-size: 1.2em;
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    margin: 0 auto 5px;
+    padding: 5px;
+  }
+  #WeeklySchedulerTable table thead tr th .day.active {
+    background: #d1d5db;
+    color: #626e7e;
+  }
+  #WeeklySchedulerTable table tbody tr td.hour {
+    font-size: 1.7em;
+  }
+}
+#WeeklySchedulerTable {
+  width: 100%;
+  font-family: sans-serif;
+  line-height: normal;
+  margin-bottom: 20px;
+}
+#EventSelector {
+  width: 100%;
+  margin: 0px auto 10px auto;
+  padding: 0px 0px 10px 0px;
+  border: 1px solid #626e7e;
+  border-radius: 0.5em;
+  background: #626e7e;
+  color: #d1d5db;
+}
+#EventSelector legend {
+  font-size: 1em;
+  background: #626e7e;
+  color: #d1d5db;
+  padding: 0.25em 1em;
+  border-radius: 1em;
+  border: 1px solid #000;
+  margin-bottom: 0px;
+  width: auto;
+}
+#EventSelector div.legend-body {
+  text-align: center;
+  vertical-align: middle;
+}
+#EventSelector div .radio-item {
+  display: inline-block;
+  margin-left: 10px;
+}
+#EventSelector div .legend-color {
+  width: 10px;
+  height: 10px;
+  display: inline-block;
+  margin-left: 5px;
+}
