@@ -71,6 +71,7 @@ class ProfilePage extends React.Component {
                     <th> 강의 </th>
                     <th> 요구사항 </th>
                     <th> 보수 </th>
+                    <th> 시간 </th>
                     <th> 상태 </th>
                   </tr>
                 </thead>
@@ -87,6 +88,7 @@ class ProfilePage extends React.Component {
                     <th> 강의 </th>
                     <th> 요구사항 </th>
                     <th> 보수 </th>
+                    <th> 시간 </th>
                     <th> 상태 </th>
                   </tr>
                 </thead>
