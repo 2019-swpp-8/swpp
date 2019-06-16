@@ -16,12 +16,7 @@ it('renders and all callbacks work', () => {
   wrapper.setProps({tutor: {id: 4}});
   wrapper.setProps({profile: {id: 1}});
   wrapper.setProps({tutor: {id: 2}});
-  wrapper.find('#request-mon').simulate('change', {
-    target: {
-      name: 'mon',
-      value: '',
-    },
-  });
+  wrapper.instance().handleTimesChange(0);
   wrapper.find('#request-detail').simulate('change', {
     target: {
       name: 'detail',

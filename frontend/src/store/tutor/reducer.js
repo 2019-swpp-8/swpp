@@ -4,6 +4,7 @@ const initialState = {
   id: -1,
   bio: '',
   exp: '',
+  lectures: [],
   times: {
     mon: 0,
     tue: 0,
@@ -31,6 +32,7 @@ export default (state = initialState, {type, payload}) => {
         id: payload.id,
         bio: payload.bio,
         exp: payload.exp,
+        lectures: payload.lectures,
         times: payload.times,
         tutoringTimes: payload.tutoringTimes,
       };

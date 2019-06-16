@@ -5,10 +5,10 @@ import { put, call, select, takeEvery } from 'redux-saga/effects'
 export function* getTutor(dat) {
   try {
     const id = dat.payload;
-    const profile = yield call([api, api.get], '/tutor/' + id + '/', {credentials: 'include'});
+    const tutor = yield call([api, api.get], '/tutor/' + id + '/', {credentials: 'include'});
     const times = yield call([api, api.get], '/times/' + profile.times + '/', {credentials: 'include'});
     const tutoringTimes = yield call([api, api.get], '/times/' + profile.tutoringTimes + '/', {credentials: 'include'});
-    yield put(actions.updateTutor(id, profile.bio, profile.exp, times, tutoringTimes));
+    yield put(actions.updateTutor(id, tutor.bio, tutor.exp, tutor.lectures, times, tutoringTimes));
   } catch (e) {
 
   }
@@ -20,9 +20,10 @@ export function* putTutor(dat) {
     const id = payload.id;
     const bio = payload.bio;
     const exp = payload.exp;
+    const lectures = payload.lectures.map(i=>i.id);
     const times = payload.times;
     yield call([api, api.put], '/tutor/' + id + '/', {
-        bio: payload.bio, exp: payload.exp
+        bio: bio, exp: exp, lectures: lectures
     }, {
       headers: { "X-CSRFToken": ('; '+document.cookie).split('; csrftoken=').pop().split(';').shift() },
       credentials: "include"

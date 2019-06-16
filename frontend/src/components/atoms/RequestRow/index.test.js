@@ -9,7 +9,9 @@ it('renders with no request prop', () => {
 it('renders with proper request prop. user is tutor, status is 0', () => {
   const wrapper = shallow(<RequestRow user={1} request={{
     tutor: {
-      profile: 1,
+      profile: {
+        user: 1
+      }
     },
     tutee: {
       user: 2,
