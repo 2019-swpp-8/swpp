@@ -32,9 +32,9 @@ const schedToTimes = (sched, filled) => {
 class WeeklyScheduler extends React.Component {
   constructor(props) {
     super(props);
-    this.unavailEv = { event: 'unavailable', color: '#d4d8dd' };
-    this.availEv = { event: 'available', color: '#b66363' };
-    this.tutoringEv = { event: 'tutoring', color: '#d6bd43' };
+    this.unavailEv = { event: 'unavailable', color: '#dadde4' };
+    this.availEv = { event: 'available', color: '#8683c3' };
+    this.tutoringEv = { event: 'tutoring', color: '#6f747a' };
     this.events = [this.unavailEv, this.availEv, this.tutoringEv];
     const { currentSchedule, times, tutoringTimes, inv } = this.props;
     const defaultEvent = this.unavailEv;
