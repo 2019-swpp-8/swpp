@@ -27,8 +27,7 @@ class RequestPage extends React.Component {
   handleInputChange(event) {
     const target = event.target;
     const name = target.name;
-    const value = (target.value == '' && (name == 'mon' || name == 'tue' || name == 'wed' ||
-        name == 'thu' || name == 'fri' || name == 'sat' || name == 'sun')) ? 0 : target.value;
+    const value = target.value;
 
     this.setState({
       [name]: value
