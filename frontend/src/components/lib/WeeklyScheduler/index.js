@@ -2,10 +2,10 @@ import React from 'react';
 import debounce from 'lodash/debounce';
 import {DayHeader, TimeRow} from 'components';
 
-const timesToSched = (times, tutoringTimes, a, b, c) => {
+const timesToSched = (times, tutoringTimes, a, b, c, inv) => {
   const day = [];
   for (let i = 0; i < 48; i++) {
-    if (tutoringTimes % 2 === 1) {
+    if ((inv && (tutoringTimes % 2 === 0)) || (!inv && (tutoringTimes % 2 === 1))) {
       day.push(c);
     } else if (times % 2 === 1) {
       day.push(b);
@@ -36,14 +36,14 @@ class WeeklyScheduler extends React.Component {
     this.availEv = { event: 'available', color: '#b66363' };
     this.tutoringEv = { event: 'tutoring', color: '#d6bd43' };
     this.events = [this.unavailEv, this.availEv, this.tutoringEv];
-    const { currentSchedule, times, tutoringTimes } = this.props;
+    const { currentSchedule, times, tutoringTimes, inv } = this.props;
     const defaultEvent = this.unavailEv;
     const selectedEvent = this.availEv;
     const weekdays = ['mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun'];
     let days = [];
     for (let i = 0; i < 7; i += 1) {
       const day = timesToSched(times ? times[weekdays[i]] : 0,
-        tutoringTimes ? tutoringTimes[weekdays[i]] : 0, this.unavailEv, this.availEv, this.tutoringEv);
+        tutoringTimes ? tutoringTimes[weekdays[i]] : 0, this.unavailEv, this.availEv, this.tutoringEv, inv);
       days.push(day);
     }
     this.state = {
@@ -58,12 +58,12 @@ class WeeklyScheduler extends React.Component {
   }
 
   componentWillReceiveProps(newProps) {
-    const { times, tutoringTimes } = newProps;
+    const { times, tutoringTimes, inv } = newProps;
     const weekdays = ['mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun'];
     if (times && tutoringTimes) {
       let days = [];
       for (let i = 0; i < 7; i += 1) {
-        const day = timesToSched(times[weekdays[i]], tutoringTimes[weekdays[i]], this.unavailEv, this.availEv, this.tutoringEv);
+        const day = timesToSched(times[weekdays[i]], tutoringTimes[weekdays[i]], this.unavailEv, this.availEv, this.tutoringEv, inv);
         days.push(day);
       }
       this.setState({
