@@ -107,7 +107,7 @@ class ProfileEditPage extends React.Component {
               </div>
               <div className="form-group col-md-6">
                 <h3> 튜터링 가능 시간대 </h3>
-                <WeeklyScheduler name="times" id="profileedit-times" times={this.state.edited ? undefined : tutor.times} tutoringTimes={tutor.tutoringTimes} readonly={false} onChange={this.handleTimesChange} />
+                <WeeklyScheduler name="times" id="profileedit-times" times={this.state.edited ? undefined : tutor.times} tutoringTimes={tutor.tutoringTimes} readonly={false} onChange={this.handleTimesChange} inv={false}/>
               </div>
             </div>
             <h3> 가르칠 수 있는 강의 </h3>
