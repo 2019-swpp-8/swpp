@@ -1,6 +1,6 @@
 // https://github.com/diegohaz/arc/wiki/Atomic-Design
 import React from 'react'
-import { NavBar, RequestRow } from 'components'
+import { NavBar, RequestRow, WeeklyScheduler } from 'components'
 import { withRouter } from 'react-router-dom';
 import { BrowserRouter as Router, Route, Link } from 'react-router-dom'
 
@@ -26,6 +26,7 @@ class ProfilePage extends React.Component {
     const tuteeRequestList = Array.isArray(requestlist.tutee_request) ? requestlist.tutee_request.map(i => (
       <RequestRow key={i.id} user={user.id} request={i} deleteRequest={()=>deleteRequest(i.id, user.id)} changeStatus={(status)=>changeRequestStatus(i.id, status, user.id)} />
     )) : <tr></tr>;
+    console.log(tutor);
     return (
       <div>
         <NavBar user={user} />
@@ -36,12 +37,15 @@ class ProfilePage extends React.Component {
           <br/>
           <h3> 튜터 정보 </h3>
           <div> 소개: {tutor.bio} </div>
-          <div> 경력: {tutor.exp} </div>
+          <div className="mb-1"> 경력: {tutor.exp} </div>
+          <div className="row">
+            <div className="col-5">
+              <WeeklyScheduler times={tutor.times} tutoringTimes={tutor.tutoringTimes} readonly={profile.id != user.id} />
+            </div>
+          </div>
           {editButton}
-          <br/>
-          <br/>
           {profile.id == user.id ? (
-            <div>
+            <div className="mt-3">
               <h3> 튜터링 해주는 목록 </h3>
               <table className="table table-hover">
                 <thead>
@@ -58,7 +62,6 @@ class ProfilePage extends React.Component {
                   {tutorRequestList}
                 </tbody>
               </table>
-              <br/>
               <h3> 튜터링 받는 목록 </h3>
               <table className="table table-hover">
                 <thead>
