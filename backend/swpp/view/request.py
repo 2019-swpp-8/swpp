@@ -24,7 +24,7 @@ def deleteMessage(tutor, lecture_id):
 
 def cancelMessage(tutee, lecture_id):
     lecture = Lecture.objects.get(pk = lecture_id)
-    return f'{tutee} 님이 {lecture.prof} 교수의 {lecture.title} 과목 튜터링 신청을 취소하였습니다.'
+    return '{0} 님이 {1} 교수의 {2} 과목 튜터링 신청을 취소하였습니다.'.format(tutee, lecture.prof, lecture.title)
 
 def flipTime(tutor, request_times):
     times = tutor.times
