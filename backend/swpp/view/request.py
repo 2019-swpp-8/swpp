@@ -52,7 +52,7 @@ class RequestList(generics.ListCreateAPIView):
             request.data.update({'times': times.id})
             tutor = Tutor.objects.get(pk = request.data.get('tutor'))
             message = postMessage(request.user.profile.name, request.data.get('lecture'))
-            serializer = NotificationSerializer(data = {'profile': tutor,
+            serializer = NotificationSerializer(data = {'profile': tutor.profile,
                                                         'message': message})
             if serializer.is_valid(): serializer.save()
         request_ = self.create(request, *args, **kwargs)
@@ -65,10 +65,10 @@ class RequestDetails(generics.RetrieveUpdateDestroyAPIView):
 
     def put(self, request, *args, **kwargs):
         response = self.partial_update(request, *args, **kwargs)
-        status = request.data.get('status', 0)
+        status = int(request.data.get('status', 0))
         if response.status_code < 300 and status: # upon status update
             request_ = Request.objects.get(pk = kwargs['pk'])
-            if status == '1':
+            if status == 1:
                 message = acceptMessage(Profile.objects.get(pk = request.user).name, request_.lecture.id)
             else:
                 message = completeMessage(request_.lecture.id)
@@ -84,14 +84,15 @@ class RequestDetails(generics.RetrieveUpdateDestroyAPIView):
     def delete(self, request, *args, **kwargs):
         request_ = Request.objects.get(pk = kwargs['pk'])
         info = (Profile.objects.get(pk = request.user).name, request_.lecture.id)
-        if request_.tutor.profile.id == request.user:
-            message = deleteMessage(*info)
-            profile = request_.tutee
-        else:
-            message = cancelMessage(*info)
-            profile = request_.tutor.profile
-        serializer = NotificationSerializer(data = {'profile': profile,
-                                                    'message': message})
-        if serializer.is_valid(): serializer.save()
-        flipTime(request_.tutor, request_.times)
+        if request_.status != 2:
+            if request_.tutor.profile.user == request.user:
+                message = deleteMessage(*info)
+                profile = request_.tutee
+            else:
+                message = cancelMessage(*info)
+                profile = request_.tutor.profile
+            serializer = NotificationSerializer(data = {'profile': profile,
+                                                        'message': message})
+            if serializer.is_valid(): serializer.save()
+            flipTime(request_.tutor, request_.times)
         return self.destroy(request, *args, **kwargs)

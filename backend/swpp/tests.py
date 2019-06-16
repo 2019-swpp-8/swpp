@@ -394,7 +394,7 @@ class LowLevelTests(APITestCase):
         self.client.force_login(user1)
         prof = self.client.get('/profile/{0}/'.format(user2.id)).data
         self.assertEqual(prof['contact'], "010-0000-0000")
-        self.assertEqual(len(prof['notifications']), 2)
+        self.assertEqual(len(prof['notifications']), 1)
         self.assertFalse(prof['notifications'][0]['read'])
         notification = self.client.get('/notification/{0}/'.format(prof['notifications'][0]['id'])).data
         self.assertTrue(notification['read'])
