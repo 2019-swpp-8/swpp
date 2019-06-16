@@ -4,9 +4,9 @@ export const GET_TUTOR_LIST = 'GET_TUTOR_LIST';
 // reducers
 export const UPDATE_TUTOR_LIST = 'UPDATE_TUTOR_LIST';
 
-export const getTutorList = (bio, exp) => ({
+export const getTutorList = (bio, exp, major) => ({
   type: GET_TUTOR_LIST,
-  payload: {bio, exp},
+  payload: {bio, exp, major},
 });
 
 export const updateTutorList = (dat) => ({

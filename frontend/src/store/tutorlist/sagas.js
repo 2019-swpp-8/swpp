@@ -7,13 +7,17 @@ export function* getTutorList(dat) {
     dat = dat.payload;
     let bio = dat.bio;
     let exp = dat.exp;
+    let major = dat.major;
     if (typeof bio === 'undefined') {
       bio = '';
     }
     if (typeof exp === 'undefined') {
       exp = '';
     }
-    const profile = yield call([api, api.get], '/tutors/?bio=' + bio + '&exp=' + exp, {credentials: 'include'});
+    if (typeof major === 'undefined') {
+      major = '';
+    }
+    const profile = yield call([api, api.get], '/tutors/?bio=' + bio + '&exp=' + exp + '&major=' + major, {credentials: 'include'});
     yield put(actions.updateTutorList(profile));
   } catch (e) {
 
