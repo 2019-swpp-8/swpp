@@ -7,9 +7,9 @@
   margin: auto;
 }
 #WeeklySchedulerTable table thead tr th {
-  background: #626e7e;
+  background: #323e4e;
   color: #d1d5db;
-  padding: 0.5em;
+  padding: 0.4em;
   overflow: hidden;
 }
 #WeeklySchedulerTable table thead tr th:first-child {
@@ -30,7 +30,7 @@
 }
 #WeeklySchedulerTable table thead tr th .day.active {
   background: #d1d5db;
-  color: #626e7e;
+  color: #323e4e;
 }
 #WeeklySchedulerTable table thead tr th .short {
   display: none;
@@ -46,25 +46,25 @@
   background: #c8cdd4;
 }*/
 #WeeklySchedulerTable table tbody tr:nth-child(2n+0) td {
-  border-bottom: 1px solid #626e7e;
+  border-bottom: 1px solid #323e4e;
 }
 #WeeklySchedulerTable table tbody tr td {
   text-align: center;
   vertical-align: middle;
-  border-left: 1px solid #626e7e;
+  border-left: 1px solid #323e4e;
   position: relative;
-  height: 24px;
+  height: 20px;
   cursor: pointer;
 }
 #WeeklySchedulerTable table tbody tr td:last-child {
-  border-right: 1px solid #626e7e;
+  border-right: 1px solid #323e4e;
 }
 #WeeklySchedulerTable table tbody tr td.hour {
   font-size: 1em;
   padding: 0;
-  color: #626e7e;
+  color: #323e4e;
   background: #fff;
-  border-bottom: 1px solid #626e7e;
+  border-bottom: 1px solid #323e4e;
   border-collapse: separate;
   min-width: 50px;
   cursor: default;
@@ -95,7 +95,7 @@
   }
   #WeeklySchedulerTable table thead tr th .day.active {
     background: #d1d5db;
-    color: #626e7e;
+    color: #323e4e;
   }
   #WeeklySchedulerTable table tbody tr td.hour {
     font-size: 1.7em;
@@ -106,37 +106,4 @@
   font-family: sans-serif;
   line-height: normal;
   margin-bottom: 20px;
-}
-#EventSelector {
-  width: 100%;
-  margin: 0px auto 10px auto;
-  padding: 0px 0px 10px 0px;
-  border: 1px solid #626e7e;
-  border-radius: 0.5em;
-  background: #626e7e;
-  color: #d1d5db;
-}
-#EventSelector legend {
-  font-size: 1em;
-  background: #626e7e;
-  color: #d1d5db;
-  padding: 0.25em 1em;
-  border-radius: 1em;
-  border: 1px solid #000;
-  margin-bottom: 0px;
-  width: auto;
-}
-#EventSelector div.legend-body {
-  text-align: center;
-  vertical-align: middle;
-}
-#EventSelector div .radio-item {
-  display: inline-block;
-  margin-left: 10px;
-}
-#EventSelector div .legend-color {
-  width: 10px;
-  height: 10px;
-  display: inline-block;
-  margin-left: 5px;
 }
