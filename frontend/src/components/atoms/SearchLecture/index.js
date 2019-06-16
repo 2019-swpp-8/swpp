@@ -27,7 +27,7 @@ const SearchLecture = ({searchlecture, acceptLecture, getLectureList, updateLect
 
   return <div>
     {selected != null ? <div>{selected.prof} + {selected.title}</div> : input_keyword}
-    {selected != null ? accept_button : null}
+    {selected != null && acceptLecture != undefined ? accept_button : null}
     {selected != null ? cancel_button : null}
     {lectures.map(i => (<div key={i.id} onClick={()=>handleSelect(i)}>{i.prof} - {i.title}</div>))}
   </div>

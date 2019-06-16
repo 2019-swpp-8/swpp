@@ -8,6 +8,7 @@ it('renders and all callbacks work', () => {
     username: 'a',
     id: 1,
   }}
+  searchlecture={{selected: {id: 1}}}
   match={{params: {id: 2}}}
   profile={{id: 3}} tutor={{id: 4}}
   getProfile={()=>{}} getTutor={()=>{}}

@@ -1,27 +1,34 @@
 // https://github.com/diegohaz/arc/wiki/Atomic-Design
 import React from 'react'
-import {NavBar, WeeklyScheduler} from 'components'
+import { NavBar, WeeklyScheduler, SearchLecture } from 'components'
 import { withRouter } from 'react-router-dom';
+import {BrowserRouter as Router, Route, Link, Redirect} from 'react-router-dom'
 
 class RequestPage extends React.Component {
   constructor(props) {
     super(props);
     const request = this.props.request;
-    this.state = {lecture: 1, detail: "", payment: "",
-        mon: 0, tue: 0, wed: 0, thu: 0, fri: 0, sat: 0, sun: 0};
+    this.state = {detail: "", payment: "",
+        mon: 0, tue: 0, wed: 0, thu: 0, fri: 0, sat: 0, sun: 0,
+        redirect: false};
     this.handleInputChange = this.handleInputChange.bind(this);
     this.handleTimesChange = this.handleTimesChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   componentDidMount() {
-    this.props.getProfile(this.props.user.id);
-    this.props.getTutor(this.props.match.params.id);
+    this.props.getProfile(this.props.match.params.id);
   }
 
   componentDidUpdate() {
-    if (this.props.profile.id == this.props.user.id) return;
-    this.props.getProfile(this.props.user.id);
+    if (this.props.profile.id == this.props.match.params.id) return;
+    this.props.getProfile(this.props.match.params.id);
+  }
+
+  getRedirect() {
+    if (this.state.redirect) {
+      return <Redirect to={'/'} />;
+    }
   }
 
   handleInputChange(event) {
@@ -44,18 +51,31 @@ class RequestPage extends React.Component {
   handleSubmit(event) {
     const tutor = this.props.match.params.id;
     const tutee = this.props.user.id;
-    const lecture = this.state['lecture'];
+    const lecture = this.props.searchlecture.selected.id;
     const detail = this.state['detail'];
     const payment = this.state['payment'];
     const times = this.state['times'];
     this.props.postRequest(tutor, tutee, lecture, detail, payment, times);
+    this.setState({redirect: true});
     event.preventDefault();
   }
 
   render() {
-    const {user} = this.props;
+    const {user, tutor, searchlecture, getLectureList, updateLectureList, selectSearched} = this.props;
+    const times = this.state.edited ? undefined : {
+      mon: 0,
+      tue: 0,
+      wed: 0,
+      thu: 0,
+      fri: 0,
+      sat: 0,
+      sun: 0,
+    };
+    const noTimes = tutor.times;
+
     return (
       <div>
+        {this.getRedirect()}
         <NavBar user={user} />
         <div className="container mt-3">
         <h3> 튜터링 신청 양식 </h3>
@@ -69,12 +89,12 @@ class RequestPage extends React.Component {
             <input type="text" name="payment" className="form-control" id="request-payment" placeholder="가능한 보수를 입력하세요" onChange={this.handleInputChange} />
           </div>
           <div className="form-group col-md-3">
-            <label htmlFor="request-lecture">강의명(번호)</label>
-            <input type="text" name="lecture" className="form-control" id="request-lecture" placeholder="강의를 선택하세요" onChange={this.handleInputChange} />
+            <label htmlFor="request-lecture">강의명</label>
+            <SearchLecture name="lecture" searchlecture={searchlecture} getLectureList={getLectureList} updateLectureList={updateLectureList} selectSearched={selectSearched} />
           </div>
           <div className="form-group col-md-5">
             <label htmlFor="request-times">시간</label>
-            <WeeklyScheduler name="times" id="profileedit-times" readonly={false} onChange={this.handleTimesChange} />
+            <WeeklyScheduler name="times" id="profileedit-times" times={times} tutoringTimes={noTimes} readonly={false} onChange={this.handleTimesChange} inv={true}/>
           </div>
           <div className="form-group col-md-5" style={{ verticalAlign:'middle' }}>
             <label htmlFor="request-submit"></label><br />
