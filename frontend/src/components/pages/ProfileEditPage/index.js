@@ -109,19 +109,19 @@ class ProfileEditPage extends React.Component {
                   <label htmlFor="profileedit-exp">경력</label>
                   <textarea rows="4" value={this.state.exp} type="text" name="exp" className="form-control" id="profileedit-exp" placeholder={tutor.exp} onChange={this.handleInputChange} />
                 </div>
+                <h3> 수강한 강의 </h3>
+                <SearchLecture searchlecture={searchlecture} acceptLecture={(lecture)=>this.addLecture(lecture)} getLectureList={getLectureList} updateLectureList={updateLectureList} selectSearched={selectSearched}></SearchLecture>
+                {lectureList}
+                <div className="form-group">
+                  <label htmlFor="profileedit-submit"> </label><br />
+                  <button id="profileedit-submit" type="submit" className="btn btn-primary mb-2">수정</button>
+                </div>
               </div>
               <div className="form-group col-md-5">
                 <h3> 튜터링 가능 시간대 </h3><br/>
                 <h4>가능한 시간에 색칠하세요</h4>
                 <WeeklyScheduler name="times" id="profileedit-times" times={this.state.edited ? undefined : tutor.times} tutoringTimes={tutor.tutoringTimes} readonly={false} onChange={this.handleTimesChange} inv={false}/>
               </div>
-            </div>
-            <h3> 가르칠 수 있는 강의 </h3>
-            <SearchLecture searchlecture={searchlecture} acceptLecture={(lecture)=>this.addLecture(lecture)} getLectureList={getLectureList} updateLectureList={updateLectureList} selectSearched={selectSearched}></SearchLecture>
-            {lectureList}
-            <div className="form-group col-md-5" style={{ verticalAlign:'middle' }}>
-              <label htmlFor="profileedit-submit"> </label><br />
-              <button id="profileedit-submit" type="submit" className="btn btn-primary mb-2">수정</button>
             </div>
           </form>
         </div>
