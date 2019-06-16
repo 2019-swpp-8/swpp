@@ -59,7 +59,7 @@ it("renders others' profiles", () => {
   }}
   match={{params: {id: 1}}}
   profile={{id: 2, name: 'b', major: 'c'}}
-  tutor={{bio:'d', exp:'e'}} requestlist={{}}
+  tutor={{bio:'d', exp:'e', lectures: [{id: 1, prof: "p", title: "t"}]}} requestlist={{}}
   getProfile={()=>{}} getRequestList={()=>{}}
   deleteRequest={()=>{}} changeRequestStatus={()=>{}}/>);
   wrapper.setProps({match: {params: {id: 3}}});

@@ -20,6 +20,9 @@ class ProfilePage extends React.Component {
     const editButton = profile.id == user.id ?
       <Link to='/profile/edit' className="btn btn-outline-primary login-button">편집</Link> :
       "";
+    const lectureList = Array.isArray(tutor.lectures) ? tutor.lectures.map(i => (
+      <tr key={i.id}><td>{i.prof}</td><td>{i.title}</td></tr>
+    )) : <tr></tr>;
     const tutorRequestList = Array.isArray(requestlist.tutor_request) ? requestlist.tutor_request.map(i => (
       <RequestRow key={i.id} user={user.id} request={i} deleteRequest={()=>deleteRequest(i.id, user.id)} changeStatus={(status)=>changeRequestStatus(i.id, status, user.id)} />
     )) : <tr></tr>;
@@ -37,6 +40,19 @@ class ProfilePage extends React.Component {
           <h3> 튜터 정보 </h3>
           <div> 소개: {tutor.bio} </div>
           <div> 경력: {tutor.exp} </div>
+          <br/>
+          <h3> 가르칠 수 있는 강의 </h3>
+          <table className="table table-hover">
+            <thead>
+              <tr>
+                <th> 교수님 </th>
+                <th> 강의명 </th>
+              </tr>
+            </thead>
+            <tbody>
+              {lectureList}
+            </tbody>
+          </table>
           {editButton}
           <br/>
           <br/>

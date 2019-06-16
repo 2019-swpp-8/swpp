@@ -32,7 +32,11 @@ class TutorList(generics.ListAPIView):
 class TutorDetails(generics.RetrieveUpdateAPIView):
     permission_classes = (IsOwnerOrReadOnly,)
     queryset = Tutor.objects.all()
-    serializer_class = TutorWriteSerializer
+
+    def get_serializer_class(self):
+        if self.request.method == 'GET':
+            return TutorReadSerializer
+        return TutorWriteSerializer
 
     def put(self, request, *args, **kwargs):
         return self.partial_update(request, *args, **kwargs)

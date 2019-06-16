@@ -1,13 +1,15 @@
 import React from 'react'
 import { shallow } from 'enzyme'
 import ProfileEditPage from '.'
+import SearchLecture from '../../atoms/SearchLecture'
 
 it('renders and all callbacks work', () => {
   const wrapper = shallow(<ProfileEditPage user={{
     loggedIn: true,
     username: 'a',
     id: 1,
-  }} profile={{id: 2, name: 'b', major: 'c'}} tutor={{}} putTutor={()=>{}} getProfile={()=>{}} putProfile={()=>{}}/>);
+  }} profile={{id: 2, name: 'b', major: 'c'}} tutor={{bio: 'x', exp: 'y', lectures: [{id: 1, prof: 'p', title: 't'}]}} putTutor={()=>{}} getProfile={()=>{}} putProfile={()=>{}}/>);
+
   wrapper.setProps({profile: {id: 2, name: 'b', major: 'd'}});
   wrapper.setProps({profile: {id: 1, name: 'b', major: 'd'}});
   wrapper.find('#profileedit-name').simulate('change', {
@@ -46,4 +48,5 @@ it('renders and all callbacks work', () => {
   wrapper.find('.form').simulate('submit', {
     preventDefault: () => {},
   });
+  wrapper.find('button').forEach((node, index)=>node.simulate('click'));
 });
