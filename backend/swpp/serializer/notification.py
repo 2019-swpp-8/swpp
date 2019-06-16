@@ -4,4 +4,4 @@ from swpp.models import Notification
 class NotificationSerializer(serializers.ModelSerializer):
     class Meta:
         model = Notification
-        fields = ('id', 'message', 'profile')
+        fields = ('id', 'message', 'profile', 'read')

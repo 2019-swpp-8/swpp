@@ -13,5 +13,6 @@ urlpatterns = [
     path('tutor/<int:pk>/', views.TutorDetails.as_view()),
     path('timeslist/', views.TimesList.as_view()),
     path('times/<int:pk>/', views.TimesDetails.as_view()),
-    path('lectures/', views.LectureList.as_view())
+    path('lectures/', views.LectureList.as_view()),
+    path('notification/<int:pk>/', views.NotificationDetails.as_view())
 ]
