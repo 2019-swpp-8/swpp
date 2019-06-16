@@ -2,13 +2,13 @@ from django.db import models
 from annoying.fields import AutoOneToOneField
 
 class Times(models.Model):
-    mon = models.BigIntegerField(default = 0)
-    tue = models.BigIntegerField(default = 0)
-    wed = models.BigIntegerField(default = 0)
-    thu = models.BigIntegerField(default = 0)
-    fri = models.BigIntegerField(default = 0)
-    sat = models.BigIntegerField(default = 0)
-    sun = models.BigIntegerField(default = 0)
+    mon = models.BigIntegerField(default = 281474976710655) # 2^48 - 1
+    tue = models.BigIntegerField(default = 281474976710655)
+    wed = models.BigIntegerField(default = 281474976710655)
+    thu = models.BigIntegerField(default = 281474976710655)
+    fri = models.BigIntegerField(default = 281474976710655)
+    sat = models.BigIntegerField(default = 281474976710655)
+    sun = models.BigIntegerField(default = 281474976710655)
 
     # other is Times
     def flip(self, other):
