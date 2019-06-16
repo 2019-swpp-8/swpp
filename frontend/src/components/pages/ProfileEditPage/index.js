@@ -74,7 +74,7 @@ class ProfileEditPage extends React.Component {
   }
 
   render() {
-    const {user, profile, tutor, searchlecture, getLectureList, updateLectureList, selectSearched} = this.props;
+    const {user, profile, tutor, searchlecture, getLectureList, updateLectureList, selectSearched, changeShow} = this.props;
     const lectures = this.state['lectures'] == undefined ? tutor.lectures : this.state['lectures'];
     const lectureList = Array.isArray(lectures) ? lectures.map(i => (
       <button type="button" key={i.id} onClick={()=>this.deleteLecture(i.id)}>{i.prof} / {i.title} X</button>
@@ -117,7 +117,7 @@ class ProfileEditPage extends React.Component {
               </div>
             </div>
             <h3> 가르칠 수 있는 강의 </h3>
-            <SearchLecture searchlecture={searchlecture} acceptLecture={(lecture)=>this.addLecture(lecture)} getLectureList={getLectureList} updateLectureList={updateLectureList} selectSearched={selectSearched}></SearchLecture>
+            <SearchLecture searchlecture={searchlecture} acceptLecture={(lecture)=>this.addLecture(lecture)} getLectureList={getLectureList} updateLectureList={updateLectureList} selectSearched={selectSearched} changeShow={changeShow}></SearchLecture>
             {lectureList}
             <div className="form-group col-md-5" style={{ verticalAlign:'middle' }}>
               <label htmlFor="profileedit-submit"> </label><br />
