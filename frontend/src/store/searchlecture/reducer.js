@@ -1,6 +1,7 @@
-import { UPDATE_LECTURE_LIST, SELECT_SEARCHED } from './actions'
+import { UPDATE_LECTURE_LIST, SELECT_SEARCHED, CHANGE_SHOW } from './actions'
 
 const initialState = {
+  show: false,
   selected: null,
   lectures: [],
 };
@@ -11,6 +12,8 @@ export default (state = initialState, {type, payload}) => {
       return { ...state, lectures: payload.lectures };
     case SELECT_SEARCHED:
       return { ...state, selected: payload.selected };
+    case CHANGE_SHOW:
+      return { ...state, show: payload.show };
     default:
       return state;
   }
