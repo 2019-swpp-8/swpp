@@ -9,7 +9,7 @@ class ProfileEditPage extends React.Component {
     super(props);
     const profile = this.props.profile;
     const tutor = this.props.tutor;
-    this.state = {name: profile.name, major: profile.major, redirect: false, exp: tutor.exp, bio: tutor.bio};
+    this.state = {name: profile.name, major: profile.major, contact: profile.contact, redirect: false, exp: tutor.exp, bio: tutor.bio};
 
     this.handleInputChange = this.handleInputChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -46,10 +46,11 @@ class ProfileEditPage extends React.Component {
     console.log(this.state);
     const name = this.state['name'] == '' ? this.props.profile.name : this.state['name'];
     const major = this.state['major'] == '' ? this.props.profile.major : this.state['major'];
+    const contact = this.state['contact'] == '' ? this.props.profile.contact : this.state['contact'];
     const bio = this.state['bio'] == '' ? this.props.tutor.bio : this.state['bio'];
     const exp = this.state['exp'] == '' ? this.props.tutor.exp : this.state['exp'];
     const lectures = this.state['lectures'] == undefined ? this.props.tutor.lectures : this.state['lectures'];
-    this.props.putProfile(this.props.profile.id, name, major);
+    this.props.putProfile(this.props.profile.id, name, major, contact);
     this.props.putTutor(this.props.profile.tutor, bio, exp, lectures, {id: this.props.tutor.times.id, ...this.state.times});
     this.setState({redirect: true});
     event.preventDefault();
@@ -94,6 +95,10 @@ class ProfileEditPage extends React.Component {
                 <div className="form-group">
                   <label htmlFor="profileedit-major">전공</label>
                   <input type="text" name="major" className="form-control" id="profileedit-major" placeholder={profile.major} onChange={this.handleInputChange} />
+                </div>
+                <div className="form-group">
+                  <label htmlFor="profileedit-contact">연락처</label>major
+                  <input type="text" name="contact" className="form-control" id="profileedit-contact" placeholder={profile.contact} onChange={this.handleInputChange} />
                 </div>
                 <h3> 튜터 정보 </h3>
                 <div className="form-group">
