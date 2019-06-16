@@ -17,7 +17,7 @@ const RequestRow = ({user, request, deleteRequest, changeStatus}) => {
   const star_button = <button id="request-star" onClick={()=>deleteRequest()} className="btn btn-primary mb-2">평점</button>;
   const cancel_button = <button id="request-cancel" onClick={()=>deleteRequest()} className="btn btn-danger mb-2">취소</button>;
 
-  const active_button = status == 0 && user == request['tutor']['profile'] ? accept_button :
+  const active_button = status == 0 && user == request['tutor']['profile']['user'] ? accept_button :
       status == 1 ? complete_button :
       status == 2 && user == request['tutee']['user'] ? star_button : null;
   return <tr>

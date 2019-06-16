@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from swpp.models import Profile, Request
-from swpp.serializer.request import RequestWriteSerializer
+from swpp.serializer.request import RequestReadSerializer
 import re
 
 def hasTutoring(user, req_user):
@@ -23,7 +23,7 @@ class PrivateField(serializers.Field):
         return data
 
 class ProfileSerializer(serializers.ModelSerializer):
-    requests = RequestWriteSerializer(many = True, read_only = True)
+    requests = RequestReadSerializer(many = True, read_only = True)
 
     class Meta:
         model = Profile
