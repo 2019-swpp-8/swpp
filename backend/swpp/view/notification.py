@@ -13,7 +13,7 @@ class NotificationDetails(generics.RetrieveDestroyAPIView):
     def get(self, request, *args, **kwargs):
         try:
             notification = Notification.objects.get(pk = kwargs['pk'])
-        except Notification.DoesNotExist: raise Http404
+        except: raise Http404
         notification.read = True
         notification.save()
         return Response(NotificationSerializer(notification).data)

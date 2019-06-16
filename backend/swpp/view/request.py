@@ -58,7 +58,7 @@ class RequestDetails(generics.RetrieveUpdateDestroyAPIView):
             tutoringTimes = request_.tutor.tutoringTimes
             tutoringTimes.flip(request_.times)
             tutoringTimes.save()
-            if status == 1:
+            if status == '1':
                 message = acceptMessage(Profile.objects.get(pk = request.user).name, request_.lecture.id)
             else:
                 profile = Profile.objects.get(tutor = request_.tutor)
