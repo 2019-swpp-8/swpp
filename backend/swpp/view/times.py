@@ -8,7 +8,7 @@ class TimesList(generics.ListAPIView):
     queryset = Times.objects.all()
     serializer_class = TimesSerializer
 
-class TimesDetails(generics.RetrieveUpdateAPIView):
+class TimesDetails(generics.RetrieveUpdateDestroyAPIView):
     queryset = Times.objects.all()
     serializer_class = TimesSerializer
 
@@ -16,7 +16,7 @@ class TimesDetails(generics.RetrieveUpdateAPIView):
         times = Times.objects.get(pk = kwargs['pk'])
         context = {}
         if 'tutor' in request.POST:
-            context['tutoringTimes'] = Tutor.objects.get(pk = request.POST.get('tutor')).tutoringTimes
+            context['tutoringTimes'] = Tutor.objects.get(pk = request.data.get('tutor')).tutoringTimes
         serializer = TimesSerializer(times, data=request.data, context=context)
         if serializer.is_valid():
             serializer.save()

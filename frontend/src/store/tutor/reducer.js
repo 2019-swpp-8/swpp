@@ -4,6 +4,24 @@ const initialState = {
   id: -1,
   bio: '',
   exp: '',
+  times: {
+    mon: 0,
+    tue: 0,
+    wed: 0,
+    thu: 0,
+    fri: 0,
+    sat: 0,
+    sun: 0,
+  },
+  tutoringTimes: {
+    mon: 0,
+    tue: 0,
+    wed: 0,
+    thu: 0,
+    fri: 0,
+    sat: 0,
+    sun: 0,
+  }
 };
 
 export default (state = initialState, {type, payload}) => {
@@ -13,6 +31,8 @@ export default (state = initialState, {type, payload}) => {
         id: payload.id,
         bio: payload.bio,
         exp: payload.exp,
+        times: payload.times,
+        tutoringTimes: payload.tutoringTimes,
       };
       return res;
     default:
