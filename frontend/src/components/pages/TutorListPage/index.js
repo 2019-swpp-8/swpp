@@ -6,7 +6,7 @@ import { withRouter } from 'react-router-dom';
 class TutorListPage extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {bio: '', exp: ''};
+    this.state = {bio: '', exp: '', major: ''};
 
     this.handleInputChange = this.handleInputChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -23,14 +23,14 @@ class TutorListPage extends React.Component {
   }
 
   componentDidMount() {
-    this.props.getTutorList("", "");
+    this.props.getTutorList("", "", "");
   }
 
   componentDidUpdate() {
   }
 
   handleSubmit(event) {
-    this.props.getTutorList(this.state['bio'], this.state['exp']);
+    this.props.getTutorList(this.state['bio'], this.state['exp'], this.state['major']);
     event.preventDefault();
   }
 
@@ -52,6 +52,10 @@ class TutorListPage extends React.Component {
             <div className="form-group col-md-3">
               <label htmlFor="tutorlist-exp">경력</label>
               <input name="exp" type="text" className="form-control" id="tutorlist-exp" onChange={this.handleInputChange} />
+            </div>
+            <div className="form-group col-md-3">
+              <label htmlFor="tutorlist-major">전공</label>
+              <input name="major" type="text" className="form-control" id="tutorlist-major" onChange={this.handleInputChange} />
             </div>
             <div className="form-group col-md-5" style={{ verticalAlign:'middle' }}>
               <label htmlFor="tutorlist-submit"> &nbsp; </label><br />
