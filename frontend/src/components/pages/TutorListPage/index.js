@@ -7,7 +7,7 @@ import FlipMove from 'react-flip-move';
 class TutorListPage extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {bio: '', exp: '', major: '', lecTitle:'', lecProf:'', times: {
+    this.state = {bio: '', exp: '', major: '', lecTitle:'', lecProf:'', name:'', times: {
       mon: 0,
       tue: 0,
       wed: 0,
@@ -59,7 +59,7 @@ class TutorListPage extends React.Component {
 
   handleSubmit(event) {
     this.props.getTutorList(this.state['bio'], this.state['exp'],
-     this.state['major'], this.state['lecTitle'], this.state['lecProf'],
+     this.state['major'], this.state['lecTitle'], this.state['lecProf'], this.state['name'],
      this.state['times'], this.state['total'] * 2, this.state['minInterval'] * 2);
     event.preventDefault();
   }
@@ -77,6 +77,10 @@ class TutorListPage extends React.Component {
         <div className="container mt-3">
         <form className="form" onSubmit={this.handleSubmit}>
           <div className="form-row">
+            <div className="form-group col-md-3">
+              <label htmlFor="tutorlist-name">이름</label>
+              <input name="name" type="text" className="form-control" id="tutorlist-name" onChange={this.handleInputChange} />
+            </div>
             <div className="form-group col-md-3">
               <label htmlFor="tutorlist-bio">소개</label>
               <input name="bio" type="text" className="form-control" id="tutorlist-bio" onChange={this.handleInputChange} />
