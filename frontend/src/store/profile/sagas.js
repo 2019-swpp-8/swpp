@@ -7,7 +7,6 @@ export function* getProfile(dat) {
   try {
     const id = dat.payload;
     yield put(actions.updateProfile(id, '로딩중...', '로딩중...'));
-    yield put(tutorActions.updateTutor(id, '로딩중...', '로딩중...'));
     yield put(tutorActions.updateTutor(id, '로딩중...', '로딩중...',
       {mon:0,tue:0,wed:0,thu:0,fri:0,sat:0,sun:0},
       {mon:0,tue:0,wed:0,thu:0,fri:0,sat:0,sun:0}));
@@ -15,7 +14,7 @@ export function* getProfile(dat) {
     yield put(actions.updateProfile(id, profile.name, profile.major, profile.tutor));
     yield put(tutorActions.getTutor(profile.tutor));
   } catch (e) {
-
+    console.log(e);
   }
 }
 

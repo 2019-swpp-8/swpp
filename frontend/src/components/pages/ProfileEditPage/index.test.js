@@ -18,6 +18,7 @@ it('renders and all callbacks work', () => {
       value: 'hi',
     },
   });
+  wrapper.find('SearchLecture').prop('acceptLecture')(1);
   wrapper.find('.form').simulate('submit', {
     preventDefault: () => {},
   });
