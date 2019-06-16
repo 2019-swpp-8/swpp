@@ -1,6 +1,8 @@
 from rest_framework import serializers
 from swpp.models import Profile, Request
 from swpp.serializer.request import RequestReadSerializer
+from swpp.serializer.notifications import NotificationSerializer
+
 import re
 
 def hasTutoring(user, req_user):
@@ -24,10 +26,11 @@ class PrivateField(serializers.Field):
 
 class ProfileSerializer(serializers.ModelSerializer):
     requests = RequestReadSerializer(many = True, read_only = True)
+    notifications = NotificationSerializer(many = True, read_only = True)
 
     class Meta:
         model = Profile
-        fields = ('user', 'name', 'joined', 'major', 'contact', 'tutor', 'requests')
+        fields = ('user', 'name', 'joined', 'major', 'contact', 'tutor', 'requests', 'notifications')
 
     contact = PrivateField()
 
