@@ -9,15 +9,15 @@ const RequestRow = ({user, request, deleteRequest, changeStatus}) => {
   const tutor_name = request['tutor']['profile']['name'];
   const tutee_name = request['tutee']['name'];
   const status = request['status']
-  const lecture_info = request['lecture']['prof'] + ' / ' + request['lecture']['title'];
+  const lecture_info = request['lecture']['title'];
   const detail = request['detail']
   const payment = request['payment']
 
-  const accept_button = <button id="request-accept" onClick={()=>changeStatus(1)} className="btn btn-primary btn-sm ml-2">수락</button>;
-  const complete_button = <button id="request-complete" onClick={()=>changeStatus(2)} className="btn btn-primary btn-sm ml-2">완료</button>;
-  const star_button = <button id="request-star" onClick={()=>deleteRequest()} className="btn btn-primary btn-sm ml-2">평점</button>;
-  const cancel_button = <button id="request-cancel" onClick={()=>deleteRequest()} className="btn btn-danger btn-sm ml-2">취소</button>;
-  const times_button = <button id="request-times" data-toggle="modal" data-target={'#modal-' + request['id']} className="btn btn-primary btn-sm">시간</button>;
+  const accept_button = <button id="request-accept" onClick={()=>changeStatus(1)} className="btn btn-outline-primary">수락</button>;
+  const complete_button = <button id="request-complete" onClick={()=>changeStatus(2)} className="btn btn-outline-primary">완료</button>;
+  const star_button = <button id="request-star" onClick={()=>deleteRequest()} className="btn btn-outline-primary">평점</button>;
+  const cancel_button = <button id="request-cancel" onClick={()=>deleteRequest()} className="btn btn-outline-danger">취소</button>;
+  const times_button = <button id="request-times" data-toggle="modal" data-target={'#modal-' + request['id']} className="btn btn-outline-dark mt-1">시간대 확인</button>;
 
   const active_button = status == 0 && user == request['tutor']['profile']['user'] ? accept_button :
       status == 1 ? complete_button :
@@ -42,21 +42,32 @@ const RequestRow = ({user, request, deleteRequest, changeStatus}) => {
       </div>
     </div>
   </div>;
-  return <tr>
-    <td> {tutor_name} </td>
-    <td> {_(tutee_name).truncate(({length: 30}))} </td>
-    <td> {_(lecture_info).truncate(({length: 30}))} </td>
-    <td> {_(detail).truncate(({length: 30}))} </td>
-    <td> {_(payment).truncate(({length: 30}))} </td>
-    <td>
-    {times_button}
-    {modal} </td>
-    <td> {_(status == 0 ? "대기중" : status == 1 ? "진행중" : "완료").truncate(({length: 30}))}
-      {active_button}
-      {status == 0 ? cancel_button : null}
-    </td>
-  </tr>
 
+  const two_buttons = <div className="btn-group mt-1" role="group"> {active_button} {cancel_button} </div>;
+  const single_button = <div className="mt-1"> {active_button} </div>;
+
+  return <div className="card mb-2">
+    <div className="card-body">
+      <div className="row">
+        <div className="col-md-3">
+          <h5> {tutor_name} 🡢 {tutee_name} </h5>
+          {_(lecture_info).truncate(({length: 16}))}
+        </div>
+        <div className="col-md-4">
+          상세: {_(detail).truncate(({length: 60}))}
+        </div>
+        <div className="col-md-3">
+          보수: {_(payment).truncate(({length: 30}))}
+          <div> {times_button}
+          {modal} </div>
+        </div>
+        <div className="col-md-2">
+        상태: {_(status == 0 ? "대기중" : status == 1 ? "진행중" : "완료됨").truncate(({length: 30}))}
+          { status == 0 ? two_buttons : single_button }
+        </div>
+      </div>
+    </div>
+  </div>;
 };
 
 export default RequestRow;

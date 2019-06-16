@@ -27,39 +27,14 @@ class HomePage extends React.Component {
     const tutoringList =
         <div className="mt-3">
         <h3> 튜터링 해주는 목록 </h3>
-        <table className="table table-hover">
-          <thead>
-            <tr>
-              <th> 튜터 </th>
-              <th> 튜티 </th>
-              <th> 강의 </th>
-              <th> 요구사항 </th>
-              <th> 보수 </th>
-              <th> 시간 </th>
-              <th> 상태 </th>
-            </tr>
-          </thead>
-          <tbody>
-            {tutorRequestList}
-          </tbody>
-        </table>
+
+        {tutorRequestList}
+        <br />
+
         <h3> 튜터링 받는 목록 </h3>
-        <table className="table table-hover">
-          <thead>
-            <tr>
-              <th> 튜터 </th>
-              <th> 튜티 </th>
-              <th> 강의 </th>
-              <th> 요구사항 </th>
-              <th> 보수 </th>
-              <th> 시간 </th>
-              <th> 상태 </th>
-            </tr>
-          </thead>
-          <tbody>
-            {tuteeRequestList}
-          </tbody>
-        </table>
+
+        {tuteeRequestList}
+
       </div>;
 
     return (
