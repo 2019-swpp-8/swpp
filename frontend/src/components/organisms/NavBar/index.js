@@ -10,6 +10,9 @@ const NavBar = ({user}) => {
   const tutors = <li className="nav-item">
     <Link to={'/tutors'} className="nav-link">튜터 목록</Link>
   </li>;
+  const notes = <li className="nav-item">
+    <Link to={'/notes/'} className="nav-link"> 알림 </Link>
+  </li>;
 
   return (
     <nav className="navbar navbar-expand-md navbar-light bg-light">
@@ -22,6 +25,7 @@ const NavBar = ({user}) => {
           <ul className="navbar-nav mr-auto">
             {profile}
             {tutors}
+            {notes}
           </ul>
           <LoginLogout user={user} />
         </div>
