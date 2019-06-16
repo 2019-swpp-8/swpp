@@ -84,12 +84,14 @@ class WeeklyScheduler extends React.Component {
       }
     });
     var currentEvent;
+    let no = false;
     if (this.state.oldDays[parseInt(dayNum, 10)][parseInt(rowNum, 10)] == this.unavailEv) {
       currentEvent = this.availEv;
     } else if (this.state.oldDays[parseInt(dayNum, 10)][parseInt(rowNum, 10)] == this.availEv) {
       currentEvent = this.unavailEv;
     } else {
       currentEvent = this.availEv;
+      no = true;
     }
     this.setState({
       currentEvent: currentEvent
@@ -98,14 +100,16 @@ class WeeklyScheduler extends React.Component {
     this.weekTable.addEventListener('mouseover', this.onMouseOver);
     window.addEventListener('mouseup', this.onMouseUp);
 
-    const newDays = [];
+    if (!no) {
+      const newDays = [];
 
-    for (let j = 0; j < 7; j += 1) {
-      newDays.push(this.state.oldDays[j].slice());
+      for (let j = 0; j < 7; j += 1) {
+        newDays.push(this.state.oldDays[j].slice());
+      }
+      newDays[parseInt(dayNum, 10)][parseInt(rowNum, 10)] = currentEvent;
+
+      this.setState({ days: newDays });
     }
-    newDays[parseInt(dayNum, 10)][parseInt(rowNum, 10)] = currentEvent;
-
-    this.setState({ days: newDays });
   }
   onMouseUp() {
     if (this.props.readonly) return;
