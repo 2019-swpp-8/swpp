@@ -86,7 +86,7 @@ class ProfileEditPage extends React.Component {
         <div className="container mt-3">
           <form className="form mt-3" onSubmit={this.handleSubmit}>
             <div className="row">
-              <div className="col-md-4">
+              <div className="col-md-5">
                 <h3> 프로파일 정보 </h3>
                 <div className="form-group">
                   <label htmlFor="profileedit-name">이름</label>
@@ -97,7 +97,7 @@ class ProfileEditPage extends React.Component {
                   <input type="text" name="major" className="form-control" id="profileedit-major" placeholder={profile.major} onChange={this.handleInputChange} />
                 </div>
                 <div className="form-group">
-                  <label htmlFor="profileedit-contact">연락처</label>major
+                  <label htmlFor="profileedit-contact">연락처</label>
                   <input type="text" name="contact" className="form-control" id="profileedit-contact" placeholder={profile.contact} onChange={this.handleInputChange} />
                 </div>
                 <h3> 튜터 정보 </h3>
@@ -110,7 +110,7 @@ class ProfileEditPage extends React.Component {
                   <textarea rows="4" value={this.state.exp} type="text" name="exp" className="form-control" id="profileedit-exp" placeholder={tutor.exp} onChange={this.handleInputChange} />
                 </div>
               </div>
-              <div className="form-group col-md-6">
+              <div className="form-group col-md-5">
                 <h3> 튜터링 가능 시간대 </h3><br/>
                 <h4>가능한 시간에 색칠하세요</h4>
                 <WeeklyScheduler name="times" id="profileedit-times" times={this.state.edited ? undefined : tutor.times} tutoringTimes={tutor.tutoringTimes} readonly={false} onChange={this.handleTimesChange} inv={false}/>
