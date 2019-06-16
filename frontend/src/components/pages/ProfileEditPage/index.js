@@ -36,7 +36,6 @@ class ProfileEditPage extends React.Component {
   }
 
   handleTimesChange(val) {
-    console.log(val);
     this.setState({
       times: val,
       edited: true,
