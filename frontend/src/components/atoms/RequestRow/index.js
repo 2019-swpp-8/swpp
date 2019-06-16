@@ -13,10 +13,10 @@ const RequestRow = ({user, request, deleteRequest, changeStatus}) => {
   const detail = request['detail']
   const payment = request['payment']
 
-  const accept_button = <button id="request-accept" onClick={()=>changeStatus(1)} className="btn btn-primary btn-sm">수락</button>;
-  const complete_button = <button id="request-complete" onClick={()=>changeStatus(2)} className="btn btn-primary btn-sm">완료</button>;
-  const star_button = <button id="request-star" onClick={()=>deleteRequest()} className="btn btn-primary btn-sm">평점</button>;
-  const cancel_button = <button id="request-cancel" onClick={()=>deleteRequest()} className="btn btn-danger btn-sm">취소</button>;
+  const accept_button = <button id="request-accept" onClick={()=>changeStatus(1)} className="btn btn-primary btn-sm ml-2">수락</button>;
+  const complete_button = <button id="request-complete" onClick={()=>changeStatus(2)} className="btn btn-primary btn-sm ml-2">완료</button>;
+  const star_button = <button id="request-star" onClick={()=>deleteRequest()} className="btn btn-primary btn-sm ml-2">평점</button>;
+  const cancel_button = <button id="request-cancel" onClick={()=>deleteRequest()} className="btn btn-danger btn-sm ml-2">취소</button>;
   const times_button = <button id="request-times" data-toggle="modal" data-target={'#modal-' + request['id']} className="btn btn-primary btn-sm">시간</button>;
 
   const active_button = status == 0 && user == request['tutor']['profile']['user'] ? accept_button :
