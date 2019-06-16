@@ -7,7 +7,6 @@ import { BrowserRouter as Router, Route, Link } from 'react-router-dom'
 class ProfilePage extends React.Component {
   componentDidMount() {
     this.props.getProfile(this.props.match.params.id);
-    this.props.getRequestList(this.props.match.params.id);
   }
 
   componentDidUpdate() {
@@ -16,18 +15,12 @@ class ProfilePage extends React.Component {
   }
 
   render() {
-    const {user, profile, tutor, requestlist, deleteRequest, changeRequestStatus} = this.props;
+    const {user, profile, tutor} = this.props;
     const editButton = profile.id == user.id ?
       <Link to='/profile/edit' className="btn btn-outline-primary login-button">수정</Link> :
       "";
     const lectureList = Array.isArray(tutor.lectures) ? tutor.lectures.map(i => (
       <tr key={i.id}><td>{i.prof}</td><td>{i.title}</td></tr>
-    )) : <tr></tr>;
-    const tutorRequestList = Array.isArray(requestlist.tutor_request) ? requestlist.tutor_request.map(i => (
-      <RequestRow key={i.id} user={user.id} request={i} deleteRequest={()=>deleteRequest(i.id, user.id)} changeStatus={(status)=>changeRequestStatus(i.id, status, user.id)} />
-    )) : <tr></tr>;
-    const tuteeRequestList = Array.isArray(requestlist.tutee_request) ? requestlist.tutee_request.map(i => (
-      <RequestRow key={i.id} user={user.id} request={i} deleteRequest={()=>deleteRequest(i.id, user.id)} changeStatus={(status)=>changeRequestStatus(i.id, status, user.id)} />
     )) : <tr></tr>;
     return (
       <div>
@@ -64,44 +57,6 @@ class ProfilePage extends React.Component {
               <WeeklyScheduler times={tutor.times} tutoringTimes={tutor.tutoringTimes} readonly={true} inv={false}/>
             </div>
           </div>
-          {profile.id == user.id ? (
-            <div className="mt-3">
-              <h3> 튜터링 해주는 목록 </h3>
-              <table className="table table-hover">
-                <thead>
-                  <tr>
-                    <th> 튜터 </th>
-                    <th> 튜티 </th>
-                    <th> 강의 </th>
-                    <th> 요구사항 </th>
-                    <th> 보수 </th>
-                    <th> 시간 </th>
-                    <th> 상태 </th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {tutorRequestList}
-                </tbody>
-              </table>
-              <h3> 튜터링 받는 목록 </h3>
-              <table className="table table-hover">
-                <thead>
-                  <tr>
-                    <th> 튜터 </th>
-                    <th> 튜티 </th>
-                    <th> 강의 </th>
-                    <th> 요구사항 </th>
-                    <th> 보수 </th>
-                    <th> 시간 </th>
-                    <th> 상태 </th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {tuteeRequestList}
-                </tbody>
-              </table>
-            </div>
-          ) : null}
         </div>
       </div>
     );
