@@ -2,10 +2,10 @@ import React from 'react';
 import debounce from 'lodash/debounce';
 import {DayHeader, TimeRow} from 'components';
 
-const timesToSched = (times, tutoringTimes, a, b, c) => {
+const timesToSched = (times, tutoringTimes, a, b, c, inv) => {
   const day = [];
   for (let i = 0; i < 48; i++) {
-    if (tutoringTimes % 2 === 1) {
+    if ((inv && (tutoringTimes % 2 === 0)) || (!inv && (tutoringTimes % 2 === 1))) {
       day.push(c);
     } else if (times % 2 === 1) {
       day.push(b);
@@ -32,18 +32,18 @@ const schedToTimes = (sched, filled) => {
 class WeeklyScheduler extends React.Component {
   constructor(props) {
     super(props);
-    this.unavailEv = { event: 'unavailable', color: '#d4d8dd' };
-    this.availEv = { event: 'available', color: '#b66363' };
-    this.tutoringEv = { event: 'tutoring', color: '#d6bd43' };
+    this.unavailEv = { event: 'unavailable', color: '#dadde4' };
+    this.availEv = { event: 'available', color: '#8683c3' };
+    this.tutoringEv = { event: 'tutoring', color: '#6f747a' };
     this.events = [this.unavailEv, this.availEv, this.tutoringEv];
-    const { currentSchedule, times, tutoringTimes } = this.props;
+    const { currentSchedule, times, tutoringTimes, inv } = this.props;
     const defaultEvent = this.unavailEv;
     const selectedEvent = this.availEv;
     const weekdays = ['mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun'];
     let days = [];
     for (let i = 0; i < 7; i += 1) {
       const day = timesToSched(times ? times[weekdays[i]] : 0,
-        tutoringTimes ? tutoringTimes[weekdays[i]] : 0, this.unavailEv, this.availEv, this.tutoringEv);
+        tutoringTimes ? tutoringTimes[weekdays[i]] : 0, this.unavailEv, this.availEv, this.tutoringEv, inv);
       days.push(day);
     }
     this.state = {
@@ -58,12 +58,12 @@ class WeeklyScheduler extends React.Component {
   }
 
   componentWillReceiveProps(newProps) {
-    const { times, tutoringTimes } = newProps;
+    const { times, tutoringTimes, inv } = newProps;
     const weekdays = ['mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun'];
     if (times && tutoringTimes) {
       let days = [];
       for (let i = 0; i < 7; i += 1) {
-        const day = timesToSched(times[weekdays[i]], tutoringTimes[weekdays[i]], this.unavailEv, this.availEv, this.tutoringEv);
+        const day = timesToSched(times[weekdays[i]], tutoringTimes[weekdays[i]], this.unavailEv, this.availEv, this.tutoringEv, inv);
         days.push(day);
       }
       this.setState({
@@ -84,12 +84,14 @@ class WeeklyScheduler extends React.Component {
       }
     });
     var currentEvent;
+    let no = false;
     if (this.state.oldDays[parseInt(dayNum, 10)][parseInt(rowNum, 10)] == this.unavailEv) {
       currentEvent = this.availEv;
     } else if (this.state.oldDays[parseInt(dayNum, 10)][parseInt(rowNum, 10)] == this.availEv) {
       currentEvent = this.unavailEv;
     } else {
       currentEvent = this.availEv;
+      no = true;
     }
     this.setState({
       currentEvent: currentEvent
@@ -98,14 +100,16 @@ class WeeklyScheduler extends React.Component {
     this.weekTable.addEventListener('mouseover', this.onMouseOver);
     window.addEventListener('mouseup', this.onMouseUp);
 
-    const newDays = [];
+    if (!no) {
+      const newDays = [];
 
-    for (let j = 0; j < 7; j += 1) {
-      newDays.push(this.state.oldDays[j].slice());
+      for (let j = 0; j < 7; j += 1) {
+        newDays.push(this.state.oldDays[j].slice());
+      }
+      newDays[parseInt(dayNum, 10)][parseInt(rowNum, 10)] = currentEvent;
+
+      this.setState({ days: newDays });
     }
-    newDays[parseInt(dayNum, 10)][parseInt(rowNum, 10)] = currentEvent;
-
-    this.setState({ days: newDays });
   }
   onMouseUp() {
     if (this.props.readonly) return;
