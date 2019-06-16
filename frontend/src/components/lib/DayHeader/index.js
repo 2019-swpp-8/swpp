@@ -6,32 +6,32 @@ function DayHeader() {
       <tr>
         <th />
         <th>
-          <span className="long">Monday</span>
-          <span className="short">Mon</span>
+          <span className="long">월요일</span>
+          <span className="short">월</span>
         </th>
         <th>
-          <span className="long">Tuesday</span>
-          <span className="short">Tue</span>
+          <span className="long">화요일</span>
+          <span className="short">화</span>
         </th>
         <th>
-          <span className="long">Wednesday</span>
-          <span className="short">Wed</span>
+          <span className="long">수요일</span>
+          <span className="short">수</span>
         </th>
         <th>
-          <span className="long">Thursday</span>
-          <span className="short">Thu</span>
+          <span className="long">목요일</span>
+          <span className="short">목</span>
         </th>
         <th>
-          <span className="long">Friday</span>
-          <span className="short">Fri</span>
+          <span className="long">금요일</span>
+          <span className="short">금</span>
         </th>
         <th>
-          <span className="long">Saturday</span>
-          <span className="short">Sat</span>
+          <span className="long">토요일</span>
+          <span className="short">토</span>
         </th>
         <th>
-          <span className="long">Sunday</span>
-          <span className="short">Sun</span>
+          <span className="long">일요일</span>
+          <span className="short">일</span>
         </th>
       </tr>
     </thead>
