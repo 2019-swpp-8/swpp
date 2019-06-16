@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from swpp.models import Request, Times, Profile, Lecture
+from swpp.models import *
 from swpp.serializers import RequestWriteSerializer, RequestReadSerializer, TimesSerializer, NotificationSerializer
 from rest_framework import generics
 from django_filters.rest_framework import DjangoFilterBackend
@@ -22,6 +22,18 @@ def deleteMessage(tutor, lecture_id):
     lecture = Lecture.objects.get(pk = lecture_id)
     return f'{tutor} 님에게 신청한 {lecture.prof} 교수의 {lecture.title} 과목 튜터링이 거절되었습니다.'
 
+def cancelMessage(tutee, lecture_id):
+    lecture = Lecture.objects.get(pk = lecture_id)
+    return f'{tutee} 님이 {lecture.prof} 교수의 {lecture.title} 과목 튜터링 신청을 취소하였습니다.'
+
+def flipTime(tutor, request_times):
+    times = tutor.times
+    times.flip(request_times)
+    times.save()
+    tutoringTimes = tutor.tutoringTimes
+    tutoringTimes.flip(request_times)
+    tutoringTimes.save()
+
 class RequestList(generics.ListCreateAPIView):
     queryset = Request.objects.all()
 
@@ -32,16 +44,20 @@ class RequestList(generics.ListCreateAPIView):
 
     def post(self, request, *args, **kwargs):
         serializer = TimesSerializer(data = { key:request.data.get(key) for key in days })
-        if serializer.is_valid():
+        valid = serializer.is_valid()
+        if valid:
             times = serializer.save()
             if hasattr(request.data, '_mutable'):
                 request.data._mutable = True
             request.data.update({'times': times.id})
+            tutor = Tutor.objects.get(pk = request.data.get('tutor'))
             message = postMessage(request.user.profile.name, request.data.get('lecture'))
-            serializer = NotificationSerializer(data = {'profile': request.data.get('tutor'),
+            serializer = NotificationSerializer(data = {'profile': tutor.profile,
                                                         'message': message})
             if serializer.is_valid(): serializer.save()
-        return self.create(request, *args, **kwargs)
+        request_ = self.create(request, *args, **kwargs)
+        if valid: flipTime(tutor, times)
+        return request_
 
 class RequestDetails(generics.RetrieveUpdateDestroyAPIView):
     queryset = Request.objects.all()
@@ -49,23 +65,17 @@ class RequestDetails(generics.RetrieveUpdateDestroyAPIView):
 
     def put(self, request, *args, **kwargs):
         response = self.partial_update(request, *args, **kwargs)
-        status = request.data.get('status', 0)
+        status = int(request.data.get('status', 0))
         if response.status_code < 300 and status: # upon status update
             request_ = Request.objects.get(pk = kwargs['pk'])
-            times = request_.tutor.times
-            times.flip(request_.times)
-            times.save()
-            tutoringTimes = request_.tutor.tutoringTimes
-            tutoringTimes.flip(request_.times)
-            tutoringTimes.save()
-            if status == '1':
+            if status == 1:
                 message = acceptMessage(Profile.objects.get(pk = request.user).name, request_.lecture.id)
             else:
-                profile = Profile.objects.get(tutor = request_.tutor)
                 message = completeMessage(request_.lecture.id)
-                serializer = NotificationSerializer(data = {'profile': profile,
+                serializer = NotificationSerializer(data = {'profile': request_.tutor.profile,
                                                              'message': message})
                 if serializer.is_valid(): serializer.save()
+                flipTime(request_.tutor, request_.times)
             serializer = NotificationSerializer(data = {'profile': request_.tutee,
                                                         'message': message})
             if serializer.is_valid(): serializer.save()
@@ -73,8 +83,16 @@ class RequestDetails(generics.RetrieveUpdateDestroyAPIView):
 
     def delete(self, request, *args, **kwargs):
         request_ = Request.objects.get(pk = kwargs['pk'])
-        message = deleteMessage(Profile.objects.get(pk = request.user).name, request_.lecture.id)
-        serializer = NotificationSerializer(data = {'profile': request_.tutee,
-                                                    'message': message})
-        if serializer.is_valid(): serializer.save()
+        info = (Profile.objects.get(pk = request.user).name, request_.lecture.id)
+        if request_.status != 2:
+            if request_.tutor.profile.user == request.user:
+                message = deleteMessage(*info)
+                profile = request_.tutee
+            else:
+                message = cancelMessage(*info)
+                profile = request_.tutor.profile
+            serializer = NotificationSerializer(data = {'profile': profile,
+                                                        'message': message})
+            if serializer.is_valid(): serializer.save()
+            flipTime(request_.tutor, request_.times)
         return self.destroy(request, *args, **kwargs)
