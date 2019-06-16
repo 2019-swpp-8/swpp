@@ -11,7 +11,7 @@ export function* getProfile(dat) {
       {mon:0,tue:0,wed:0,thu:0,fri:0,sat:0,sun:0},
       {mon:0,tue:0,wed:0,thu:0,fri:0,sat:0,sun:0}));
     const profile = yield call([api, api.get], '/profile/' + id + '/', {credentials: 'include'});
-    yield put(actions.updateProfile(id, profile.name, profile.major, profile.tutor));
+    yield put(actions.updateProfile(id, profile.name, profile.major, profile.contact, profile.tutor));
     yield put(tutorActions.getTutor(profile.tutor));
   } catch (e) {
     console.log(e);
@@ -24,13 +24,14 @@ export function* putProfile(dat) {
     const id = payload.id;
     const name = payload.name;
     const major = payload.major;
+    const contact = payload.contact;
     yield call([api, api.put], '/profile/' + id + '/', {
-        name: payload.name, major: payload.major
+        name: payload.name, major: payload.major, contact: payload.contact
     }, {
       headers: { "X-CSRFToken": ('; '+document.cookie).split('; csrftoken=').pop().split(';').shift() },
       credentials: "include"
     });
-    yield put(actions.updateProfile(id, payload.name, payload.major));
+    yield put(actions.updateProfile(id, payload.name, payload.major, payload.contact));
   } catch (e) {
 
   }
