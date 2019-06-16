@@ -8,7 +8,7 @@ export function* getTutor(dat) {
     const profile = yield call([api, api.get], '/tutor/' + id + '/', {credentials: 'include'});
     const times = yield call([api, api.get], '/times/' + profile.times + '/', {credentials: 'include'});
     const tutoringTimes = yield call([api, api.get], '/times/' + profile.tutoringTimes + '/', {credentials: 'include'});
-    yield put(actions.updateTutor(id, profile.bio, profile.exp, times, tutoringTimes));
+    yield put(actions.updateTutor(id, profile.bio, profile.exp, times.id, tutoringTimes.id, times, tutoringTimes));
   } catch (e) {
 
   }
@@ -20,13 +20,21 @@ export function* putTutor(dat) {
     const id = payload.id;
     const bio = payload.bio;
     const exp = payload.exp;
+    const times = payload.times;
     yield call([api, api.put], '/tutor/' + id + '/', {
         bio: payload.bio, exp: payload.exp
     }, {
       headers: { "X-CSRFToken": ('; '+document.cookie).split('; csrftoken=').pop().split(';').shift() },
       credentials: "include"
     });
-    yield put(actions.updateTutor(id, payload.bio, payload.exp));
+    yield call([api, api.put], '/times/' + times.id + '/', {
+      mon: times.mon, tue: times.tue, wed: times.wed, thu: times.thu,
+      fri: times.fri, sat: times.sat, sun: times.sun,
+    }, {
+      headers: { "X-CSRFToken": ('; '+document.cookie).split('; csrftoken=').pop().split(';').shift() },
+      credentials: "include"
+    });
+    yield put(actions.getTutor(id));
   } catch (e) {
 
   }
