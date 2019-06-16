@@ -11,5 +11,5 @@ export const getTutorList = (bio, exp, major, lecTitle, lecProf) => ({
 
 export const updateTutorList = (dat) => ({
   type: UPDATE_TUTOR_LIST,
-  payload: { dat },
+  payload:  {dat} ,
 });

@@ -4,18 +4,10 @@ import { NavBar, NoteRow } from 'components'
 import { withRouter } from 'react-router-dom';
 
 class NoteListPage extends React.Component {
-  constructor(props) {
-    super(props);
-  }
-
-
   componentDidMount() {
+    console.log(this.props.user.id)
     this.props.getNotification(this.props.user.id);
   }
-
-  componentDidUpdate() {
-  }
-
 
   render() {
     const {user, notification} = this.props;

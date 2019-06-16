@@ -12,7 +12,7 @@ export const getNotification = (id) => ({
 
 export const updateNotification = (dat) => ({
   type: UPDATE_NOTIFICATION,
-  payload: dat,
+  payload: { dat },
 });
 
 export const deleteNotification = (id) => ({

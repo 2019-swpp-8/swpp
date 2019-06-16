@@ -5,8 +5,10 @@ import { put, call, select, takeEvery } from 'redux-saga/effects'
 export function* getNotification(dat) {
   try {
     const id = dat.payload;
+    console.log(id)
     const profile = yield call([api, api.get], '/profile/' + id + '/', {credentials: 'include'});
     const note = profile['notifications']
+    console.log(note)
 
     yield put(actions.updateNotification(note))
   } catch (e) {
@@ -27,6 +29,6 @@ export function* deleteNotification(dat) {
 }
 
 export default function* () {
-  yield takeEvery(actions.GET_NOTIFICATIONS, getNotification);
+  yield takeEvery(actions.GET_NOTIFICATION, getNotification);
   yield takeEvery(actions.DELETE_NOTIFICATION, deleteNotification);
 }
