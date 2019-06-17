@@ -24,7 +24,7 @@ class NoteListPage extends React.Component {
     const {user, notification} = this.props;
     const noteList = Array.isArray(notification.dat) ? notification.dat.map(i => (
       <NoteRow key={i['id']} notification={i} delFunc={(noteid)=>this.props.deleteNotification(noteid, this.props.user.id)} />
-    )) : <tr></tr>;
+    )) : null;
 
     return (
       <div>
@@ -32,17 +32,9 @@ class NoteListPage extends React.Component {
         <div className="container mt-3">
         <button id='note-refresh' onClick={()=>this.props.getNotification(user.id)} className="btn btn-success mb-2">새로 고침</button>
         <button id='note-check-all' onClick={()=>this.props.checkAll(user.id)} className="btn btn-danger mb-2">모두 확인</button>
-        <table className="table table-hover">
-          <thead>
-            <tr>
-              <th> 내용 </th>
-              <th> 확인 </th>
-            </tr>
-          </thead>
-          <tbody>
+        <ul className="list-group">
             {noteList}
-          </tbody>
-        </table>
+        </ul>
         </div>
       </div>
     );
