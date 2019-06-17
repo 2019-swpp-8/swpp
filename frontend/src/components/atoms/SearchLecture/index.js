@@ -22,7 +22,7 @@ const SearchLecture = ({searchlecture, acceptLecture, getLectureList, updateLect
     updateLectureList([]);
   }
 
-  const input_keyword = <input id="lecture-input" type="text" name="input" className="form-control" onChange={handleInputChange} onFocus={()=>changeShow(true)} onBlur={()=>changeShow(false)} />;
+  const input_keyword = <input id="lecture-input" type="text" name="input" className="form-control" onChange={handleInputChange} onFocus={()=>changeShow(true)} onBlur={()=>changeShow(false)} required />;
   const accept_button = <button id="lecture-accept" type="button" onClick={()=>{if (acceptLecture!=undefined) {acceptLecture(selected);selectSearched(null)}}} className={"btn-sm btn-"+(acceptLecture!=undefined?"success":"light")}>{selected != null ? selected.prof : ""} + {selected != null ? selected.title : ""}</button>;
   const cancel_button = <button id="lecture-cancel" type="button" onClick={()=>selectSearched(null)} className="btn-sm btn-danger">취소</button>;
   const lectures_item = lectures.map(i => (<div className="dropdown-item" key={i.id} onMouseDown={()=>handleSelect(i)}>{i.prof} - {i.title}</div>));
