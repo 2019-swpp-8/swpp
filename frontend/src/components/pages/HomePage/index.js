@@ -18,12 +18,12 @@ class HomePage extends React.Component {
 
   render() {
     const {user, profile, requestlist, deleteRequest, changeRequestStatus} = this.props;
-    const tutorRequestList = Array.isArray(requestlist.tutor_request) ? requestlist.tutor_request.map(i => (
+    const tutorRequestList = Array.isArray(requestlist.tutor_request) ? requestlist.tutor_request.slice(0).reverse().map(i => (
       <RequestRow key={i.id} user={user.id} request={i} deleteRequest={()=>deleteRequest(i.id, user.id)} changeStatus={(status)=>changeRequestStatus(i.id, status, user.id)} />
-    )) : <tr></tr>;
-    const tuteeRequestList = Array.isArray(requestlist.tutee_request) ? requestlist.tutee_request.map(i => (
+    )) : null;
+    const tuteeRequestList = Array.isArray(requestlist.tutee_request) ? requestlist.tutee_request.slice(0).reverse().map(i => (
       <RequestRow key={i.id} user={user.id} request={i} deleteRequest={()=>deleteRequest(i.id, user.id)} changeStatus={(status)=>changeRequestStatus(i.id, status, user.id)} />
-    )) : <tr></tr>;
+    )) : null;
     const tutoringList =
         <div className="mt-3">
         <h3> 튜터링 해주는 목록 </h3>

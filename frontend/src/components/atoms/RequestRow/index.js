@@ -43,7 +43,7 @@ const RequestRow = ({user, request, deleteRequest, changeStatus}) => {
     </div>
   </div>;
 
-  const two_buttons = <div className="btn-group mt-1" role="group"> {active_button} {cancel_button} </div>;
+  const two_buttons = <div className="btn-group mt-1 d-block" role="group"> {active_button} {cancel_button} </div>;
   const single_button = <div className="mt-1"> {active_button} </div>;
 
   return <div className="card mb-2">
