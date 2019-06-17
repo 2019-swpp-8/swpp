@@ -31,6 +31,7 @@ export function* deleteNotification(dat) {
 }
 
 export function* checkAll(dat){
+  try{
     console.log("chkAll in")
     const id = dat.payload;
     const profile = yield call([api, api.get], '/profile/' + id + '/', {credentials: 'include'});
@@ -42,12 +43,17 @@ export function* checkAll(dat){
       console.log(i)
       console.log(note[i]['id'])
 
-      yield call([api, api.delete], '/notification/' + (note[i])['id'] + '/', {
-        headers: { "X-CSRFToken": ('; '+document.cookie).split('; csrftoken=').pop().split(';').shift() },
-        credentials: "include"
-      });
+      try{
+          yield call([api, api.delete], '/notification/' + (note[i])['id'] + '/', {
+          headers: { "X-CSRFToken": ('; '+document.cookie).split('; csrftoken=').pop().split(';').shift() },
+          credentials: "include"
+        });
+      } catch (e) {}
     }
     yield put(actions.getNotification(id))
+  } catch (e) {
+
+  }
 }
 
 export default function* () {
