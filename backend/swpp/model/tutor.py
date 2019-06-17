@@ -19,3 +19,6 @@ class Tutor(models.Model):
     tutoringTimes = AutoOneToOneField(Times, on_delete=models.CASCADE, null = False,
                                       related_name='tutoringTimes', default = default_times)
     # 1 when tutoring at that time, 0 otherwise
+
+    class Meta:
+        ordering = ['profile__name', ]
