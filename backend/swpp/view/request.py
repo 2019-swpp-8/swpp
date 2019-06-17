@@ -84,7 +84,7 @@ class RequestDetails(generics.RetrieveUpdateDestroyAPIView):
     def delete(self, request, *args, **kwargs):
         request_ = Request.objects.get(pk = kwargs['pk'])
         info = (Profile.objects.get(pk = request.user).name, request_.lecture.id)
-        if request_.status != 2:
+        if int(request_.status) != 2:
             if request_.tutor.profile.user == request.user:
                 message = deleteMessage(*info)
                 profile = request_.tutee

@@ -20,8 +20,7 @@ const RequestRow = ({user, request, deleteRequest, changeStatus}) => {
   const times_button = <button id="request-times" data-toggle="modal" data-target={'#modal-' + request['id']} className="btn btn-outline-dark mt-1">시간대 확인</button>;
 
   const active_button = status == 0 && user == request['tutor']['profile']['user'] ? accept_button :
-      status == 1 ? complete_button :
-      status == 2 && user == request['tutee']['user'] ? star_button : null;
+      status == 1 ? complete_button : null;
 
   const modal =
   <div className="modal fade" id={'modal-' + request['id']} tabIndex="-1" role="dialog" aria-hidden="true">
