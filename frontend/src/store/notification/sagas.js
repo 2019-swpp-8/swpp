@@ -17,17 +17,18 @@ export function* getNotification(dat) {
 }
 
 export function* deleteNotification(dat) {
+  const id = dat.payload;
+  console.log(id);
   try {
-    const id = dat.payload;
     yield call([api, api.delete], '/notification/' + id.noteid + '/', {
       headers: { "X-CSRFToken": ('; '+document.cookie).split('; csrftoken=').pop().split(';').shift() },
       credentials: "include"
     });
-    yield put(actions.getNotification(id.userid))
 
   } catch (e) {
 
   }
+  yield put(actions.getNotification(id.userid));
 }
 
 export function* checkAll(dat){
