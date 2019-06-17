@@ -11,7 +11,7 @@ class NoteRow extends React.Component {
           <div className="col-xl-11 col-lg-10">
             {notification['message']}
           </div>
-          <div className="col-xl-1 col-lg-2 text-right">
+          <div className="col-xl-1 col-lg-2 text-lg-right text-xl-right">
             <button id="note-chk left-0" onClick={()=>delFunc(notification.id)} className="btn btn-danger">확인</button>
           </div>
         </div>
