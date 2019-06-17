@@ -1,9 +1,12 @@
 // sagas
 export const GET_NOTIFICATION = 'GET_NOTIFICATION';
+export const DELETE_NOTIFICATION = 'DELETE_NOTIFICATION';
+export const CHECK_ALL = 'CHECK_ALL';
 
 // reducers
 export const UPDATE_NOTIFICATION = 'UPDATE_NOTIFICATION';
-export const DELETE_NOTIFICATION = 'DELETE_NOTIFICATION';
+
+
 
 export const getNotification = (id) => ({
   type: GET_NOTIFICATION,
@@ -15,7 +18,12 @@ export const updateNotification = (dat) => ({
   payload: { dat },
 });
 
-export const deleteNotification = (id) => ({
+export const deleteNotification = (noteid, userid) => ({
   type: DELETE_NOTIFICATION,
+  payload: {noteid, userid},
+});
+
+export const checkAll = (id) => ({
+  type: CHECK_ALL,
   payload: id,
 });
