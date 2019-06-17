@@ -10,6 +10,7 @@ class TutorFilterBackend(DjangoFilterBackend):
         req_bio = request.GET['bio'] if ('bio' in request.GET) else ''
         req_exp = request.GET['exp'] if ('exp' in request.GET) else ''
         req_major = request.GET['major'] if ('major' in request.GET) else ''
+        req_name = request.GET['name'] if ('name' in request.GET) else ''
 
         if('lecTitle' in request.GET):
             if(request.GET['lecTitle'] != ''):
@@ -31,7 +32,11 @@ class TutorFilterBackend(DjangoFilterBackend):
         if 'lecture' in request.GET:
             lecture = request.GET['lecture']
             queryset = queryset.filter(lectures__id=lecture)
-        queryset =  queryset.filter(bio__icontains=req_bio, exp__icontains=req_exp, profile__major__icontains=req_major)
+            
+        queryset = queryset.filter(bio__icontains=req_bio, exp__icontains=req_exp, profile__major__icontains=req_major, profile__name__icontains=req_name)
+        queryset = queryset.distinct()
+        queryset = queryset.order_by('profile__name')    
+        
         return queryset
 
 class TutorList(generics.ListAPIView):

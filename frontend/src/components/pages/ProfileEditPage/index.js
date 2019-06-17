@@ -64,8 +64,10 @@ class ProfileEditPage extends React.Component {
 
   addLecture(lecture) {
     const lectures = this.state['lectures'] == undefined ? this.props.tutor.lectures : this.state['lectures'];
-    lectures.push(lecture);
-    this.setState({lectures: lectures});
+    if (!lectures.find((i) => (i.id == lecture.id))) {
+      lectures.push(lecture);
+      this.setState({lectures: lectures});
+    }
   }
 
   deleteLecture(id) {
@@ -110,6 +112,7 @@ class ProfileEditPage extends React.Component {
                   <textarea rows="4" value={this.state.exp} type="text" name="exp" className="form-control" id="profileedit-exp" placeholder={tutor.exp} onChange={this.handleInputChange} />
                 </div>
                 <h3> 수강한 강의 </h3>
+                <h6> 튜터 정보를 등록하기 위해서는 최소 하나 이상의 강의를 수강했어야 합니다.</h6>
                 <SearchLecture searchlecture={searchlecture} acceptLecture={(lecture)=>this.addLecture(lecture)} getLectureList={getLectureList} updateLectureList={updateLectureList} selectSearched={selectSearched} changeShow={changeShow}></SearchLecture>
                 {lectureList}
                 <div className="form-group">

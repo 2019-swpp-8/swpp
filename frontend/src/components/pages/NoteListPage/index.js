@@ -18,6 +18,7 @@ class NoteListPage extends React.Component {
       <div>
         <NavBar user={user} />
         <div className="container mt-3">
+        <button id='note-check-all' onClick={()=>this.props.getNotification(user.id)} className="btn btn-success mb-2">새로 고침</button>
         <table className="table table-hover">
           <thead>
             <tr>
