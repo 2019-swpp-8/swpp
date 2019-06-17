@@ -50,6 +50,7 @@ class RequestPage extends React.Component {
   }
 
   handleSubmit(event) {
+    event.preventDefault();
     if (event.target.checkValidity() === false || this.props.searchlecture.selected == null) {
       this.setState({validated: true});
       return;
@@ -62,7 +63,6 @@ class RequestPage extends React.Component {
     const times = this.state['times'];
     this.props.postRequest(tutor, tutee, lecture, detail, payment, times);
     this.setState({redirect: true});
-    event.preventDefault();
   }
 
   render() {
