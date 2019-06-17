@@ -68,7 +68,7 @@ class TutorListPage extends React.Component {
     const {user, tutorlist} = this.props;
     const tutorList = Array.isArray(tutorlist.dat) ? <FlipMove>{
       tutorlist.dat.map(i => (
-      <TutorRow key={i['profile']['user']} tutor={i} loggedIn={user.loggedIn} />
+      <TutorRow key={i['profile']['user']} user={user} tutor={i} loggedIn={user.loggedIn} />
     ))}
     </FlipMove> : null;
     return (
@@ -82,16 +82,16 @@ class TutorListPage extends React.Component {
               <input name="name" type="text" className="form-control" id="tutorlist-name" onChange={this.handleInputChange} />
             </div>
             <div className="form-group col-md-3">
+              <label htmlFor="tutorlist-major">전공</label>
+              <input name="major" type="text" className="form-control" id="tutorlist-major" onChange={this.handleInputChange} />
+            </div>
+            <div className="form-group col-md-3">
               <label htmlFor="tutorlist-bio">소개</label>
               <input name="bio" type="text" className="form-control" id="tutorlist-bio" onChange={this.handleInputChange} />
             </div>
             <div className="form-group col-md-3">
               <label htmlFor="tutorlist-exp">경력</label>
               <input name="exp" type="text" className="form-control" id="tutorlist-exp" onChange={this.handleInputChange} />
-            </div>
-            <div className="form-group col-md-3">
-              <label htmlFor="tutorlist-major">전공</label>
-              <input name="major" type="text" className="form-control" id="tutorlist-major" onChange={this.handleInputChange} />
             </div>
             <div className="form-group col-md-3">
               <label htmlFor="tutorlist-lecTitle">수강 강의명</label>
