@@ -10,6 +10,7 @@ const NavBar = ({user, getNotification, deleteNotification, checkAll, notificati
   const tutors = <li className="nav-item">
     <Link to={'/tutors'} className="nav-link">튜터 목록</Link>
   </li>;
+  const note = user.id >= 0 ? <NoteButton user={user} getNotification={getNotification} deleteNotification={deleteNotification} checkAll={checkAll} notifications={notifications} /> : null;
 
   return (
     <nav className="navbar navbar-expand-md navbar-light bg-light">
@@ -22,7 +23,7 @@ const NavBar = ({user, getNotification, deleteNotification, checkAll, notificati
           <ul className="navbar-nav mr-auto">
             {profile}
             {tutors}
-            <NoteButton user={user} getNotification={getNotification} deleteNotification={deleteNotification} checkAll={checkAll} notifications={notifications} />
+            {note}
           </ul>
           <LoginLogout user={user} />
         </div>
