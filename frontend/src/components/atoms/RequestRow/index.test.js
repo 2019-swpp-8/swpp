@@ -85,5 +85,4 @@ it('renders with proper request prop. user is tutee, status is 2', () => {
     status: "2",
   }}
   deleteRequest={()=>{}} changeStatus={()=>{}}/>);
-  wrapper.find('#request-star').simulate('click');
 });
