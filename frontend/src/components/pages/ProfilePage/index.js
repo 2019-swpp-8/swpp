@@ -15,7 +15,7 @@ class ProfilePage extends React.Component {
   }
 
   render() {
-    const {user, profile, tutor} = this.props;
+    const {user, profile, tutor, getNotification, deleteNotification, checkAll, notification} = this.props;
     const editButton = profile.id == user.id ?
       <Link to='/profile/edit' className="btn btn-outline-primary login-button">수정</Link> :
       "";
@@ -24,7 +24,7 @@ class ProfilePage extends React.Component {
     )) : <tr></tr>;
     return (
       <div>
-        <NavBar user={user} />
+        <NavBar user={user} getNotification={getNotification} deleteNotification={deleteNotification} checkAll={checkAll} notifications={notification} />
         <div className="container mt-3">
           <div className="row">
             <div className="col-md-6">

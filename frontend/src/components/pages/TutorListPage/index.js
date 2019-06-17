@@ -65,7 +65,7 @@ class TutorListPage extends React.Component {
   }
 
   render() {
-    const {user, tutorlist} = this.props;
+    const {user, tutorlist, getNotification, deleteNotification, checkAll, notification} = this.props;
     const tutorList = Array.isArray(tutorlist.dat) ? <FlipMove>{
       tutorlist.dat.map(i => (
       <TutorRow key={i['profile']['user']} user={user} tutor={i} loggedIn={user.loggedIn} />
@@ -73,7 +73,7 @@ class TutorListPage extends React.Component {
     </FlipMove> : null;
     return (
       <div>
-        <NavBar user={user} />
+        <NavBar user={user} getNotification={getNotification} deleteNotification={deleteNotification} checkAll={checkAll} notifications={notification} />
         <div className="container mt-3">
         <form className="form" onSubmit={this.handleSubmit}>
           <div className="form-row">

@@ -21,7 +21,7 @@ class NoteListPage extends React.Component {
   }
 
   render() {
-    const {user, notification} = this.props;
+    const {user, notification, getNotification, deleteNotification, checkAll, notifications} = this.props;
     const noteList = Array.isArray(notification.dat) ? notification.dat.map(i => (
       <NoteRow key={i['id']} notification={i} delFunc={(noteid)=>this.props.deleteNotification(noteid, this.props.user.id)} />
     )) : null;

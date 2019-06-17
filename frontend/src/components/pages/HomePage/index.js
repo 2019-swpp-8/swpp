@@ -17,7 +17,7 @@ class HomePage extends React.Component {
   }
 
   render() {
-    const {user, profile, requestlist, deleteRequest, changeRequestStatus} = this.props;
+    const {user, profile, requestlist, deleteRequest, changeRequestStatus, getNotification, deleteNotification, checkAll, notification} = this.props;
     const tutorRequestList = Array.isArray(requestlist.tutor_request) ? requestlist.tutor_request.slice(0).reverse().map(i => (
       <RequestRow key={i.id} user={user.id} request={i} deleteRequest={()=>deleteRequest(i.id, user.id)} changeStatus={(status)=>changeRequestStatus(i.id, status, user.id)} />
     )) : null;
@@ -39,7 +39,7 @@ class HomePage extends React.Component {
 
     return (
       <div>
-        <NavBar user={user} />
+        <NavBar user={user} getNotification={getNotification} deleteNotification={deleteNotification} checkAll={checkAll} notifications={notification} />
         <div className="container">
         {tutoringList}
         </div>

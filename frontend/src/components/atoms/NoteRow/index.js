@@ -6,9 +6,15 @@ const NoteRow = ({notification, delFunc}) => {
 
   return typeof notification === 'undefined' ? null :
   <li className="list-group-item">
-    {notification['message']}
-    <button id="note-chk" onClick={()=>delFunc(notification.id)} className="btn btn-danger mb-2">확인</button>
-  </li>
+    <div className="row align-items-center">
+      <div className="col-xl-11 col-lg-10">
+        {notification['message']}
+      </div>
+      <div className="col-xl-1 col-lg-2 text-right">
+        <button id="note-chk left-0" onClick={()=>delFunc(notification.id)} className="btn btn-danger">확인</button>
+      </div>
+    </div>
+    </li>
 };
 
 export default NoteRow;

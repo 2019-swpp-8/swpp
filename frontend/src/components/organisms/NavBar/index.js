@@ -1,17 +1,14 @@
 import React from 'react'
-import {LoginLogout} from 'components'
+import {LoginLogout, NoteButton} from 'components'
 import {BrowserRouter as Router, Route, Link} from 'react-router-dom'
 
 
-const NavBar = ({user}) => {
+const NavBar = ({user, getNotification, deleteNotification, checkAll, notifications}) => {
   const profile = user.loggedIn ? <li className="nav-item">
     <Link to={'/profile/' + user.id} className="nav-link">프로파일</Link>
   </li> : "";
   const tutors = <li className="nav-item">
     <Link to={'/tutors'} className="nav-link">튜터 목록</Link>
-  </li>;
-  const notes = <li className="nav-item">
-    <Link to={'/notes/'} className="nav-link"> 알림 </Link>
   </li>;
 
   return (
@@ -25,7 +22,7 @@ const NavBar = ({user}) => {
           <ul className="navbar-nav mr-auto">
             {profile}
             {tutors}
-            {notes}
+            <NoteButton user={user} getNotification={getNotification} deleteNotification={deleteNotification} checkAll={checkAll} notifications={notifications} />
           </ul>
           <LoginLogout user={user} />
         </div>
