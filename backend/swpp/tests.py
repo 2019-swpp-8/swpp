@@ -298,6 +298,39 @@ class LowLevelTests(APITestCase):
         tutors = self.client.get("/tutors/?lecProf=허윤").data
         self.assertEqual(len(tutors), 2)
 
+    
+    def test_tutor_list_ordering(self):
+        user = self.create_user('iidd', 'ppww')
+        data = {'bio': 'my bio', 'exp': 'MY EXP'}
+        prof = {'major': 'my major', 'name':'나나나'}
+
+        other_user = self.create_user('idother', 'pwother')
+        other_data = {'bio': 'YOUR BIO', 'exp': 'your exp'}
+        other_prof = {'major': 'your major', 'name':'다다다'}
+
+        korean_user = self.create_user('idkorean', 'pwkorean')
+        korean_data = {'bio': '자기소개', 'exp': '경력'}
+        korean_prof = {'major': '전공', 'name':'가가가'}
+
+        users = self.client.get("/users/").data
+        profiles = self.client.get("/profiles/").data
+
+        self.client.force_login(user)
+        self.client.put("/tutor/{0}/".format(user.id), data)
+        self.client.put("/profile/{0}/".format(user.id), prof)
+        self.client.force_login(other_user)
+        self.client.put("/tutor/{0}/".format(other_user.id), other_data)
+        self.client.put("/profile/{0}/".format(other_user.id), other_prof)
+        self.client.force_login(korean_user)
+        self.client.put("/tutor/{0}/".format(korean_user.id), korean_data)
+        self.client.put("/profile/{0}/".format(korean_user.id), korean_prof)
+
+        tutors = self.client.get("/tutors/").data
+        self.assertEqual(tutors[0]['profile']['name'], "가가가")
+        self.assertEqual(tutors[1]['profile']['name'], "나나나")
+        self.assertEqual(tutors[2]['profile']['name'], "다다다")
+
+
 
     def test_lectures_database(self):
         lectures = self.client.get("/lectures/").data
