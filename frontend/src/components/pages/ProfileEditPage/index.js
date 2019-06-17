@@ -76,7 +76,7 @@ class ProfileEditPage extends React.Component {
   }
 
   render() {
-    const {user, profile, tutor, searchlecture, getLectureList, updateLectureList, selectSearched, changeShow} = this.props;
+    const {user, profile, tutor, searchlecture, getLectureList, updateLectureList, selectSearched, changeShow, getNotification, deleteNotification, checkAll, notification} = this.props;
     const lectures = this.state['lectures'] == undefined ? tutor.lectures : this.state['lectures'];
     const lectureList = Array.isArray(lectures) ? lectures.map(i => (
       <button className="btn btn-outline-dark mr-1 mt-1" type="button" key={i.id} onClick={()=>this.deleteLecture(i.id)}>{i.prof} / {i.title} X</button>
@@ -84,7 +84,7 @@ class ProfileEditPage extends React.Component {
     return (
       <div>
         {this.getRedirect()}
-        <NavBar user={user} />
+        <NavBar user={user} getNotification={getNotification} deleteNotification={deleteNotification} checkAll={checkAll} notifications={notification} />
         <div className="container mt-3">
           <form className="form mt-3" onSubmit={this.handleSubmit}>
             <div className="row">

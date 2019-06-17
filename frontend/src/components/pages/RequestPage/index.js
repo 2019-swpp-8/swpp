@@ -50,6 +50,7 @@ class RequestPage extends React.Component {
   }
 
   handleSubmit(event) {
+    event.preventDefault();
     if (event.target.checkValidity() === false || this.props.searchlecture.selected == null) {
       this.setState({validated: true});
       return;
@@ -62,11 +63,10 @@ class RequestPage extends React.Component {
     const times = this.state['times'];
     this.props.postRequest(tutor, tutee, lecture, detail, payment, times);
     this.setState({redirect: true});
-    event.preventDefault();
   }
 
   render() {
-    const {user, tutor, searchlecture, getLectureList, updateLectureList, selectSearched, changeShow} = this.props;
+    const {user, tutor, searchlecture, getLectureList, updateLectureList, selectSearched, changeShow, getNotification, deleteNotification, checkAll, notification} = this.props;
     const times = this.state.edited ? undefined : {
       mon: 0,
       tue: 0,
@@ -81,7 +81,7 @@ class RequestPage extends React.Component {
     return (
       <div>
         {this.getRedirect()}
-        <NavBar user={user} />
+        <NavBar user={user} getNotification={getNotification} deleteNotification={deleteNotification} checkAll={checkAll} notifications={notification} />
         <div className="container mt-3">
           <h3> 튜터링 신청 양식 </h3>
           <Form className="form mt-3" onSubmit={this.handleSubmit} validated={this.state.validated} noValidate>
